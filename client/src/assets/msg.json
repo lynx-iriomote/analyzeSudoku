@@ -1,4 +1,5 @@
 {
+  "ERROR_INFO": "解析中に{num}件の矛盾を発見しました。",
   "DUP_AREA": "【{pivotSqu}】同一エリア({compareSqu})に{val}が重複しています。",
   "DUP_ROW": "【{pivotSqu}】同一行({compareSqu})に{val}が重複しています。",
   "DUP_CLM": "【{pivotSqu}】同一列({compareSqu})に{val}が重複しています。",
@@ -17,6 +18,6 @@
   "HOW_TO_ELIMIONATION": "【{changedSqu}】【消去法】同一{region}({triggerSqu})に{removeMemo}があるためメモから{removeMemo}を除外しました。",
   "HOW_TO_ELIMIONATION_ONLY_MEMO": "【{changedSqu}】【消去法】同一{region}内で{commitVal}が{changedSqu}にしか入らないため、値を{commitVal}で確定しました。",
   "HOW_TO_ELIMIONATION_ONE_MEMO": "【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。",
-  "HOW_TO_STEALTH_LASER": "【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{rowClmPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。",
+  "HOW_TO_STEALTH_LASER": "【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。",
   "HOW_TO_ALLIES": "【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。"
 }

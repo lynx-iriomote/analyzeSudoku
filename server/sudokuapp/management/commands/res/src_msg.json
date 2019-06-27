@@ -1,4 +1,10 @@
 {
+  "ERROR_INFO": {
+    "name": "解析中エラー",
+    "msg": "解析中に{num}件の矛盾を発見しました。",
+    "ts": true,
+    "py": true
+  },
   "DUP_AREA": {
     "name": "エリア重複",
     "msg": "【{pivotSqu}】同一エリア({compareSqu})に{val}が重複しています。",

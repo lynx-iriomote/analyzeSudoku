@@ -6,6 +6,13 @@
  */
 enum MsgCode {
   /**
+   * 解析中エラー
+   *
+   * 解析中に{num}件の矛盾を発見しました。
+   */
+  ERROR_INFO = "ERROR_INFO",
+
+  /**
    * エリア重複
    *
    * 【{pivotSqu}】同一エリア({compareSqu})に{val}が重複しています。
@@ -134,7 +141,7 @@ enum MsgCode {
   /**
    * ステルスレーザ発射法
    *
-   * 【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{rowClmPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
+   * 【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
    */
   HOW_TO_STEALTH_LASER = "HOW_TO_STEALTH_LASER",
 
