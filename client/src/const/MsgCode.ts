@@ -108,7 +108,42 @@ enum MsgCode {
    *
    * 解析{idx}回目 : {method}によって枡が{cnt}回更新されました。
    */
-  HOW_TO_SUMMARY = "HOW_TO_SUMMARY"
+  HOW_TO_SUMMARY = "HOW_TO_SUMMARY",
+
+  /**
+   * 消去法(メモ削除)
+   *
+   * 【{changedSqu}】【消去法】同一{region}({triggerSqu})に{removeMemo}があるためメモから{removeMemo}を除外しました。
+   */
+  HOW_TO_ELIMIONATION = "HOW_TO_ELIMIONATION",
+
+  /**
+   * 消去法(メモがその枡にしかない)
+   *
+   * 【{changedSqu}】【消去法】同一{region}内で{commitVal}が{changedSqu}にしか入らないため、値を{commitVal}で確定しました。
+   */
+  HOW_TO_ELIMIONATION_ONLY_MEMO = "HOW_TO_ELIMIONATION_ONLY_MEMO",
+
+  /**
+   * 消去法(メモがその枡にしかない)
+   *
+   * 【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。
+   */
+  HOW_TO_ELIMIONATION_ONE_MEMO = "HOW_TO_ELIMIONATION_ONE_MEMO",
+
+  /**
+   * ステルスレーザ発射法
+   *
+   * 【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{rowClmPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
+   */
+  HOW_TO_STEALTH_LASER = "HOW_TO_STEALTH_LASER",
+
+  /**
+   * N国同盟法
+   *
+   * 【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。
+   */
+  HOW_TO_ALLIES = "HOW_TO_ALLIES"
 }
 
 export default MsgCode;
