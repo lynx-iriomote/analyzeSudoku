@@ -8,9 +8,11 @@
             "autoFix": true
         }
     ],
+    "eslint.enable": true,
     // "prettier.disableLanguages": [],
     "prettier.eslintIntegration": true,
     "prettier.stylelintIntegration": true,
+    "prettier.printWidth": 100,
     "css.validate": false,
     "less.validate": false,
     "scss.validate": false,
@@ -27,5 +29,5 @@
         "--ignore=E501"
     ],
     "python.linting.enabled": true,
-    "python.pythonPath": "${workspaceFolder}\\server\\sudokuenv\\Scripts\\python.exe"
+    "python.pythonPath": "${workspaceFolder}\\server\\sudokuenv\\Scripts\\python.exe",
 }
