@@ -3,6 +3,7 @@ from typing import Dict, List
 
 from sudokuapp.const.Method import Method
 from sudokuapp.const.Region import Region
+from sudokuapp.data.Msg import Msg
 from sudokuapp.data.Square import Square
 
 
@@ -12,7 +13,7 @@ class HowToAnalyze():
 
     Attributes:
         method (Method): 解法
-        msg (str): メッセージ
+        msg (Msg): メッセージ
         region (Region): 領域
         commit_val (int): 確定された値
         remove_memo_list (int): 除外されたメモ
@@ -25,7 +26,7 @@ class HowToAnalyze():
     method: Method
 
     # メッセージ
-    msg: str = dataclasses.field(default=None, init=False)
+    msg: Msg = dataclasses.field(default=None, init=False)
 
     # 領域
     region: Region = dataclasses.field(default=None, init=False)
@@ -53,7 +54,7 @@ class HowToAnalyze():
         """
         change_dict: Dict = dict()
         change_dict['method'] = self.method.name
-        change_dict['msg'] = self.msg
+        change_dict['msg'] = self.msg.cnv_to_json()
         if (self.region):
             change_dict['region'] = self.region.name
 

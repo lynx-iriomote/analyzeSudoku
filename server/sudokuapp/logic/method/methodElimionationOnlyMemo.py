@@ -7,7 +7,7 @@ from sudokuapp.const.Region import Region
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
-from sudokuapp.util.SudokuUtil import SudokuUtil
+from sudokuapp.util.MsgFactory import MsgFactory
 
 
 def analyze(
@@ -158,15 +158,7 @@ def _onlyMemo(
         how_anlz.region = region
         how_anlz.commit_val = squ.val
         how_anlz.changed_squ = squ
-        how_anlz.msg =\
-            "【{changed_squ}】【消去法】同一{region}内で{commit_val}が{changed_squ}にしか入らないため、値を{commit_val}で確定しました。"\
-            .format(
-                changed_squ=SudokuUtil.create_squ_text_for_msg(
-                    how_anlz.changed_squ),
-                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
-                commit_val=how_anlz.commit_val,
-            )
-
+        how_anlz.msg = MsgFactory.how_to_elimionation_only_memo(how_anlz)
         how_anlz_list.append(how_anlz)
 
     return True

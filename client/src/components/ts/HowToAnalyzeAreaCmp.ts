@@ -27,17 +27,78 @@ export default class HowToAnalyzeAreaCmp extends Vue {
   hilightHowToIdx: number | null = sudokuModule.hilightHowToIdx;
 
   /**
+   * 解析方法マップ
+   *
+   * key:解析方法
+   * value: [split, 相対Y位置(0スタート)]
+   */
+  private howToMap: Map<HowToAnalyze, [string[], number]> = new Map<
+    HowToAnalyze,
+    [string[], number]
+  >();
+
+  /**
    * 解析方法リスト監視
    */
   @Watch("howToList")
   watchHowToList(): void {
     // 解析方法ハイライト更新
-    if (this.howToList.length >= 0) {
+    if (this.howToList.length > 0) {
       // デフォルトで最初の解析方法をハイライトさせる
       sudokuModule.changeHilightHowTo(this.howToList[0]);
     } else {
       sudokuModule.changeHilightHowTo(null);
     }
+  }
+
+  /**
+   * Lifecycle hook created
+   */
+  created(): void {
+    // メッセージ分割、Y座標計算
+    this.splitMsgAndCalcYPos();
+  }
+
+  /**
+   * Lifecycle hook beforeUpdate
+   */
+  beforeUpdate(): void {
+    // メッセージ分割、Y座標計算
+    // [補足]
+    // @Watch("hilightHowToIdx")だとsvgTextYに間に合わない
+    this.splitMsgAndCalcYPos();
+  }
+
+  /**
+   * メッセージ分割、Y座標計算
+   */
+  private splitMsgAndCalcYPos(): void {
+    this.howToMap.clear();
+    let wkY: number = 0;
+    this.howToList.forEach(howTo => {
+      const split: string[] = this.msgSplit(howTo);
+      this.howToMap.set(howTo, [split, wkY]);
+      wkY += split.length;
+    });
+  }
+
+  /**
+   * メッセージを全角24文字で分割
+   * @param howTo 解読方法
+   * @returs 分割した文字列配列
+   */
+  private msgSplit(howTo: HowToAnalyze): string[] {
+    return SudokuUtil.splitByCharPerLine(howTo.msg.msg, 48);
+  }
+
+  /**
+   * 分割した文字列配列をキャッシュから取得
+   *
+   * @param howTo 解読方法
+   * @returs 分割した文字列配列
+   */
+  msgSplitCache(howTo: HowToAnalyze): string[] {
+    return this.howToMap.get(howTo)![0];
   }
 
   /**
@@ -56,19 +117,11 @@ export default class HowToAnalyzeAreaCmp extends Vue {
           throw new TypeError("arienai");
         }
         const hotToAreaElmScrollTop: number | undefined = hotToAreaElm.scrollTop();
-        let pos = hilightHowToELm.position().top + hotToAreaElmScrollTop! - hotToAreaElm.offset()!.top;
+        let pos =
+          hilightHowToELm.position().top + hotToAreaElmScrollTop! - hotToAreaElm.offset()!.top;
         hotToAreaElm.animate({ scrollTop: pos }, "fast", "swing");
       }
     });
-  }
-
-  /**
-   * メッセージを全角26文字で分割
-   * @param howTo 解読方法
-   * @returs 分割した文字列配列
-   */
-  msgSplit(howTo: HowToAnalyze): string[] {
-    return SudokuUtil.splitByCharPerLine(howTo.msg, 48);
   }
 
   /**
@@ -116,19 +169,10 @@ export default class HowToAnalyzeAreaCmp extends Vue {
   }
 
   /**
-   * メッセージエリアのメッセージ毎のY座標を算出
+   * メッセージエリアのメッセージ毎のY座標を取得
    * @returns メッセージエリアのメッセージ毎のY座標
    */
   svgTextY(howTo: HowToAnalyze): number {
-    let wkY = 0;
-    this.howToList.some(loopHowTo => {
-      // 自メッセージ以前のメッセージの行数から自メッセージのY座標を算出する
-      if (howTo == loopHowTo) {
-        return true;
-      }
-      wkY += this.msgSplit(howTo).length;
-      return false;
-    });
-    return wkY * this.svgHeightForRow;
+    return this.howToMap.get(howTo)![1] * this.svgHeightForRow;
   }
 }

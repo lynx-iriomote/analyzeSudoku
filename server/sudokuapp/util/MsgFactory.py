@@ -3,6 +3,7 @@ from typing import List
 from sudokuapp.const.Method import Method
 from sudokuapp.const.MsgCode import MsgCode
 from sudokuapp.const.MsgType import MsgType
+from sudokuapp.const.Region import Region
 from sudokuapp.data.Msg import Msg
 from sudokuapp.data.Square import Square
 from sudokuapp.util.SudokuUtil import SudokuUtil
@@ -11,6 +12,45 @@ from sudokuapp.util.SudokuUtil import SudokuUtil
 class MsgFactory():
     """メッセージファクトリ
     """
+
+    from sudokuapp.data.HowToAnalyze import HowToAnalyze
+
+    @classmethod
+    def start_analyze(cls) -> Msg:
+        """解析開始メッセージ生成
+
+        Args:
+            num (int): エラー数
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.INFO,
+            MsgCode.FUNC_START,
+            {
+                "funcName": "数独の解析"
+            })
+
+    @classmethod
+    def error_info(
+            cls,
+            num: int
+    ) -> Msg:
+        """解析中エラーメッセージ生成
+
+        Args:
+            num (int): エラー数
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.ERROR,
+            MsgCode.ERROR_INFO,
+            {
+                "num": num
+            })
 
     @classmethod
     def dup_area(
@@ -169,17 +209,121 @@ class MsgFactory():
             })
 
     @classmethod
-    def create_memo_list_text(
+    def how_to_elimionation(
         cls,
-        memo_list: List[int]
-    ) -> str:
-        """メモリストをテキストに変換
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """消去法(メモ削除)メッセージ生成
 
         Args:
-            memo_list: (List[int]): メモリスト
+            how_anlz (HowToAnalyze): 解析方法
 
         Returns:
-            str: テキスト
+            Msg: メッセージ
         """
-        wk_list: List[str] = [str(n) for n in memo_list]
-        return "メモ{}".format("、".join(wk_list))
+        return Msg(
+            MsgType.INFO,
+            MsgCode.HOW_TO_ELIMIONATION,
+            {
+                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
+                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
+                "triggerSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.trigger_squ_list[0]),
+                "removeMemo": how_anlz.remove_memo_list[0]
+            })
+
+    @classmethod
+    def how_to_elimionation_one_memo(
+        cls,
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """消去法(メモがひとつしかない)メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.INFO,
+            MsgCode.HOW_TO_ELIMIONATION_ONE_MEMO,
+            {
+                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
+                "commitVal": how_anlz.commit_val
+            })
+
+    @classmethod
+    def how_to_elimionation_only_memo(
+        cls,
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """消去法(メモがその枡にしかない)メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.INFO,
+            MsgCode.HOW_TO_ELIMIONATION_ONLY_MEMO,
+            {
+                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
+                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
+                "commitVal": how_anlz.commit_val
+            })
+
+    @classmethod
+    def how_to_stealth_laser(
+        cls,
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """ステルスレーザ発射法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.INFO,
+            MsgCode.HOW_TO_STEALTH_LASER,
+            {
+                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
+                "triggerSqu": SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.trigger_squ_list[0]),
+                "removeMemo": how_anlz.remove_memo_list[0],
+                "regionPos": how_anlz.trigger_squ_list[0].row if how_anlz.region == Region.ROW
+                else how_anlz.trigger_squ_list[0].clm,
+                "region": SudokuUtil.cnv_region_to_text(how_anlz.region)
+            })
+
+    @classmethod
+    def how_to_allies(
+        cls,
+        how_anlz: HowToAnalyze,
+        allies: int,
+        memo_list: List[int]
+    ) -> Msg:
+        """N国同盟法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+            allies (int): 同盟数
+            memo_list (List[int]): 同盟メモリスト
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.INFO,
+            MsgCode.HOW_TO_ALLIES,
+            {
+                "changedSqu": SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                "allies": allies,
+                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
+                "memosText": SudokuUtil.cnv_memo_list_to_text(memo_list),
+                "removeMemo": how_anlz.remove_memo_list[0]
+            })

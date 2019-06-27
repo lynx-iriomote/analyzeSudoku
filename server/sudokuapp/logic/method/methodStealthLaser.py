@@ -7,7 +7,7 @@ from sudokuapp.const.Region import Region
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
-from sudokuapp.util.SudokuUtil import SudokuUtil
+from sudokuapp.util.MsgFactory import MsgFactory
 
 
 def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
@@ -81,19 +81,7 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 how_anlz.changed_squ = change_squ
                 how_anlz.remove_memo_list.append(memo)
                 how_anlz.trigger_squ_list.extend(squ_list)
-                how_anlz.msg =\
-                    "【{changed_squ}】【ステルスレーザ発射法】{trigger_squ}のエリア内でメモ{remove_memo}が{row_clm_pos}{region}目にしか存在しないため、{changed_squ}のメモから{remove_memo}を除外しました。"\
-                    .format(
-                        changed_squ=SudokuUtil.create_squ_text_for_msg(
-                            how_anlz.changed_squ),
-                        trigger_squ=SudokuUtil.create_squ_text_for_msg(
-                            how_anlz.trigger_squ_list[0]),
-                        remove_memo=how_anlz.remove_memo_list[0],
-                        row_clm_pos=how_anlz.trigger_squ_list[0].row
-                        if how_anlz.region == Region.ROW else how_anlz.trigger_squ_list[0].clm,
-                        region=SudokuUtil.cnv_region_to_text(
-                            how_anlz.region),
-                    )
+                how_anlz.msg = MsgFactory.how_to_stealth_laser(how_anlz)
 
                 how_anlz_list.append(how_anlz)
 

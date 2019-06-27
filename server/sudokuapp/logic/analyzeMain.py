@@ -2,12 +2,11 @@ from typing import List
 
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
-from sudokuapp.logic.method import (methodElimionationOneMemo,
+from sudokuapp.logic.method import (methodAllies, methodElimionationOneMemo,
                                     methodElimionationOnlyMemo,
                                     methodElimionationRemoveMemo,
-                                    methodStealthLaser,
-                                    methodAllies,
-                                    simpleErrorCheck)
+                                    methodStealthLaser, simpleErrorCheck)
+from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
 def analyze(wk: AnalyzeWk) -> bool:
@@ -21,9 +20,10 @@ def analyze(wk: AnalyzeWk) -> bool:
     """
 
     # 初回エラーチェック
-    err_cnt: int = simpleErrorCheck.errorCheck(wk, min_hint_check=True)
-    if err_cnt > 0:
-        wk.addHistryForErr()
+    how_anlz_list_err: List[HowToAnalyze] = simpleErrorCheck.errorCheck(
+        wk, first_check=True)
+    if len(how_anlz_list_err) > 0:
+        wk.addHistryForErr(how_anlz_list_err)
         return False
 
     # 解析前初期化
@@ -38,9 +38,9 @@ def analyze(wk: AnalyzeWk) -> bool:
         if len(how_anlz_list) != 0:
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            err_cnt = simpleErrorCheck.errorCheck(wk)
-            if err_cnt > 0:
-                wk.addHistry(None)
+            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            if len(how_anlz_list_err) > 0:
+                wk.addHistryForErr(how_anlz_list_err)
                 return False
             continue
 
@@ -50,9 +50,9 @@ def analyze(wk: AnalyzeWk) -> bool:
         if len(how_anlz_list) != 0:
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            err_cnt = simpleErrorCheck.errorCheck(wk)
-            if err_cnt > 0:
-                wk.addHistry(None)
+            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            if len(how_anlz_list_err) > 0:
+                wk.addHistryForErr(how_anlz_list_err)
                 return False
             continue
 
@@ -63,9 +63,9 @@ def analyze(wk: AnalyzeWk) -> bool:
         if len(how_anlz_list) != 0:
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            err_cnt = simpleErrorCheck.errorCheck(wk)
-            if err_cnt > 0:
-                wk.addHistry(None)
+            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            if len(how_anlz_list_err) > 0:
+                wk.addHistryForErr(how_anlz_list_err)
                 return False
             continue
 
@@ -76,9 +76,9 @@ def analyze(wk: AnalyzeWk) -> bool:
         if len(how_anlz_list) != 0:
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            err_cnt = simpleErrorCheck.errorCheck(wk)
-            if err_cnt > 0:
-                wk.addHistry(None)
+            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            if len(how_anlz_list_err) > 0:
+                wk.addHistryForErr(how_anlz_list_err)
                 return False
             continue
 
@@ -89,9 +89,9 @@ def analyze(wk: AnalyzeWk) -> bool:
         if len(how_anlz_list) != 0:
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            err_cnt = simpleErrorCheck.errorCheck(wk)
-            if err_cnt > 0:
-                wk.addHistry(None)
+            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            if len(how_anlz_list_err) > 0:
+                wk.addHistryForErr(how_anlz_list_err)
                 return False
             continue
 
@@ -107,6 +107,6 @@ def initBeforeAnalyze(wk: AnalyzeWk) -> None:
         wk (AnalyzeWk): ワーク
     """
     # ヒントまたは値がない枡にメモ値を設定
-    for squ in wk.all_squ_list:
+    for squ in SudokuUtil.find_unfixed_squ_from_flame(wk.flame):
         if (squ.get_hint_val_or_val() is None):
             squ.memo_val_list.extend([1, 2, 3, 4, 5, 6, 7, 8, 9])
