@@ -27,7 +27,7 @@
     "name": "開始",
     "msg": "{funcName}を開始します。",
     "ts": true,
-    "py": false
+    "py": true
   },
   "FUNC_END": {
     "name": "終了",

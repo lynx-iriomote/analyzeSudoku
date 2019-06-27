@@ -23,6 +23,10 @@ class MsgCode(Enum):
     # 【{pivotSqu}】同一列({compareSqu})に{val}が重複しています。
     DUP_CLM = auto()
 
+    # 開始
+    # {funcName}を開始します。
+    FUNC_START = auto()
+
     # ヒント数不足
     # ヒントを{min}個以上設定してください。
     NOT_ENOUGH_HINTS = auto()
