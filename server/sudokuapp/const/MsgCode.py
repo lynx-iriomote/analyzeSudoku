@@ -47,7 +47,7 @@ class MsgCode(Enum):
     # 【{changedSqu}】【消去法】同一{region}内で{commitVal}が{changedSqu}にしか入らないため、値を{commitVal}で確定しました。
     HOW_TO_ELIMIONATION_ONLY_MEMO = auto()
 
-    # 消去法(メモがその枡にしかない)
+    # 消去法(メモがひとつしかない)
     # 【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。
     HOW_TO_ELIMIONATION_ONE_MEMO = auto()
 

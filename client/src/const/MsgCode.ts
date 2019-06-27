@@ -132,7 +132,7 @@ enum MsgCode {
   HOW_TO_ELIMIONATION_ONLY_MEMO = "HOW_TO_ELIMIONATION_ONLY_MEMO",
 
   /**
-   * 消去法(メモがその枡にしかない)
+   * 消去法(メモがひとつしかない)
    *
    * 【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。
    */

@@ -108,7 +108,7 @@
     "py": true
   },
   "HOW_TO_ELIMIONATION_ONE_MEMO": {
-    "name": "消去法(メモがその枡にしかない)",
+    "name": "消去法(メモがひとつしかない)",
     "msg": "【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。",
     "ts": true,
     "py": true
