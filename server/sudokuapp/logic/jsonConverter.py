@@ -79,11 +79,11 @@ def creata_json_response(
         # 解析開始はサマリーしようがないためスキップ
         if method == Method.START:
             continue
+        # 例>N国同盟によってN回枡が更新されました。
         msg_json_list.append(
             MsgFactory.howto_summary(
                 idx + 1, method, len(history.how_anlz_list))
             .cnv_to_json())
-        # N国同盟によってN回枡が更新されました。
 
     # エラー抽出
     for wk_msg in wk.msg_list:

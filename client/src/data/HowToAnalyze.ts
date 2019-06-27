@@ -1,10 +1,8 @@
 import Method from "@/const/Method";
 import Region from "@/const/Region";
+import Msg from "@/data/Msg";
 import Square from "@/data/Square";
 import SudokuUtil from "@/util/SudokuUtil";
-import Msg from "./Msg";
-import MsgType from "@/const/MsgType";
-import MsgCode from "@/const/MsgCode";
 
 /**
  * 解析方法を表現
@@ -17,7 +15,7 @@ export default class HowToAnalyze {
   method: Method;
 
   /** メッセージ */
-  msg: string;
+  msg: Msg;
 
   /** 領域 */
   region!: Region | null;
@@ -39,7 +37,7 @@ export default class HowToAnalyze {
    * @param method 解法
    * @param msg メッセージ
    */
-  constructor(method: Method, msg: string) {
+  constructor(method: Method, msg: Msg) {
     this.id = SudokuUtil.createRandomText();
     this.method = method;
     this.msg = msg;
@@ -54,7 +52,13 @@ export default class HowToAnalyze {
     allSquList: Square[],
     json: {
       method: string;
-      msg: string;
+      msg: {
+        msgType: string;
+        msgCode: string;
+        msgArgs: {
+          [key: string]: any;
+        };
+      };
       region: string | null;
       commitVal: number | null;
       removeMemoList: number[] | null;
@@ -62,9 +66,15 @@ export default class HowToAnalyze {
       triggerSquList: number[][] | null;
     }
   ): HowToAnalyze {
-    const changeHistory: HowToAnalyze = new HowToAnalyze(SudokuUtil.cnvMapToEnum(Method, json.method), json.msg);
+    const changeHistory: HowToAnalyze = new HowToAnalyze(
+      SudokuUtil.cnvMapToEnum(Method, json.method),
+      Msg.cnvFromJson(json.msg)
+    );
     if (json.region) {
-      changeHistory.region = SudokuUtil.cnvMapToEnum(Region, json.region);
+      changeHistory.region = SudokuUtil.cnvMapToEnum(
+        Region,
+        json.region
+      );
     }
     if (json.commitVal) {
       changeHistory.commitVal = json.commitVal;
@@ -75,11 +85,15 @@ export default class HowToAnalyze {
     if (json.changedSqu) {
       const row: number = json.changedSqu[0];
       const clm: number = json.changedSqu[1];
-      const changedSqu: Square | undefined = allSquList.find(loopSqu => {
+      const changedSqu:
+        | Square
+        | undefined = allSquList.find(loopSqu => {
         return loopSqu.row == row && loopSqu.clm == clm;
       });
       if (!changedSqu) {
-        throw new TypeError(`changedSqu not found row=${row} clm=${clm}`);
+        throw new TypeError(
+          `changedSqu not found row=${row} clm=${clm}`
+        );
       }
       changeHistory.changeSqu = changedSqu;
     }
@@ -87,11 +101,15 @@ export default class HowToAnalyze {
       json.triggerSquList.forEach(tiriggerSquJson => {
         const row: number = tiriggerSquJson[0];
         const clm: number = tiriggerSquJson[1];
-        const triggerSqu: Square | undefined = allSquList.find(loopSqu => {
+        const triggerSqu:
+          | Square
+          | undefined = allSquList.find(loopSqu => {
           return loopSqu.row == row && loopSqu.clm == clm;
         });
         if (!triggerSqu) {
-          throw new TypeError(`triggerSqu not found row=${row} clm=${clm}`);
+          throw new TypeError(
+            `triggerSqu not found row=${row} clm=${clm}`
+          );
         }
         if (!changeHistory.triggerSquList) {
           changeHistory.triggerSquList = [];

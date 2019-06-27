@@ -4,9 +4,10 @@ from typing import List
 
 from sudokuapp.const.Method import Method
 from sudokuapp.const.Region import Region
+from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
-from sudokuapp.data.AnalyzeWk import AnalyzeWk
+from sudokuapp.util.MsgFactory import MsgFactory
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
@@ -47,15 +48,13 @@ def _removeMemo(
         region (Region): 領域
         squ_list (List[Square]): 枡リスト
     """
-    # ヒント(値)が存在する枡を抽出
-    not_none_squ_list: List[Square] = list(filter(
-        lambda squ: squ.get_hint_val_or_val() is not None,
-        squ_list))
+    # 確定枡を抽出
+    not_none_squ_list: List[Square] = SudokuUtil.find_fixed_squ_from_region(
+        squ_list)
 
-    # ヒント(値)が存在しない枡を抽出
-    none_squ_list: List[Square] = list(filter(
-        lambda squ: squ.get_hint_val_or_val() is None,
-        squ_list))
+    # 未確定枡を抽出
+    none_squ_list: List[Square] = SudokuUtil.find_unfixed_squ_from_region(
+        squ_list)
 
     # メモからヒント(値)を除外
     for none_squ in none_squ_list:
@@ -71,16 +70,6 @@ def _removeMemo(
                     how_anlz.remove_memo_list.append(memo)
                     how_anlz.changed_squ = none_squ
                     how_anlz.trigger_squ_list.append(not_none_squ)
-                    how_anlz.msg =\
-                        "【{changed_squ}】【消去法】同一{region}({trigger_squ})に{remove_memo}があるためメモから{remove_memo}を除外しました。"\
-                        .format(
-                            changed_squ=SudokuUtil.create_squ_text_for_msg(
-                                how_anlz.changed_squ),
-                            region=SudokuUtil.cnv_region_to_text(
-                                how_anlz.region),
-                            trigger_squ=SudokuUtil.create_squ_text_for_msg(
-                                how_anlz.trigger_squ_list[0]),
-                            remove_memo=how_anlz.remove_memo_list[0],
-                        )
+                    how_anlz.msg = MsgFactory.how_to_elimionation(how_anlz)
 
                     how_anlz_list.append(how_anlz)

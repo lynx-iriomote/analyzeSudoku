@@ -12,7 +12,7 @@
         v-for="howTo in howToList"
         :key="howTo.id"
         :howTo="howTo"
-        :msgSplit="msgSplit(howTo)"
+        :msgSplit="msgSplitCache(howTo)"
         :startX="3"
         :startY="svgTextY(howTo)"
       />

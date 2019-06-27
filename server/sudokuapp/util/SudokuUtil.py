@@ -149,7 +149,7 @@ class SudokuUtil(object):
             squ_list))
 
     @classmethod
-    def cnv_memo_list_text(
+    def cnv_memo_list_to_text(
         cls,
         memo_list: List[int]
     ) -> str:

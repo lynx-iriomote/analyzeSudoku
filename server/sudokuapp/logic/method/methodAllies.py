@@ -7,6 +7,7 @@ from sudokuapp.const.Region import Region
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
+from sudokuapp.util.MsgFactory import MsgFactory
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
@@ -228,16 +229,6 @@ def _find_allies(
             how_anlz.trigger_squ_list.extend(allies_squ_list)
             wk_list = list(memo_set)
             wk_list.sort()
-            how_anlz.msg = \
-                "【{changed_squ}】【{allies}国同盟法】{changed_squ}の同一{region}内にて{memos_text}の{allies}国同盟を発見したため、{changed_squ}のメモから{remove_memo}を除外しました。"\
-                .format(
-                    changed_squ=SudokuUtil.create_squ_text_for_msg(
-                        how_anlz.changed_squ),
-                    allies=allies,
-                    region=SudokuUtil.cnv_region_to_text(
-                        how_anlz.region),
-                    memos_text=SudokuUtil.cnv_memo_list_text(
-                        wk_list),
-                    remove_memo=how_anlz.remove_memo_list[0],
-                )
+            how_anlz.msg = MsgFactory.how_to_allies(how_anlz, allies, wk_list)
+
             how_anlz_list.append(how_anlz)
