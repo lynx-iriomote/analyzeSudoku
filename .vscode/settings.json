@@ -1,0 +1,27 @@
+{
+    "editor.rulers": [100],
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        {
+            "language": "vue",
+            "autoFix": true
+        }
+    ],
+    // "prettier.disableLanguages": [],
+    "prettier.eslintIntegration": true,
+    "prettier.stylelintIntegration": true,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    // "javascript.validate.enable": false,
+    // "javascript.format.enable": false,
+    // "vetur.validation.template": false,
+    // "vetur.format.defaultFormatter.html": "none",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.tabSize": 2,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--ignore=E501"]
+}

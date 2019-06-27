@@ -1,0 +1,92 @@
+{
+  "DUP_AREA": {
+    "name": "エリア重複",
+    "msg": "【{pivotSqu}】同一エリア({compareSqu})に{val}が重複しています。",
+    "ts": true,
+    "py": true
+  },
+  "DUP_ROW": {
+    "name": "行重複",
+    "msg": "【{pivotSqu}】同一行({compareSqu})に{val}が重複しています。",
+    "ts": true,
+    "py": true
+  },
+  "DUP_CLM": {
+    "name": "列重複",
+    "msg": "【{pivotSqu}】同一列({compareSqu})に{val}が重複しています。",
+    "ts": true,
+    "py": true
+  },
+  "FUNC_START": {
+    "name": "開始",
+    "msg": "{funcName}を開始します。",
+    "ts": true,
+    "py": false
+  },
+  "FUNC_END": {
+    "name": "終了",
+    "msg": "{funcName}が終了しました。",
+    "ts": true,
+    "py": false
+  },
+  "API_FAIL": {
+    "name": "API失敗",
+    "msg": "解析サーバとの通信に失敗しました。({status}:{statusText})",
+    "ts": true,
+    "py": false
+  },
+  "ADD": {
+    "name": "ADD",
+    "msg": "【{name}】を追加しました。",
+    "ts": true,
+    "py": false
+  },
+  "CLEAR": {
+    "name": "クリア",
+    "msg": "【{name}】を削除しました。",
+    "ts": true,
+    "py": false
+  },
+  "UPDATE": {
+    "name": "更新",
+    "msg": "【{name}】を更新しました。",
+    "ts": true,
+    "py": false
+  },
+  "REFLECT_FLAME": {
+    "name": "枠に反映",
+    "msg": "【{name}】を枠に反映しました。",
+    "ts": true,
+    "py": false
+  },
+  "NOT_ENOUGH_HINTS": {
+    "name": "ヒント数不足",
+    "msg": "ヒントを{min}個以上設定してください。",
+    "ts": true,
+    "py": true
+  },
+  "FIXED_SQU_NUM": {
+    "name": "確定枡数通知",
+    "msg": "{cnt}個の答えが見つかりました。",
+    "ts": true,
+    "py": true
+  },
+  "UNFIXED_SQU_NUM": {
+    "name": "未確定枡数通知",
+    "msg": "{cnt}個の答えが見つかりませんでした。",
+    "ts": true,
+    "py": true
+  },
+  "HOW_TO_NOT_SUPPORT": {
+    "name": "未サポートメソッド",
+    "msg": "TODO 未サポートメソッド {params}",
+    "ts": true,
+    "py": false
+  },
+  "HOW_TO_SUMMARY": {
+    "name": "解析方法サマリ",
+    "msg": "解析{idx}回目 : {method}によって枡が{cnt}回更新されました。",
+    "ts": true,
+    "py": true
+  }
+}
