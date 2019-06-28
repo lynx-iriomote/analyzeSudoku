@@ -77,7 +77,8 @@ def creata_json_response(
             continue
         method: Method = history.how_anlz_list[0].method
         # 解析開始はサマリーしようがないためスキップ
-        if method == Method.START:
+        # エラーは後続の処理で出力しているためスキップ
+        if method == Method.START or method == Method.ERROR_CHECK:
             continue
         # 例>N国同盟によってN回枡が更新されました。
         msg_json_list.append(
