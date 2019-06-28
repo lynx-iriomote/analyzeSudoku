@@ -19,13 +19,12 @@ export default class Msg {
   /**
    * コンストラクタ
    * @param msgType メッセージ種類
-   * @param msgCode メッセージコード
-   * @param msgArgs メッセージ引数
+   * @param msg メッセージ
    */
-  constructor(msgType: MsgType, msgCode: MsgCode, msgArgs: { [key: string]: any } | null) {
+  constructor(msgType: MsgType, msg: string) {
     this.id = SudokuUtil.createRandomText();
     this.msgType = msgType;
-    this.msg = MsgFactory.createMsgTextByMsgCode(msgCode, msgArgs);
+    this.msg = msg;
   }
 
   /**
@@ -33,17 +32,7 @@ export default class Msg {
    * @param json JSON
    * @returns メッセージ
    */
-  static cnvFromJson(json: {
-    msgType: string;
-    msgCode: string;
-    msgArgs: {
-      [key: string]: any;
-    };
-  }): Msg {
-    return new Msg(
-      SudokuUtil.cnvMapToEnum(MsgType, json.msgType),
-      SudokuUtil.cnvMapToEnum(MsgCode, json.msgCode),
-      json.msgArgs
-    );
+  static cnvFromJson(json: { msgType: string; msg: string }): Msg {
+    return new Msg(SudokuUtil.cnvMapToEnum(MsgType, json.msgType), json.msg);
   }
 }

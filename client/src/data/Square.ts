@@ -1,5 +1,4 @@
 import Msg from "@/data/Msg";
-import MsgFactory from "@/util/MsgFactory";
 
 /**
  * 枡を表現
@@ -54,7 +53,7 @@ export default class Square {
     hintVal: number | null;
     val: number | null;
     memoValList: number[] | null;
-    errorList: { msgType: string; msgCode: string; msgArgs: { [key: string]: any } }[] | null;
+    errorList: { msgType: string; msg: string }[] | null;
   }): Square {
     const squ = new Square(squJson.areaId, squJson.squId);
     squ.hintVal = squJson.hintVal;
