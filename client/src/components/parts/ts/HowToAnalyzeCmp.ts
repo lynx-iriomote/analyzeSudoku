@@ -1,9 +1,7 @@
-import EditMode from "@/const/EditMode";
+import MsgType from "@/const/MsgType";
+import HowToAnalyze from "@/data/HowToAnalyze";
 import { sudokuModule } from "@/store/modules/SudokuModule";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import HowToAnalyze from "@/data/HowToAnalyze";
-
-declare function require(x: string): any;
 
 /**
  * 解析方法コンポーネント
@@ -31,7 +29,22 @@ export default class HowToAnalyzeCmp extends Vue {
    * @returns クラス名
    */
   get textDecoration(): string {
-    return this.isSelected ? "how-to-text-selected" : "how-to-text-default";
+    if (this.isSelected) {
+      return "how-to-text-selected";
+    }
+    switch (this.howTo.msg.msgType) {
+      case MsgType.INFO:
+        return "how-to-text-info";
+
+      case MsgType.SUCCESS:
+        return "how-to-text-success";
+
+      case MsgType.ERROR:
+        return "how-to-text-error";
+
+      default:
+        throw new TypeError(`not support msgType ${this.howTo.msg.msgType}`);
+    }
   }
 
   /**
@@ -39,7 +52,22 @@ export default class HowToAnalyzeCmp extends Vue {
    * @returns クラス名
    */
   get iconDecoration(): string {
-    return this.isSelected ? "how-to-icon-selected" : "how-to-icon-default";
+    if (this.isSelected) {
+      return "how-to-icon-selected";
+    }
+    switch (this.howTo.msg.msgType) {
+      case MsgType.INFO:
+        return "how-to-icon-info";
+
+      case MsgType.SUCCESS:
+        return "how-to-icon-success";
+
+      case MsgType.ERROR:
+        return "how-to-icon-error";
+
+      default:
+        throw new TypeError(`not support msgType ${this.howTo.msg.msgType}`);
+    }
   }
 
   /**
@@ -48,7 +76,10 @@ export default class HowToAnalyzeCmp extends Vue {
    */
   get isSelected(): boolean {
     return (
-      this.howTo == sudokuModule.historyList[sudokuModule.historyIdx].howToAnalyzeList[sudokuModule.hilightHowToIdx!]
+      this.howTo ==
+      sudokuModule.historyList[sudokuModule.historyIdx].howToAnalyzeList[
+        sudokuModule.hilightHowToIdx!
+      ]
     );
   }
 
