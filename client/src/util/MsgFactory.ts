@@ -110,7 +110,7 @@ export default class MsgFactory {
   static createMsgAnalyzeStart(): Msg {
     return new Msg(
       MsgType.INFO,
-      MsgFactory.createMsgTextByMsgCode(MsgCode.REFLECT_FLAME, {
+      MsgFactory.createMsgTextByMsgCode(MsgCode.FUNC_START, {
         funcName: "数独の解析"
       })
     );
