@@ -48,13 +48,18 @@ def main():
     msg_code_ts += " */{}".format(BR)
     msg_code_ts += "enum MsgCode {" + BR
 
-    # msg.json
-    msg_json: str = ""
-    msg_json += "{" + BR
+    # msg.json(py)
+    msg_json_py: str = ""
+    msg_json_py += "{" + BR
+
+    # msg.json(ts)
+    msg_json_ts: str = ""
+    msg_json_ts += "{" + BR
 
     msg_code_py_list: List[str] = list()
     msg_code_ts_list: List[str] = list()
-    msg_json_list: List[str] = list()
+    msg_json_py_list: List[str] = list()
+    msg_json_ts_list: List[str] = list()
 
     with open(
             "./sudokuapp/management/commands/res/src_msg.json",
@@ -63,12 +68,16 @@ def main():
     ) as f:
         msg_json_dict = json.load(f)
         for idx, (code, detail) in enumerate(msg_json_dict.items()):
-            # MsgCode.py
             if detail["py"]:
+                # MsgCode.py
                 msg_code_py_list.append("")
                 msg_code_py_list.append("    # {}".format(detail['name']))
                 msg_code_py_list.append("    # {}".format(detail['msg']))
                 msg_code_py_list.append("    {} = auto()".format(code))
+
+                # msg.json(py)
+                msg_json_py_list.append(
+                    "  \"{}\": \"{}\",".format(code, detail['msg']))
 
             if detail["ts"]:
                 # MsgCode.ts
@@ -81,37 +90,47 @@ def main():
                 msg_code_ts_list.append("   */")
                 msg_code_ts_list.append("  {} = \"{}\",".format(code, code))
 
-                # msg.json
-                msg_json_list.append(
+                # msg.json(ts)
+                msg_json_ts_list.append(
                     "  \"{}\": \"{}\",".format(code, detail['msg']))
 
     last_ts = msg_code_ts_list.pop(-1)
     msg_code_ts_list.append(last_ts.replace(",", ""))
-    last_json = msg_json_list.pop(-1)
-    msg_json_list.append(last_json.replace(",", ""))
+    last_json_py = msg_json_py_list.pop(-1)
+    msg_json_py_list.append(last_json_py.replace(",", ""))
+    last_json_ts = msg_json_ts_list.pop(-1)
+    msg_json_ts_list.append(last_json_ts.replace(",", ""))
 
     for wk in msg_code_py_list:
         msg_code_py += wk + BR
     for wk in msg_code_ts_list:
         msg_code_ts += wk + BR
-    for wk in msg_json_list:
-        msg_json += wk + BR
+    for wk in msg_json_ts_list:
+        msg_json_ts += wk + BR
+    for wk in msg_json_py_list:
+        msg_json_py += wk + BR
 
     msg_code_ts += "}" + BR
     msg_code_ts += "{}".format(BR)
     msg_code_ts += "export default MsgCode;{}".format(BR)
 
-    msg_json += "}"
+    msg_json_py += "}"
+    msg_json_ts += "}"
 
     print("MsgCode.py ###########")
     print(msg_code_py)
     print("######################")
+
     print("MsgCode.ts  ##########")
     print(msg_code_ts)
     print("######################")
 
-    print("msg.json  ############")
-    print(msg_json)
+    print("msg.json(py)  ############")
+    print(msg_json_py)
+    print("######################")
+
+    print("msg.json(ts)  ############")
+    print(msg_json_ts)
     print("######################")
 
     with open(
@@ -129,8 +148,15 @@ def main():
         f.writelines(msg_code_ts)
 
     with open(
+            "./sudokuapp/resources/msg.json",
+            mode="w",
+            encoding="utf-8"
+    ) as f:
+        f.writelines(msg_json_py)
+
+    with open(
             "../client/src/assets/msg.json",
             mode="w",
             encoding="utf-8"
     ) as f:
-        f.writelines(msg_json)
+        f.writelines(msg_json_ts)
