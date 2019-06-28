@@ -282,7 +282,7 @@ class MsgFactory():
             Msg: メッセージ
         """
         return Msg(
-            MsgType.INFO,
+            MsgType.SUCCESS,
             cls._get_msg(MsgCode.HOW_TO_ELIMIONATION_ONE_MEMO).format(
                 changedSqu=SudokuUtil.cnv_squ_to_text(
                     how_anlz.changed_squ),
@@ -304,7 +304,7 @@ class MsgFactory():
             Msg: メッセージ
         """
         return Msg(
-            MsgType.INFO,
+            MsgType.SUCCESS,
             cls._get_msg(MsgCode.HOW_TO_ELIMIONATION_ONLY_MEMO).format(
                 changedSqu=SudokuUtil.cnv_squ_to_text(
                     how_anlz.changed_squ),
