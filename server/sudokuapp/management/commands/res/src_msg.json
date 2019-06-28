@@ -2,7 +2,7 @@
   "ERROR_INFO": {
     "name": "解析中エラー",
     "msg": "解析中に{num}件の矛盾を発見しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "DUP_AREA": {
@@ -68,61 +68,55 @@
   "NOT_ENOUGH_HINTS": {
     "name": "ヒント数不足",
     "msg": "ヒントを{min}個以上設定してください。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "FIXED_SQU_NUM": {
     "name": "確定枡数通知",
     "msg": "{cnt}個の答えが見つかりました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "UNFIXED_SQU_NUM": {
     "name": "未確定枡数通知",
     "msg": "{cnt}個の答えが見つかりませんでした。",
-    "ts": true,
+    "ts": false,
     "py": true
-  },
-  "HOW_TO_NOT_SUPPORT": {
-    "name": "未サポートメソッド",
-    "msg": "TODO 未サポートメソッド {params}",
-    "ts": true,
-    "py": false
   },
   "HOW_TO_SUMMARY": {
     "name": "解析方法サマリ",
     "msg": "解析{idx}回目 : {method}によって枡が{cnt}回更新されました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "HOW_TO_ELIMIONATION": {
     "name": "消去法(メモ削除)",
     "msg": "【{changedSqu}】【消去法】同一{region}({triggerSqu})に{removeMemo}があるためメモから{removeMemo}を除外しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "HOW_TO_ELIMIONATION_ONLY_MEMO": {
     "name": "消去法(メモがその枡にしかない)",
     "msg": "【{changedSqu}】【消去法】同一{region}内で{commitVal}が{changedSqu}にしか入らないため、値を{commitVal}で確定しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "HOW_TO_ELIMIONATION_ONE_MEMO": {
     "name": "消去法(メモがひとつしかない)",
     "msg": "【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "HOW_TO_STEALTH_LASER": {
     "name": "ステルスレーザ発射法",
     "msg": "【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   },
   "HOW_TO_ALLIES": {
     "name": "N国同盟法",
     "msg": "【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。",
-    "ts": true,
+    "ts": false,
     "py": true
   }
 
