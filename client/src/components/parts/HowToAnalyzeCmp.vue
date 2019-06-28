@@ -1,5 +1,5 @@
 <template>
-  <g :id="isSelected ? 'hilightHowTo' : ''" class="hoho">
+  <g :id="isSelected ? 'hilightHowTo' : ''">
     <use
       v-bind="{
         'xlink:href': require('@/assets/svg/goSquare.svg') + '#iconGoSquare'
@@ -41,20 +41,34 @@
 </template>
 
 <style lang="scss" scoped>
-.hoho {
+#hilightHowTo {
   position: relative;
 }
-.how-to-icon-default {
-  fill: $color-icon-default;
-}
+
 .how-to-icon-selected {
   fill: $color-how-to-changed;
 }
-.how-to-text-default {
-  fill: $color-text-default;
+.how-to-icon-success {
+  fill: $color-msg-success;
 }
+.how-to-icon-error {
+  fill: $color-msg-error;
+}
+.how-to-icon-info {
+  fill: $color-msg-info;
+}
+
 .how-to-text-selected {
   fill: $color-how-to-changed;
+}
+.how-to-text-success {
+  fill: $color-msg-success;
+}
+.how-to-text-error {
+  fill: $color-msg-error;
+}
+.how-to-text-info {
+  fill: $color-msg-info;
 }
 </style>
 
