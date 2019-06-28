@@ -1,4 +1,7 @@
-from typing import List
+import json
+from typing import Dict, List
+
+from django.core.cache import cache
 
 from sudokuapp.const.Method import Method
 from sudokuapp.const.MsgCode import MsgCode
@@ -16,21 +19,53 @@ class MsgFactory():
     from sudokuapp.data.HowToAnalyze import HowToAnalyze
 
     @classmethod
-    def start_analyze(cls) -> Msg:
-        """解析開始メッセージ生成
+    def _get_msg(cls, msg_code: MsgCode) -> str:
+        """メッセージコードに紐づくメッセージの取得
 
         Args:
-            num (int): エラー数
+            msg_code (MsgCode): メッセージコード
+
+        Returns:
+            str: メッセージ
+        """
+        # キャッシュからメッセージ読み込み
+        msg_json: Dict[str, str] = cache.get("msg_json")
+        if msg_json is None:
+            # なければファイル読み込み
+            msg_json = cls._load_msg()
+            # キャッシュに保存(10分)
+            cache.set("msg_json", msg_json, timeout=10 * 60)
+
+        return msg_json[msg_code.name]
+
+    @classmethod
+    def _load_msg(cls) -> Dict[str, str]:
+        """メッセージ辞書読み込み
+
+        Returns:
+            Dict[str, str]: メッセージ辞書
+        """
+        with open(
+                "./sudokuapp/resources/msg.json",
+                mode="r",
+                encoding="utf-8"
+        ) as f:
+            msg_json: Dict[str, str] = json.load(f)
+            return msg_json
+
+    @classmethod
+    def start_analyze(cls) -> Msg:
+        """解析開始メッセージ生成
 
         Returns:
             Msg: メッセージ
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.FUNC_START,
-            {
-                "funcName": "数独の解析"
-            })
+            cls._get_msg(MsgCode.FUNC_START).format(
+                funcName="数独の解析"
+            )
+        )
 
     @classmethod
     def error_info(
@@ -47,10 +82,10 @@ class MsgFactory():
         """
         return Msg(
             MsgType.ERROR,
-            MsgCode.ERROR_INFO,
-            {
-                "num": num
-            })
+            cls._get_msg(MsgCode.ERROR_INFO).format(
+                num=num
+            )
+        )
 
     @classmethod
     def dup_area(
@@ -69,12 +104,12 @@ class MsgFactory():
         """
         return Msg(
             MsgType.ERROR,
-            MsgCode.DUP_AREA,
-            {
-                "val": pivot_squ.get_hint_val_or_val(),
-                "pivotSqu": SudokuUtil.cnv_squ_to_text(pivot_squ),
-                "compareSqu": SudokuUtil.cnv_squ_to_text(compare_squ)
-            })
+            cls._get_msg(MsgCode.DUP_AREA).format(
+                val=pivot_squ.get_hint_val_or_val(),
+                pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
+                compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
+            )
+        )
 
     @classmethod
     def dup_row(
@@ -93,12 +128,12 @@ class MsgFactory():
         """
         return Msg(
             MsgType.ERROR,
-            MsgCode.DUP_ROW,
-            {
-                "val": pivot_squ.get_hint_val_or_val(),
-                "pivotSqu": SudokuUtil.cnv_squ_to_text(pivot_squ),
-                "compareSqu": SudokuUtil.cnv_squ_to_text(compare_squ)
-            })
+            cls._get_msg(MsgCode.DUP_ROW).format(
+                val=pivot_squ.get_hint_val_or_val(),
+                pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
+                compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
+            )
+        )
 
     @classmethod
     def dup_clm(
@@ -117,12 +152,12 @@ class MsgFactory():
         """
         return Msg(
             MsgType.ERROR,
-            MsgCode.DUP_CLM,
-            {
-                "val": pivot_squ.get_hint_val_or_val(),
-                "pivotSqu": SudokuUtil.cnv_squ_to_text(pivot_squ),
-                "compareSqu": SudokuUtil.cnv_squ_to_text(compare_squ)
-            })
+            cls._get_msg(MsgCode.DUP_CLM).format(
+                val=pivot_squ.get_hint_val_or_val(),
+                pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
+                compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
+            )
+        )
 
     @classmethod
     def not_enough_hints(
@@ -139,10 +174,10 @@ class MsgFactory():
         """
         return Msg(
             MsgType.ERROR,
-            MsgCode.NOT_ENOUGH_HINTS,
-            {
-                "min": min
-            })
+            cls._get_msg(MsgCode.NOT_ENOUGH_HINTS).format(
+                min=min
+            )
+        )
 
     @classmethod
     def fixed_num(
@@ -159,10 +194,10 @@ class MsgFactory():
         """
         return Msg(
             MsgType.SUCCESS,
-            MsgCode.FIXED_SQU_NUM,
-            {
-                "cnt": cnt
-            })
+            cls._get_msg(MsgCode.FIXED_SQU_NUM).format(
+                cnt=cnt
+            )
+        )
 
     @classmethod
     def unfixed_num(
@@ -179,10 +214,10 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.UNFIXED_SQU_NUM,
-            {
-                "cnt": cnt
-            })
+            cls._get_msg(MsgCode.UNFIXED_SQU_NUM).format(
+                cnt=cnt
+            )
+        )
 
     @classmethod
     def howto_summary(
@@ -201,12 +236,12 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_SUMMARY,
-            {
-                "idx": idx,
-                "method": SudokuUtil.cnv_method_to_text(method),
-                "cnt": cnt
-            })
+            cls._get_msg(MsgCode.HOW_TO_SUMMARY).format(
+                idx=idx,
+                method=SudokuUtil.cnv_method_to_text(method),
+                cnt=cnt
+            )
+        )
 
     @classmethod
     def how_to_elimionation(
@@ -223,13 +258,15 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_ELIMIONATION,
-            {
-                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
-                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
-                "triggerSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.trigger_squ_list[0]),
-                "removeMemo": how_anlz.remove_memo_list[0]
-            })
+            cls._get_msg(MsgCode.HOW_TO_ELIMIONATION).format(
+                changedSqu=SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.changed_squ),
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
+                triggerSqu=SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.trigger_squ_list[0]),
+                removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )
 
     @classmethod
     def how_to_elimionation_one_memo(
@@ -244,13 +281,15 @@ class MsgFactory():
         Returns:
             Msg: メッセージ
         """
+        # TODO: create_squ_text_for_msgをリファクタリングする
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_ELIMIONATION_ONE_MEMO,
-            {
-                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
-                "commitVal": how_anlz.commit_val
-            })
+            cls._get_msg(MsgCode.HOW_TO_ELIMIONATION_ONE_MEMO).format(
+                changedSqu=SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.changed_squ),
+                commitVal=how_anlz.commit_val
+            )
+        )
 
     @classmethod
     def how_to_elimionation_only_memo(
@@ -267,12 +306,13 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_ELIMIONATION_ONLY_MEMO,
-            {
-                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
-                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
-                "commitVal": how_anlz.commit_val
-            })
+            cls._get_msg(MsgCode.HOW_TO_ELIMIONATION_ONLY_MEMO).format(
+                changedSqu=SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.changed_squ),
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
+                commitVal=how_anlz.commit_val
+            )
+        )
 
     @classmethod
     def how_to_stealth_laser(
@@ -289,16 +329,17 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_STEALTH_LASER,
-            {
-                "changedSqu": SudokuUtil.create_squ_text_for_msg(how_anlz.changed_squ),
-                "triggerSqu": SudokuUtil.create_squ_text_for_msg(
+            cls._get_msg(MsgCode.HOW_TO_STEALTH_LASER).format(
+                changedSqu=SudokuUtil.create_squ_text_for_msg(
+                    how_anlz.changed_squ),
+                triggerSqu=SudokuUtil.create_squ_text_for_msg(
                     how_anlz.trigger_squ_list[0]),
-                "removeMemo": how_anlz.remove_memo_list[0],
-                "regionPos": how_anlz.trigger_squ_list[0].row if how_anlz.region == Region.ROW
+                removeMemo=how_anlz.remove_memo_list[0],
+                regionPos=how_anlz.trigger_squ_list[0].row if how_anlz.region == Region.ROW
                 else how_anlz.trigger_squ_list[0].clm,
-                "region": SudokuUtil.cnv_region_to_text(how_anlz.region)
-            })
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region)
+            )
+        )
 
     @classmethod
     def how_to_allies(
@@ -319,11 +360,11 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            MsgCode.HOW_TO_ALLIES,
-            {
-                "changedSqu": SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
-                "allies": allies,
-                "region": SudokuUtil.cnv_region_to_text(how_anlz.region),
-                "memosText": SudokuUtil.cnv_memo_list_to_text(memo_list),
-                "removeMemo": how_anlz.remove_memo_list[0]
-            })
+            cls._get_msg(MsgCode.HOW_TO_ALLIES).format(
+                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                allies=allies,
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
+                memosText=SudokuUtil.cnv_memo_list_to_text(memo_list),
+                removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )

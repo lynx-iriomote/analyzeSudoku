@@ -37,9 +37,13 @@ export default class MsgFactory {
     if (saveName == null) {
       throw new TypeError("saveName is null");
     }
-    return new Msg(MsgType.INFO, MsgCode.ADD, {
-      name: saveName
-    });
+
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.ADD, {
+        name: saveName
+      })
+    );
   }
 
   /**
@@ -52,9 +56,12 @@ export default class MsgFactory {
     if (saveName == null) {
       throw new TypeError("saveName is null");
     }
-    return new Msg(MsgType.INFO, MsgCode.CLEAR, {
-      name: saveName
-    });
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.CLEAR, {
+        name: saveName
+      })
+    );
   }
 
   /**
@@ -67,9 +74,12 @@ export default class MsgFactory {
     if (saveName == null) {
       throw new TypeError("saveName is null");
     }
-    return new Msg(MsgType.INFO, MsgCode.UPDATE, {
-      name: saveName
-    });
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.UPDATE, {
+        name: saveName
+      })
+    );
   }
 
   /**
@@ -82,9 +92,13 @@ export default class MsgFactory {
     if (saveName == null) {
       throw new TypeError("saveName is null");
     }
-    return new Msg(MsgType.INFO, MsgCode.REFLECT_FLAME, {
-      name: saveName
-    });
+
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.REFLECT_FLAME, {
+        name: saveName
+      })
+    );
   }
 
   /**
@@ -94,9 +108,12 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgAnalyzeStart(): Msg {
-    return new Msg(MsgType.INFO, MsgCode.FUNC_START, {
-      funcName: "数独の解析"
-    });
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.REFLECT_FLAME, {
+        funcName: "数独の解析"
+      })
+    );
   }
 
   /**
@@ -106,9 +123,12 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgAnalyzeEnd(): Msg {
-    return new Msg(MsgType.INFO, MsgCode.FUNC_END, {
-      funcName: "数独の解析"
-    });
+    return new Msg(
+      MsgType.INFO,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.FUNC_END, {
+        funcName: "数独の解析"
+      })
+    );
   }
 
   /**
@@ -118,10 +138,13 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgApiFail(response: any): Msg {
-    return new Msg(MsgType.ERROR, MsgCode.API_FAIL, {
-      status: response.status,
-      statusText: response.statusText
-    });
+    return new Msg(
+      MsgType.ERROR,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.API_FAIL, {
+        status: response.status,
+        statusText: response.statusText
+      })
+    );
   }
 
   /**
@@ -133,11 +156,14 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgDupArea(pivotSqu: Square, compareSqu: Square): Msg {
-    return new Msg(MsgType.ERROR, MsgCode.DUP_AREA, {
-      val: pivotSqu.hintValOrVal,
-      pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
-      compareSqu: SudokuUtil.cnvSquToText(compareSqu)
-    });
+    return new Msg(
+      MsgType.ERROR,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_AREA, {
+        val: pivotSqu.hintValOrVal,
+        pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
+        compareSqu: SudokuUtil.cnvSquToText(compareSqu)
+      })
+    );
   }
 
   /**
@@ -149,11 +175,14 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgDupRow(pivotSqu: Square, compareSqu: Square): Msg {
-    return new Msg(MsgType.ERROR, MsgCode.DUP_ROW, {
-      val: pivotSqu.hintValOrVal,
-      pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
-      compareSqu: SudokuUtil.cnvSquToText(compareSqu)
-    });
+    return new Msg(
+      MsgType.ERROR,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_ROW, {
+        val: pivotSqu.hintValOrVal,
+        pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
+        compareSqu: SudokuUtil.cnvSquToText(compareSqu)
+      })
+    );
   }
 
   /**
@@ -165,10 +194,13 @@ export default class MsgFactory {
    * @returns メッセージ
    */
   static createMsgDupClm(pivotSqu: Square, compareSqu: Square): Msg {
-    return new Msg(MsgType.ERROR, MsgCode.DUP_CLM, {
-      val: pivotSqu.hintValOrVal,
-      pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
-      compareSqu: SudokuUtil.cnvSquToText(compareSqu)
-    });
+    return new Msg(
+      MsgType.ERROR,
+      MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_CLM, {
+        val: pivotSqu.hintValOrVal,
+        pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
+        compareSqu: SudokuUtil.cnvSquToText(compareSqu)
+      })
+    );
   }
 }

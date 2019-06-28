@@ -11,8 +11,7 @@ class Msg():
 
     Attributes:
         msg_type (MsgType): メッセージ種類
-        msg_code (MsgCode): メッセージコード
-        msg_args (Dict[str, any]): メッセージ引数
+        msg (str): メッセージ
 
     Notes:
         メッセージ文字列の変換はクライアント側に全て寄せている。
@@ -25,11 +24,8 @@ class Msg():
     # メッセージ種類
     msg_type: MsgType
 
-    # メッセージコード
-    msg_code: MsgCode
-
-    # メッセージ引数
-    msg_args: Dict[str, any]
+    # メッセージ
+    msg: str
 
     def clone(self):
         """クローン
@@ -37,8 +33,7 @@ class Msg():
         Returns:
             Msg: クローンしたメッセージ
         """
-        clone: Msg = Msg(
-            self.msg_type, self.msg_code, self.msg_args)
+        clone: Msg = Msg(self.msg_type, self.msg)
         return clone
 
     def cnv_to_json(self) -> Dict[str, any]:
@@ -49,8 +44,7 @@ class Msg():
         """
         msg_dict: Dict = dict()
         msg_dict['msgType'] = self.msg_type.name
-        msg_dict['msgCode'] = self.msg_code.name
-        msg_dict['msgArgs'] = self.msg_args
+        msg_dict['msg'] = self.msg
         return msg_dict
 
     def __str__(self) -> str:
@@ -73,10 +67,6 @@ class Msg():
         """文字列表現
 
         Returns:
-            str: msg_type/msg_code {'key': val, 'key2': val2...}
+            str: msg_type msg
         """
-        text: str = "{}/{} {}".format(
-            self.msg_type.name,
-            self.msg_code.name,
-            self.msg_args)
-        return text
+        return "{} {}".format(self.msg_type.name, self.msg)

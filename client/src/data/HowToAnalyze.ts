@@ -54,10 +54,7 @@ export default class HowToAnalyze {
       method: string;
       msg: {
         msgType: string;
-        msgCode: string;
-        msgArgs: {
-          [key: string]: any;
-        };
+        msg: string;
       };
       region: string | null;
       commitVal: number | null;
@@ -71,10 +68,7 @@ export default class HowToAnalyze {
       Msg.cnvFromJson(json.msg)
     );
     if (json.region) {
-      changeHistory.region = SudokuUtil.cnvMapToEnum(
-        Region,
-        json.region
-      );
+      changeHistory.region = SudokuUtil.cnvMapToEnum(Region, json.region);
     }
     if (json.commitVal) {
       changeHistory.commitVal = json.commitVal;
@@ -85,15 +79,11 @@ export default class HowToAnalyze {
     if (json.changedSqu) {
       const row: number = json.changedSqu[0];
       const clm: number = json.changedSqu[1];
-      const changedSqu:
-        | Square
-        | undefined = allSquList.find(loopSqu => {
+      const changedSqu: Square | undefined = allSquList.find(loopSqu => {
         return loopSqu.row == row && loopSqu.clm == clm;
       });
       if (!changedSqu) {
-        throw new TypeError(
-          `changedSqu not found row=${row} clm=${clm}`
-        );
+        throw new TypeError(`changedSqu not found row=${row} clm=${clm}`);
       }
       changeHistory.changeSqu = changedSqu;
     }
@@ -101,15 +91,11 @@ export default class HowToAnalyze {
       json.triggerSquList.forEach(tiriggerSquJson => {
         const row: number = tiriggerSquJson[0];
         const clm: number = tiriggerSquJson[1];
-        const triggerSqu:
-          | Square
-          | undefined = allSquList.find(loopSqu => {
+        const triggerSqu: Square | undefined = allSquList.find(loopSqu => {
           return loopSqu.row == row && loopSqu.clm == clm;
         });
         if (!triggerSqu) {
-          throw new TypeError(
-            `triggerSqu not found row=${row} clm=${clm}`
-          );
+          throw new TypeError(`triggerSqu not found row=${row} clm=${clm}`);
         }
         if (!changeHistory.triggerSquList) {
           changeHistory.triggerSquList = [];
