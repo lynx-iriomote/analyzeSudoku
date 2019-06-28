@@ -11,18 +11,6 @@ class SudokuUtil(object):
     """
 
     @classmethod
-    def create_squ_text_for_msg(cls, squ: Square) -> str:
-        """メッセージ用枡文字列の生成
-
-        Args:
-            squ (Square): 枡
-
-        Returns:
-            str: メッセージ用枡文字列
-        """
-        return "行{row}列{clm}".format(row=squ.row, clm=squ.clm)
-
-    @classmethod
     def cnv_squ_to_text(cls, squ: Square) -> str:
         """枡をメッセージ用枡文字列に変換
 
