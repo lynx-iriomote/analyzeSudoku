@@ -1,8 +1,9 @@
 import json
-from typing import Dict, List
+from typing import Dict, List, Set, Tuple
 
 from django.core.cache import cache
 
+from sudoku.settings import BASE_DIR
 from sudokuapp.const.Method import Method
 from sudokuapp.const.MsgCode import MsgCode
 from sudokuapp.const.MsgType import MsgType
@@ -46,7 +47,7 @@ class MsgFactory():
             Dict[str, str]: メッセージ辞書
         """
         with open(
-                "./sudokuapp/resources/msg.json",
+                BASE_DIR + "/sudokuapp/resources/msg.json",
                 mode="r",
                 encoding="utf-8"
         ) as f:
@@ -365,5 +366,51 @@ class MsgFactory():
                 region=SudokuUtil.cnv_region_to_text(how_anlz.region),
                 memosText=SudokuUtil.cnv_memo_list_to_text(memo_list),
                 removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )
+
+    @classmethod
+    def how_to_x_wing(
+        cls,
+        how_anlz: HowToAnalyze,
+        region_pair: Tuple[int, int]
+    ) -> Msg:
+        """X-Wing法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+            region_pair (Tuple[int, int]): 方向位置
+
+        Returns:
+            Msg: メッセージ
+        """
+
+        # regionPos1、regionPos2を算出
+        pos_set: Set[int] = set()
+        for squ in how_anlz.trigger_squ_list:
+            if how_anlz.region == Region.ROW:
+                pos_set.add(squ.row)
+            else:
+                pos_set.add(squ.clm)
+
+        pos_list: List[int] = list(pos_set)
+        pos_list.sort()
+
+        return Msg(
+            MsgType.INFO,
+            cls._get_msg(MsgCode.HOW_TO_X_WING).format(
+                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                removeMemo=how_anlz.remove_memo_list[0],
+                regionPos1=pos_list[0],
+                regionPos2=pos_list[1],
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
+                triggerSqu1=SudokuUtil.cnv_squ_to_text(
+                    how_anlz.trigger_squ_list[0]),
+                triggerSqu2=SudokuUtil.cnv_squ_to_text(
+                    how_anlz.trigger_squ_list[1]),
+                triggerSqu3=SudokuUtil.cnv_squ_to_text(
+                    how_anlz.trigger_squ_list[2]),
+                triggerSqu4=SudokuUtil.cnv_squ_to_text(
+                    how_anlz.trigger_squ_list[3])
             )
         )
