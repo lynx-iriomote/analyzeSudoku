@@ -25,3 +25,6 @@ class Method(Enum):
 
     # N国同盟法
     ALLIES = auto()
+
+    # X-Wing法
+    X_WING = auto()
