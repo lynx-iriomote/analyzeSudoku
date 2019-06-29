@@ -65,6 +65,9 @@ class SudokuUtil(object):
         elif method == Method.STEALTH_LASER:
             return "ステルスレーザ発射法"
 
+        elif method == Method.X_WING:
+            return "X-Wing法"
+
         elif method == Method.ALLIES:
             return "N国同盟法"
 
@@ -135,6 +138,25 @@ class SudokuUtil(object):
         return list(filter(
             lambda squ: squ.get_hint_val_or_val() is None,
             squ_list))
+
+    @classmethod
+    def find_squ_include_memo_from_region(
+        cls,
+        squ_list: List[Square],
+        memo: int
+    ) -> List[Square]:
+        """ある領域の枡から指定されたメモを含む枡を検索
+
+        Args:
+            squ_list (List[Square]): ある領域の枡
+
+        Returns:
+            List[Square]: メモを含む枡
+        """
+        return list(filter(
+            lambda squ: squ.get_hint_val_or_val() is None and memo in squ.memo_val_list,
+            squ_list))
+        pass
 
     @classmethod
     def cnv_memo_list_to_text(
