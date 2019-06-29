@@ -21,7 +21,10 @@ enum Method {
   STEALTH_LASER = "STEALTH_LASER",
 
   /** N国同盟法 */
-  ALLIES = "ALLIES"
+  ALLIES = "ALLIES",
+
+  /** X-Wing法 */
+  X_WING = "X_WING"
 }
 
 export default Method;
