@@ -12,6 +12,7 @@
   "HOW_TO_ELIMIONATION_ONLY_MEMO": "【{changedSqu}】【消去法】同一{region}内で{commitVal}が{changedSqu}にしか入らないため、値を{commitVal}で確定しました。",
   "HOW_TO_ELIMIONATION_ONE_MEMO": "【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。",
   "HOW_TO_STEALTH_LASER": "【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。",
+  "HOW_TO_NAKED_PAIR": "【{changedSqu}】【ネイキッドペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。",
   "HOW_TO_ALLIES": "【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。",
   "HOW_TO_X_WING": "【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。"
 }

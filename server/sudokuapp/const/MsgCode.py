@@ -59,6 +59,10 @@ class MsgCode(Enum):
     # 【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_STEALTH_LASER = auto()
 
+    # ネイキッドペア法
+    # 【{changedSqu}】【ネイキッドペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。
+    HOW_TO_NAKED_PAIR = auto()
+
     # N国同盟法
     # 【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_ALLIES = auto()
