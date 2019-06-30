@@ -23,6 +23,9 @@ class Method(Enum):
     # ステルスレーザ発射法
     STEALTH_LASER = auto()
 
+    # ネイキッドペア法
+    NAKED_PAIR = auto()
+
     # N国同盟法
     ALLIES = auto()
 

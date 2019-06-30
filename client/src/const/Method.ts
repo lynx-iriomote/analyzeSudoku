@@ -20,6 +20,9 @@ enum Method {
   /** ステルスレーザ発射法 */
   STEALTH_LASER = "STEALTH_LASER",
 
+  /** ネイキッドペア法 */
+  NAKED_PAIR = "NAKED_PAIR",
+
   /** N国同盟法 */
   ALLIES = "ALLIES",
 
