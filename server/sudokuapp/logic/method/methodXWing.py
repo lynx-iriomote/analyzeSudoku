@@ -101,7 +101,6 @@ def _find_x_wing(
         region_dict = wk.clm_dict
 
     for loop_memo in range(1, 10):
-        print("loop_memo={} region={}".format(loop_memo, region))
         # X-Wingの対象
         # メモが2個の行(列)を抽出
         two_memo_list: List[List[Square]] = list()
