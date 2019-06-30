@@ -342,6 +342,34 @@ class MsgFactory():
         )
 
     @classmethod
+    def how_to_naked_pair(
+        cls,
+        how_anlz: HowToAnalyze,
+        pair_list: List[int]
+    ) -> Msg:
+        """ネイキッドペア法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+            pair_list (List[int]): ペアリスト
+
+        Returns:
+            Msg: メッセージ
+        """
+
+        return Msg(
+            MsgType.INFO,
+            cls._get_msg(MsgCode.HOW_TO_NAKED_PAIR).format(
+                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
+                triggerSquList=SudokuUtil.cnv_squ_list_to_text(
+                    how_anlz.trigger_squ_list),
+                pairList=SudokuUtil.cnv_memo_list_to_text(pair_list),
+                removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )
+
+    @classmethod
     def how_to_allies(
         cls,
         how_anlz: HowToAnalyze,
