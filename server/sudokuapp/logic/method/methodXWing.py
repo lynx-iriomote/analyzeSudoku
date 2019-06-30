@@ -182,8 +182,6 @@ def _find_x_wing(
         else:
             target_dict = wk.row_dict
 
-        print("loop_memo={} #######################".format(loop_memo))
-
         # 除去するメモを抽出
         for region_pair, region_list in region_grouping_dict.items():
 
