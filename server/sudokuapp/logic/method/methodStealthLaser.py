@@ -61,7 +61,6 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
             target_region: Region = _target_region(squ_list)
             if target_region is None:
                 continue
-            pass
 
             # 変更対象枡を抽出
             change_squ_list: List[Square] = _find_change_squ(
