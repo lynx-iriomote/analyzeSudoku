@@ -23,6 +23,21 @@ class SudokuUtil(object):
         return "行{row}列{clm}".format(row=squ.row, clm=squ.clm)
 
     @classmethod
+    def cnv_squ_list_to_text(cls, squ_list: List[Square]) -> str:
+        """枡リストをメッセージ用枡文字列に変換
+
+        Args:
+            squ_list (List[Square]): 枡リスト
+
+        Returns:
+            str: メッセージ用枡リスト文字列
+        """
+        squ_text_list: List[str] = list()
+        for squ in squ_list:
+            squ_text_list.append(cls.cnv_squ_to_text(squ))
+        return "、".join(squ_text_list)
+
+    @classmethod
     def cnv_region_to_text(cls, region: Region) -> str:
         """領域をメッセージ用領域文字列に変換
 
@@ -70,6 +85,9 @@ class SudokuUtil(object):
 
         elif method == Method.ALLIES:
             return "N国同盟法"
+
+        elif method == Method.NAKED_PAIR:
+            return "ネイキッドペア法"
 
         raise ValueError("not support method {}".format(method))
 
