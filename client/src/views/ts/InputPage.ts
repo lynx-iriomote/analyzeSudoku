@@ -1,16 +1,15 @@
 import BtnAreaCmp from "@/components/BtnAreaCmp.vue";
+import ConnectingModalCmp from "@/components/ConnectingModalCmp.vue";
 import FlameCmp from "@/components/FlameCmp.vue";
 import InputPageManualAreaCmp from "@/components/InputPageManualAreaCmp.vue";
 import MsgAreaCmp from "@/components/MsgAreaCmp.vue";
 import SaveModalCmp from "@/components/SaveModalCmp.vue";
-import KeyboardKey from "@/const/KeybordKey";
 import EditMode from "@/const/EditMode";
+import KeyboardKey from "@/const/KeybordKey";
 import Flame from "@/data/Flame";
-import Square from "@/data/Square";
 import { sudokuModule } from "@/store/modules/SudokuModule";
-import { Component, Vue } from "vue-property-decorator";
-import $ from "jquery";
 import BasePage from "@/views/ts/BasePage";
+import { Component } from "vue-property-decorator";
 
 /**
  * 数独ページ
@@ -21,7 +20,8 @@ import BasePage from "@/views/ts/BasePage";
     InputPageManualAreaCmp,
     BtnAreaCmp,
     SaveModalCmp,
-    MsgAreaCmp
+    MsgAreaCmp,
+    ConnectingModalCmp
   }
 })
 export default class InputPage extends BasePage {
@@ -53,6 +53,13 @@ export default class InputPage extends BasePage {
    */
   get isMsgArea(): boolean {
     return sudokuModule.msgList.length > 0;
+  }
+
+  /**
+   * 通信中モーダル表示・非表示
+   */
+  get isConnecting(): boolean {
+    return sudokuModule.connecFlg;
   }
 
   /**

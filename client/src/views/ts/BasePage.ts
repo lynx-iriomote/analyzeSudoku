@@ -1,9 +1,9 @@
-import { Component, Vue } from "vue-property-decorator";
-import Square from "@/data/Square";
-import { sudokuModule } from "@/store/modules/SudokuModule";
 import KeyboardKey from "@/const/KeybordKey";
 import Flame from "@/data/Flame";
+import Square from "@/data/Square";
+import { sudokuModule } from "@/store/modules/SudokuModule";
 import $ from "jquery";
+import { Component, Vue } from "vue-property-decorator";
 
 /**
  * ページの規程クラス
@@ -55,6 +55,11 @@ export default class BasePage extends Vue {
    * @param keyEv キーボードイベント
    */
   private onKey(keyEv: JQuery.KeyboardEventBase) {
+    // 通信中はキーイベントスキップ
+    if (sudokuModule.connecFlg) {
+      return;
+    }
+    // 固有のスキップ判定
     if (this.isKeyEventSkip) {
       return;
     }
