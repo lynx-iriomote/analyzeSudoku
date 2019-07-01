@@ -1,6 +1,6 @@
 import EditMode from "@/const/EditMode";
-import Flame from "@/data/Flame";
 import AnalyzeHistory from "@/data/AnalyzeHistroy";
+import Flame from "@/data/Flame";
 import HowToAnalyze from "@/data/HowToAnalyze";
 import Msg from "@/data/Msg";
 import Square from "@/data/Square";
@@ -56,6 +56,9 @@ export interface ISudokuState {
    * もともとはSudokuHowToAnalyzeそのものを定義していたが、解析方法関連でwatchする必要があったためindexに変更した。
    */
   hilightHowToIdx: number | null;
+
+  /** 通信中かどうか */
+  connecFlg: boolean;
 }
 
 /**
@@ -101,6 +104,9 @@ class SudokuModule extends VuexModule implements ISudokuState {
 
   /** ハイライトする解析方法IDX */
   hilightHowToIdx: number | null = null;
+
+  /** 通信中かどうか */
+  connecFlg: boolean = false;
 
   /**
    * メッセージ追加
@@ -233,6 +239,15 @@ class SudokuModule extends VuexModule implements ISudokuState {
   @Mutation
   private setHistoryIdx(historyIdx: number): void {
     this.historyIdx = historyIdx;
+  }
+
+  /**
+   * 通信中フラグの設定
+   * @param connecFlg 通信中フラグ
+   */
+  @Mutation
+  private setConnecFlg(connecFlg: boolean): void {
+    this.connecFlg = connecFlg;
   }
 
   /**
@@ -538,8 +553,11 @@ class SudokuModule extends VuexModule implements ISudokuState {
    */
   @Action
   analyzeSudoku(): void {
+    // 解析開始メッセージ
     this.addMsg(MsgFactory.createMsgAnalyzeStart());
-    // TODO: ローディングをかけたい
+    // ローディング開始
+    this.setConnecFlg(true);
+
     axios
       .post("/sudoku/api/analyze", {
         flame: this.flameForInput
@@ -604,7 +622,10 @@ class SudokuModule extends VuexModule implements ISudokuState {
         }
       })
       .finally(() => {
+        // 解析終了メッセージ
         this.addMsg(MsgFactory.createMsgAnalyzeEnd());
+        // ローディング終了
+        this.setConnecFlg(false);
       });
   }
 
@@ -657,7 +678,9 @@ class SudokuModule extends VuexModule implements ISudokuState {
     this.setHilightHowToIdx(nextHowToIdx);
 
     // 解析方法ハイライト時は関連する数値を同時に強調させる
-    const nextHowTo: HowToAnalyze = this.historyList[this.historyIdx].howToAnalyzeList[nextHowToIdx];
+    const nextHowTo: HowToAnalyze = this.historyList[this.historyIdx].howToAnalyzeList[
+      nextHowToIdx
+    ];
     let selectNum = nextHowTo.commitVal;
     // [補足]
     // 下記コードでlengthチェックしていないが、当メソッドが呼ばれる際は
@@ -689,7 +712,9 @@ class SudokuModule extends VuexModule implements ISudokuState {
     this.setHilightHowToIdx(backHowToIdx);
 
     // 解析方法ハイライト時は関連する数値を同時に強調させる
-    const backHowTo: HowToAnalyze = this.historyList[this.historyIdx].howToAnalyzeList[backHowToIdx];
+    const backHowTo: HowToAnalyze = this.historyList[this.historyIdx].howToAnalyzeList[
+      backHowToIdx
+    ];
     let selectNum = backHowTo.commitVal;
     // [補足]
     // 下記コードでlengthチェックしていないが、当メソッドが呼ばれる際は

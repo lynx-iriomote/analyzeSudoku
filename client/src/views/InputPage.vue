@@ -5,6 +5,7 @@
     <BtnAreaCmp />
     <SaveModalCmp v-if="isSaveModal" />
     <MsgAreaCmp v-show="isMsgArea" />
+    <ConnectingModalCmp v-if="isConnecting" />
   </div>
 </template>
 
