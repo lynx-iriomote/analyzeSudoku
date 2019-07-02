@@ -1,6 +1,8 @@
 import Square from "@/data/Square";
 import Flame from "@/data/Flame";
 import Region from "@/const/Region";
+import AnalyzeOption from "@/data/AnalyzeOption";
+import Method from "@/const/Method";
 
 /**
  * 数独UTIL
@@ -140,7 +142,10 @@ export default class SudokuUtil {
    * @param value 定数名
    * @returns ENUM
    */
-  private static _cnvMapToEnum<T extends Object>(enumObject: T, value: any): T[keyof T] | undefined {
+  private static _cnvMapToEnum<T extends Object>(
+    enumObject: T,
+    value: any
+  ): T[keyof T] | undefined {
     if (typeof enumObject === "object") {
       for (const key in enumObject) {
         if (enumObject.hasOwnProperty(key) && enumObject[key] === value) {
@@ -180,5 +185,17 @@ export default class SudokuUtil {
    */
   static cnvSquToText(squ: Square): string {
     return `行${squ.row}列${squ.clm}`;
+  }
+
+  /**
+   * テキストの置換
+   * @param text 置換対象テキスト
+   * @param key 置換対象文字列({key})
+   * @param val 置換文字列
+   */
+  static replaceText(text: string, key: string, val: any): string {
+    const regexp = new RegExp(`{${key}}`, "g");
+    text = text.replace(regexp, val);
+    return text;
   }
 }

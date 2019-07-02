@@ -21,8 +21,7 @@ export default class MsgFactory {
       return msg;
     }
     for (let [key, val] of Object.entries(msgArgs)) {
-      const regexp = new RegExp(`{${key}}`, "g");
-      msg = msg.replace(regexp, val);
+      msg = SudokuUtil.replaceText(msg, key, val);
     }
     return msg;
   }
