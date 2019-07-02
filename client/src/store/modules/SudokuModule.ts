@@ -44,6 +44,9 @@ export interface ISudokuState {
   /** 記録モーダル表示・非表示 */
   saveModalWindow: boolean;
 
+  /** 解析オプションモーダル表示・非表示 */
+  analyzeOptionModalShow: boolean;
+
   /** 解析履歴 */
   historyList: AnalyzeHistory[];
 
@@ -95,6 +98,9 @@ class SudokuModule extends VuexModule implements ISudokuState {
 
   /** 記録モーダル表示・非表示 */
   saveModalWindow: boolean = false;
+
+  /** 解析オプションモーダル表示・非表示 */
+  analyzeOptionModalShow: boolean = false;
 
   /** 解析履歴 */
   historyList: AnalyzeHistory[] = [];
@@ -194,6 +200,15 @@ class SudokuModule extends VuexModule implements ISudokuState {
   @Mutation
   private setSaveModalWindow(saveModalWindow: boolean): void {
     this.saveModalWindow = saveModalWindow;
+  }
+
+  /**
+   * 解析オプションモーダル表示・非表示の設定
+   * @param analyzeOptionModalShow 解析オプションモーダル表示・非表示
+   */
+  @Mutation
+  private setAnalyzeOptionModalShow(analyzeOptionModalShow: boolean) {
+    this.analyzeOptionModalShow = analyzeOptionModalShow;
   }
 
   /**
@@ -400,6 +415,22 @@ class SudokuModule extends VuexModule implements ISudokuState {
   @Action({})
   hideSaveModalWindow(): void {
     this.setSaveModalWindow(false);
+  }
+
+  /**
+   * 解析オプションモーダル表示
+   */
+  @Action({})
+  showAnalyzeOptionModal(): void {
+    this.setAnalyzeOptionModalShow(true);
+  }
+
+  /**
+   * 解析オプションモーダル非表示
+   */
+  @Action({})
+  hideAnalyzeOptionModal(): void {
+    this.setAnalyzeOptionModalShow(false);
   }
 
   /**

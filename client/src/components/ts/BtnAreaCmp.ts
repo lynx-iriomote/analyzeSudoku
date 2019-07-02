@@ -6,6 +6,7 @@ import SaveModalBtnCmp from "@/components/parts/SaveModalBtnCmp.vue";
 import EditMode from "@/const/EditMode";
 import { sudokuModule } from "@/store/modules/SudokuModule";
 import { Component, Vue } from "vue-property-decorator";
+import AnalyzeOptionBtnCmp from "@/components/parts/AnalyzeOptionBtnCmp.vue";
 
 /**
  * ボタンエリアコンポーネント
@@ -16,6 +17,7 @@ import { Component, Vue } from "vue-property-decorator";
     CtrlBtnCmp,
     AnalyzeBtnCmp,
     SaveModalBtnCmp,
+    AnalyzeOptionBtnCmp,
     GoAnalyzeHistroyBtnCmp
   }
 })
@@ -53,18 +55,7 @@ export default class BtnAreaCmp extends Vue {
    */
   get svgHeight(): number {
     // 数字ボタン、クリアボタンはデフォルトで表示するので+50
-    return 50 + this.paragraph * 50;
-  }
-
-  /**
-   * 段落数
-   */
-  private get paragraph(): number {
-    let paragraph = 1;
-    if (this.isShowGoAnalyzeHistoryBtn) {
-      paragraph += 1;
-    }
-    return paragraph;
+    return 50 + 100;
   }
 
   /**
