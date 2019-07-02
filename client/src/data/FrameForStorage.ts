@@ -1,7 +1,7 @@
 import Flame from "@/data/Flame";
 
 /**
- * ストレージ保存用
+ * ストレージ保存用の枠
  */
 export default class FlameForStorage {
   /** ID */

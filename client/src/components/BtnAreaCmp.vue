@@ -26,11 +26,14 @@
       <!-- メモモード -->
       <CtrlBtnCmp :editMode="editModeMemo" :startX="180" :startY="50" />
 
+      <!-- 解析オプション -->
+      <AnalyzeOptionBtnCmp :startX="270" :startY="50" />
+
       <!-- 解く -->
-      <AnalyzeBtnCmp :startX="270" :startY="50" />
+      <AnalyzeBtnCmp :startX="360" :startY="50" />
 
       <!-- 記録 -->
-      <SaveModalBtnCmp :startX="360" :startY="50" />
+      <SaveModalBtnCmp :startX="0" :startY="100" />
 
       <!-- 解析履歴表示 -->
       <GoAnalyzeHistroyBtnCmp

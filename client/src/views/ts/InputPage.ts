@@ -3,6 +3,7 @@ import ConnectingModalCmp from "@/components/ConnectingModalCmp.vue";
 import FlameCmp from "@/components/FlameCmp.vue";
 import InputPageManualAreaCmp from "@/components/InputPageManualAreaCmp.vue";
 import MsgAreaCmp from "@/components/MsgAreaCmp.vue";
+import AnalyzeOptionModalCmp from "@/components/AnalyzeOptionModalCmp.vue";
 import SaveModalCmp from "@/components/SaveModalCmp.vue";
 import EditMode from "@/const/EditMode";
 import KeyboardKey from "@/const/KeybordKey";
@@ -20,6 +21,7 @@ import { Component } from "vue-property-decorator";
     InputPageManualAreaCmp,
     BtnAreaCmp,
     SaveModalCmp,
+    AnalyzeOptionModalCmp,
     MsgAreaCmp,
     ConnectingModalCmp
   }
@@ -49,6 +51,13 @@ export default class InputPage extends BasePage {
   }
 
   /**
+   * 解析オプションモーダル表示・非表示
+   */
+  get isAnalyzeOptionModal(): boolean {
+    return sudokuModule.analyzeOptionModalShow;
+  }
+
+  /**
    * メッセージエリア表示・非表示
    */
   get isMsgArea(): boolean {
@@ -69,7 +78,7 @@ export default class InputPage extends BasePage {
    */
   protected get isKeyEventSkip(): boolean {
     // モーダル起動時はキーイベントに触らない
-    if (sudokuModule.saveModalWindow) {
+    if (sudokuModule.saveModalWindow || sudokuModule.analyzeOptionModalShow) {
       return true;
     }
     return false;

@@ -4,6 +4,7 @@
     <FlameCmp :flame="flame" />
     <BtnAreaCmp />
     <SaveModalCmp v-if="isSaveModal" />
+    <AnalyzeOptionModalCmp v-if="isAnalyzeOptionModal" />
     <MsgAreaCmp v-show="isMsgArea" />
     <ConnectingModalCmp v-if="isConnecting" />
   </div>
