@@ -42,4 +42,15 @@ export default class AnalyzeOption {
     this.check = check;
     this.disabled = disabled;
   }
+
+  /**
+   * JSON.stringify時にhookする
+   * @returns JSON
+   */
+  toJSON(): any {
+    return {
+      id: this.id,
+      check: this.check
+    };
+  }
 }
