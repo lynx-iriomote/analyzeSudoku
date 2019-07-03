@@ -103,9 +103,11 @@ def _analyze_naked_pair(
         return
 
     # ペア数(2～8)を大きくしながら解析
-    # TODO: ペア数が大きすぎると人が解くのは非常に難しくなる。現実的には4つくらいだと思われ。
-    #       解析オプションでペア数の数字を調整出来るようにしたい(2～4、5~8)
-    for naked_num in range(2, 9):
+    # ※制限時は2~3
+    find_pair_cnt: int = 8
+    if wk.naked_pair_limit:
+        find_pair_cnt = 3
+    for naked_num in range(2, find_pair_cnt + 1):
 
         # 未確定枡数-1よりネイキッド数の方が大きくなったら処理終了
         # [補足]
