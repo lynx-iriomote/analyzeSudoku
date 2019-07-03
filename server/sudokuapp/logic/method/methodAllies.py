@@ -66,9 +66,12 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
         bool: エラーの場合にFalse
     """
 
-    # 最大同盟国数
-    MAX_ALLIES: int = 7
-    for allies in range(2, MAX_ALLIES + 1):
+    # 最大同盟国数(2～7)を大きくしながら解析
+    # ※制限時は2~3
+    find_allies_cnt: int = 7
+    if wk.allies_limit:
+        find_allies_cnt = 3
+    for allies in range(2, find_allies_cnt + 1):
         # エリアを対象にN国同盟
         for area in wk.flame.area_list:
             _find_allies(how_anlz_list, allies, Region.AREA, area.squ_list)
