@@ -36,7 +36,7 @@ class Flame():
         """
         flame_dict: Dict[str, any] = dict()
         area_dict_list: List = list()
-        flame_dict['areaList'] = area_dict_list
+        flame_dict["areaList"] = area_dict_list
         for area in self.area_list:
             area_dict_list.append(area.cnv_json_dict())
 

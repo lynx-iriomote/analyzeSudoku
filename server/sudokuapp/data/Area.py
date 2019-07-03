@@ -51,9 +51,9 @@ class Area():
             Dict[str, any]: JSON用DICTに変換
         """
         area_dict: Dict[str, any] = dict()
-        area_dict['areaId'] = self.area_id
+        area_dict["areaId"] = self.area_id
         squ_dict_list: List = list()
-        area_dict['squList'] = squ_dict_list
+        area_dict["squList"] = squ_dict_list
         for squ in self.squ_list:
             squ_dict_list.append(squ.cnv_json_dict())
 

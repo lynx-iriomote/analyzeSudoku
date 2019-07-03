@@ -20,7 +20,7 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
     Returns:
         AnalyzeWk: 解析WK
     """
-    analyze_option_list_dict = json['analyzeOption']
+    analyze_option_list_dict = json["analyzeOption"]
 
     # 値を無視して解析
     ignore_val: bool = False
@@ -86,27 +86,27 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
     #######################
     # 枠を変換
     #######################
-    flame_dict: Dict = json['flame']
+    flame_dict: Dict = json["flame"]
     flame: Flame = Flame()
 
-    area_dict_list: List = flame_dict['areaList']
+    area_dict_list: List = flame_dict["areaList"]
     for area_dict in area_dict_list:
-        area_id: int = area_dict['areaId']
+        area_id: int = area_dict["areaId"]
         area: Area = Area(area_id)
         flame.area_list.append(area)
-        squ_dict_list = area_dict['squList']
+        squ_dict_list = area_dict["squList"]
         for squ_dict in squ_dict_list:
-            squ_id: int = squ_dict['squId']
+            squ_id: int = squ_dict["squId"]
             squ: Square = Square(area_id, squ_id)
             # ヒント
-            if 'hintVal' in squ_dict:
-                squ.hint_val = squ_dict['hintVal']
+            if "hintVal" in squ_dict:
+                squ.hint_val = squ_dict["hintVal"]
             # 値（オプションによっては無視する）
-            elif 'val' in squ_dict and not ignore_val:
-                squ.val = squ_dict['val']
+            elif "val" in squ_dict and not ignore_val:
+                squ.val = squ_dict["val"]
             # メモ（オプションによっては無視する）
-            elif 'memoValList' in squ_dict and not ignore_memo:
-                memo_val_list: List[int] = squ_dict['memoValList']
+            elif "memoValList" in squ_dict and not ignore_memo:
+                memo_val_list: List[int] = squ_dict["memoValList"]
                 if len(memo_val_list) > 0:
                     squ.memo_val_list.extend(memo_val_list)
             area.squ_list.append(squ)
@@ -144,8 +144,8 @@ def creata_json_response(
                 how_anlz_json_list.append(how_anlz.cnv_to_json())
 
         history_json: Dict[str, any] = dict()
-        history_json['flame'] = histroy.flame.cnv_to_json()
-        history_json['howToAnalyzeList'] = how_anlz_json_list
+        history_json["flame"] = histroy.flame.cnv_to_json()
+        history_json["howToAnalyzeList"] = how_anlz_json_list
         history_json_list.append(history_json)
 
     msg_json_list: List[Dict] = list()

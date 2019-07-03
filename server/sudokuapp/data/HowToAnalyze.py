@@ -53,24 +53,24 @@ class HowToAnalyze():
             Dict: JSON用DICTに変換
         """
         change_dict: Dict = dict()
-        change_dict['method'] = self.method.name
-        change_dict['msg'] = self.msg.cnv_to_json()
+        change_dict["method"] = self.method.name
+        change_dict["msg"] = self.msg.cnv_to_json()
         if (self.region):
-            change_dict['region'] = self.region.name
+            change_dict["region"] = self.region.name
 
         if (self.commit_val):
-            change_dict['commitVal'] = self.commit_val
+            change_dict["commitVal"] = self.commit_val
 
         if (len(self.remove_memo_list) > 0):
-            change_dict['removeMemoList'] = self.remove_memo_list
+            change_dict["removeMemoList"] = self.remove_memo_list
 
         if (self.changed_squ):
-            change_dict['changedSqu'] = [
+            change_dict["changedSqu"] = [
                 self.changed_squ.row, self.changed_squ.clm]
 
         if (len(self.trigger_squ_list) > 0):
             trigger_squ_json_list = []
-            change_dict['triggerSquList'] = trigger_squ_json_list
+            change_dict["triggerSquList"] = trigger_squ_json_list
             for tirigger_squ in self.trigger_squ_list:
                 trigger_squ_json_list.append(
                     [tirigger_squ.row, tirigger_squ.clm])
