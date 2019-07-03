@@ -8,7 +8,7 @@ from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.util.MsgFactory import MsgFactory
 
 
-def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> None:
+def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     """消去法
 
     ある枡にメモが一つしかなければその枡の値が確定できる
@@ -16,6 +16,9 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> None:
     Args:
         wk (AnalyzeWk): ワーク
         how_anlz_list (List[HowToAnalyze]): 解析方法
+
+    Returns:
+        bool: エラーの場合にFalse
     """
 
     # メモ値がひとつしかない=そこの枡にはそれしか入らない
@@ -32,3 +35,5 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> None:
             how_anlz.msg = MsgFactory.how_to_elimionation_one_memo(how_anlz)
 
             how_anlz_list.append(how_anlz)
+
+    return True
