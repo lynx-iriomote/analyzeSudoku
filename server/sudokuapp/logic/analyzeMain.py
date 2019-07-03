@@ -73,6 +73,10 @@ def analyze(wk: AnalyzeWk) -> bool:
     # 解析メインループ
     while True:
 
+        # 未確定枡がなくなったら処理終了
+        if len(SudokuUtil.find_unfixed_squ_from_flame(wk.flame)) == 0:
+            return True
+
         how_anlz_list: List[HowToAnalyze] = list()
 
         # 解法リストループ
