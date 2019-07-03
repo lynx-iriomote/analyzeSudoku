@@ -77,7 +77,6 @@ def analyze(wk: AnalyzeWk) -> bool:
 
         # 解法リストループ
         for method, analyze_func in analyze_method_list:
-            print(method)
             # 解析
             if not analyze_func(wk, how_anlz_list):
                 wk.addHistryForErr(how_anlz_list)
