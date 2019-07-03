@@ -1,5 +1,6 @@
-from typing import List  # , Callable
+from typing import Callable, List, Tuple
 
+from sudokuapp.const.Method import Method
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.logic.method import (methodAllies, methodElimionationOneMemo,
@@ -30,102 +31,67 @@ def analyze(wk: AnalyzeWk) -> bool:
     # 解析前初期化
     initBeforeAnalyze(wk)
 
-    # analyze_method_list: List[
-    #     Callable[[AnalyzeWk, List[HowToAnalyze], bool]]
-    # ] = []
+    # 解法リスト
+    analyze_method_list: List[
+        Tuple[
+            Method,
+            Callable[[AnalyzeWk, List[HowToAnalyze], bool]]
+        ]
+    ] = []
+    # 消去法
+    analyze_method_list.append(
+        (Method.ELIMIONATION, methodElimionationRemoveMemo.analyze))
+    # 消去法one memo
+    analyze_method_list.append(
+        (Method.ELIMIONATION_ONE_MEMO, methodElimionationOneMemo.analyze))
+    # 消去法only memo
+    analyze_method_list.append(
+        (Method.ELIMIONATION_ONE_MEMO, methodElimionationOnlyMemo.analyze))
+    # ステルスレーザ発射法
+    analyze_method_list.append(
+        (Method.STEALTH_LASER, methodStealthLaser.analyze))
+    # ネイキッドペア法
+    analyze_method_list.append(
+        (Method.NAKED_PAIR, methodNakedPair.analyze))
+    # N国同盟
+    analyze_method_list.append(
+        (Method.ALLIES, methodAllies.analyze))
+    # X-Wing
+    analyze_method_list.append(
+        (Method.X_WING, methodXWing.analyze))
 
     # 解析メインループ
     while True:
+
         how_anlz_list: List[HowToAnalyze] = list()
-        # 消去法
-        methodElimionationRemoveMemo.analyze(
-            wk, how_anlz_list)
-        if len(how_anlz_list) != 0:
+
+        # 解法リストループ
+        for method, analyze_func in analyze_method_list:
+            print(method)
+            # 解析
+            if not analyze_func(wk, how_anlz_list):
+                wk.addHistryForErr(how_anlz_list)
+                return False
+            # 解析結果がない場合は次の解法で解析する
+            if len(how_anlz_list) == 0:
+                continue
+
             wk.addHistry(how_anlz_list)
             # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
+            how_anlz_list_err: List[HowToAnalyze] =\
+                simpleErrorCheck.errorCheck(wk)
             if len(how_anlz_list_err) > 0:
                 wk.addHistryForErr(how_anlz_list_err)
                 return False
-            continue
+            # 解法リストループからbreakし、
+            # 最初の解法(消去法)から解析し直す
+            break
 
-        # 消去法one memo
-        methodElimionationOneMemo.analyze(
-            wk, how_anlz_list)
+        # 解析結果がある場合は最初(消去法)から解析し直す
         if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
             continue
 
-        # 消去法only memo
-        if not methodElimionationOnlyMemo.analyze(wk, how_anlz_list):
-            wk.addHistryForErr(how_anlz_list)
-            return False
-        if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
-            continue
-
-        # ステルスレーザ発射法
-        if not methodStealthLaser.analyze(wk, how_anlz_list):
-            wk.addHistryForErr(how_anlz_list)
-            return False
-        if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
-            continue
-
-        # ネイキッド
-        if not methodNakedPair.analyze(wk, how_anlz_list):
-            wk.addHistryForErr(how_anlz_list)
-            return False
-        if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
-            continue
-
-        # N国同盟
-        if not methodAllies.analyze(wk, how_anlz_list):
-            wk.addHistryForErr(how_anlz_list)
-            return False
-        if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
-            continue
-
-        # X-Wing
-        if not methodXWing.analyze(wk, how_anlz_list):
-            wk.addHistryForErr(how_anlz_list)
-            return False
-        if len(how_anlz_list) != 0:
-            wk.addHistry(how_anlz_list)
-            # エラーチェック
-            how_anlz_list_err = simpleErrorCheck.errorCheck(wk)
-            if len(how_anlz_list_err) > 0:
-                wk.addHistryForErr(how_anlz_list_err)
-                return False
-            continue
-
+        # 解析結果なし
         break
 
     return True

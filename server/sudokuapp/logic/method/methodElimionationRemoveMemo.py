@@ -11,12 +11,15 @@ from sudokuapp.util.MsgFactory import MsgFactory
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
-def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> None:
+def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     """消去法
 
     Args:
         wk (AnalyzeWk): ワーク
         how_anlz_list (List[HowToAnalyze]): 解析方法
+
+    Returns:
+        bool: エラーの場合にFalse
     """
     #################
     # メモ値を潰す
@@ -32,6 +35,8 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> None:
     # 列
     for squ_list in wk.clm_dict.values():
         _removeMemo(how_anlz_list, Region.CLM, squ_list)
+
+    return True
 
 
 def _removeMemo(
