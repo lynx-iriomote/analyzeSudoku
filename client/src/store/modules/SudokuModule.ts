@@ -325,7 +325,7 @@ class SudokuModule extends VuexModule implements ISudokuState {
     // 選択された枡を更新
     this.setSelectSqu(squ);
     // 数字を選択状態に
-    this.setSelectNum(squ.hintValOrVal);
+    this.setSelectNum(squ.fixedVal);
   }
 
   get currentHiligthtHowTo(): HowToAnalyze | null {
@@ -452,7 +452,7 @@ class SudokuModule extends VuexModule implements ISudokuState {
     for (let wkNum: number = 1; wkNum <= 9; wkNum++) {
       // 同一値をもつ枡を取得
       const eqNumList = allSquList.filter(elm => {
-        return wkNum == elm.hintValOrVal;
+        return wkNum == elm.fixedVal;
       });
       eqNumList.forEach(pivotSqu => {
         eqNumList.forEach(compareSqu => {
@@ -510,7 +510,7 @@ class SudokuModule extends VuexModule implements ISudokuState {
   @Action
   updateSelectedSquVal(num: number | null): void {
     // 更新前の値の取得
-    const beforeVal: number | null = this.selectedSqu!.hintValOrVal;
+    const beforeVal: number | null = this.selectedSqu!.fixedVal;
     if (!this.selectSqu) {
       throw new TypeError("not found select square");
     }
@@ -565,7 +565,7 @@ class SudokuModule extends VuexModule implements ISudokuState {
       this.setSelectNum(num);
     }
 
-    const afterVal: number | null = this.selectedSqu!.hintValOrVal;
+    const afterVal: number | null = this.selectedSqu!.fixedVal;
     if (beforeVal != afterVal) {
       // 値が変わっていればエラーチェック
       this.errorCheckForInputFlame();

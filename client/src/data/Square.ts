@@ -125,7 +125,7 @@ export default class Square {
    * ヒントまたは値の取得
    * @returns ヒントまたは値
    */
-  get hintValOrVal(): number | null {
+  get fixedVal(): number | null {
     if (this.hintVal) {
       return this.hintVal;
     }
