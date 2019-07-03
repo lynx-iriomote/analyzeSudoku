@@ -45,7 +45,7 @@ def errorCheck(wk: AnalyzeWk, first_check: bool = False) -> List[HowToAnalyze]:
     for wk_num in range(1, 10):
         # 数字に一致する枡を取得
         eq_squ_list: List[Square] = list(filter(
-            lambda squ: squ.get_hint_val_or_val() == wk_num,
+            lambda squ: squ.get_fixed_val() == wk_num,
             wk.all_squ_list
         ))
 

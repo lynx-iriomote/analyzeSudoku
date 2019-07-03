@@ -114,6 +114,6 @@ def initBeforeAnalyze(wk: AnalyzeWk) -> None:
     """
     # ヒントまたは値がない枡にメモ値を設定
     for squ in SudokuUtil.find_unfixed_squ_from_flame(wk.flame):
-        if (squ.get_hint_val_or_val() is None):
+        if (squ.get_fixed_val() is None):
             if len(squ.memo_val_list) == 0:
                 squ.memo_val_list.extend([1, 2, 3, 4, 5, 6, 7, 8, 9])

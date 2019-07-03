@@ -114,7 +114,7 @@ def _onlyMemo(
     # 3: [枡A 枡B]
     # 4: [枡C]
     for squ in squ_list:
-        if (squ.get_hint_val_or_val() is not None):
+        if (squ.get_fixed_val() is not None):
             continue
         for memo in squ.memo_val_list:
             if memo not in wk_memo_dict:

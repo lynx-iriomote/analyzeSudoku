@@ -106,7 +106,7 @@ class MsgFactory():
         return Msg(
             MsgType.ERROR,
             cls._get_msg(MsgCode.DUP_AREA).format(
-                val=pivot_squ.get_hint_val_or_val(),
+                val=pivot_squ.get_fixed_val(),
                 pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
                 compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
             )
@@ -130,7 +130,7 @@ class MsgFactory():
         return Msg(
             MsgType.ERROR,
             cls._get_msg(MsgCode.DUP_ROW).format(
-                val=pivot_squ.get_hint_val_or_val(),
+                val=pivot_squ.get_fixed_val(),
                 pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
                 compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
             )
@@ -154,7 +154,7 @@ class MsgFactory():
         return Msg(
             MsgType.ERROR,
             cls._get_msg(MsgCode.DUP_CLM).format(
-                val=pivot_squ.get_hint_val_or_val(),
+                val=pivot_squ.get_fixed_val(),
                 pivotSqu=SudokuUtil.cnv_squ_to_text(pivot_squ),
                 compareSqu=SudokuUtil.cnv_squ_to_text(compare_squ)
             )

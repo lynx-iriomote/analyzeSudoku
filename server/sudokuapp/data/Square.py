@@ -54,8 +54,8 @@ class Square():
         # 列(1start)
         self.clm = ((self.squ_id - 1) % 3) + ((self.area_id - 1) % 3) * 3 + 1
 
-    def get_hint_val_or_val(self) -> int:
-        """ヒントまたは値の取得
+    def get_fixed_val(self) -> int:
+        """確定値(ヒントまたは値)の取得
 
         Returns:
             int: ヒントまたは値

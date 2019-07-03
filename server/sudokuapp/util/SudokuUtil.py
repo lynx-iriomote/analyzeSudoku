@@ -120,7 +120,7 @@ class SudokuUtil(object):
             List[Square]: 確定枡
         """
         return list(filter(
-            lambda squ: squ.get_hint_val_or_val() is not None,
+            lambda squ: squ.get_fixed_val() is not None,
             squ_list))
 
     @classmethod
@@ -154,7 +154,7 @@ class SudokuUtil(object):
             List[Square]: 未確定枡
         """
         return list(filter(
-            lambda squ: squ.get_hint_val_or_val() is None,
+            lambda squ: squ.get_fixed_val() is None,
             squ_list))
 
     @classmethod
@@ -172,7 +172,7 @@ class SudokuUtil(object):
             List[Square]: メモを含む枡
         """
         return list(filter(
-            lambda squ: squ.get_hint_val_or_val() is None and memo in squ.memo_val_list,
+            lambda squ: squ.get_fixed_val() is None and memo in squ.memo_val_list,
             squ_list))
         pass
 

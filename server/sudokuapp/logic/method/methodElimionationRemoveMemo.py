@@ -65,7 +65,7 @@ def _removeMemo(
     for none_squ in none_squ_list:
         for memo in none_squ.memo_val_list[:]:
             for not_none_squ in not_none_squ_list:
-                if memo == not_none_squ.get_hint_val_or_val():
+                if memo == not_none_squ.get_fixed_val():
                     none_squ.memo_val_list.remove(memo)
 
                     # 解析方法生成
