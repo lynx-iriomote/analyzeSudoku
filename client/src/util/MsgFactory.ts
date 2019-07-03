@@ -158,7 +158,7 @@ export default class MsgFactory {
     return new Msg(
       MsgType.ERROR,
       MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_AREA, {
-        val: pivotSqu.hintValOrVal,
+        val: pivotSqu.fixedVal,
         pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
         compareSqu: SudokuUtil.cnvSquToText(compareSqu)
       })
@@ -177,7 +177,7 @@ export default class MsgFactory {
     return new Msg(
       MsgType.ERROR,
       MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_ROW, {
-        val: pivotSqu.hintValOrVal,
+        val: pivotSqu.fixedVal,
         pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
         compareSqu: SudokuUtil.cnvSquToText(compareSqu)
       })
@@ -196,7 +196,7 @@ export default class MsgFactory {
     return new Msg(
       MsgType.ERROR,
       MsgFactory.createMsgTextByMsgCode(MsgCode.DUP_CLM, {
-        val: pivotSqu.hintValOrVal,
+        val: pivotSqu.fixedVal,
         pivotSqu: SudokuUtil.cnvSquToText(pivotSqu),
         compareSqu: SudokuUtil.cnvSquToText(compareSqu)
       })
