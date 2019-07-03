@@ -41,24 +41,34 @@ def analyze(wk: AnalyzeWk) -> bool:
     # 消去法
     analyze_method_list.append(
         (Method.ELIMIONATION, methodElimionationRemoveMemo.analyze))
+
     # 消去法one memo
     analyze_method_list.append(
         (Method.ELIMIONATION_ONE_MEMO, methodElimionationOneMemo.analyze))
+
     # 消去法only memo
     analyze_method_list.append(
         (Method.ELIMIONATION_ONE_MEMO, methodElimionationOnlyMemo.analyze))
+
     # ステルスレーザ発射法
-    analyze_method_list.append(
-        (Method.STEALTH_LASER, methodStealthLaser.analyze))
+    if Method.STEALTH_LASER in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.STEALTH_LASER, methodStealthLaser.analyze))
+
     # ネイキッドペア法
-    analyze_method_list.append(
-        (Method.NAKED_PAIR, methodNakedPair.analyze))
+    if Method.NAKED_PAIR in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.NAKED_PAIR, methodNakedPair.analyze))
+
     # N国同盟
-    analyze_method_list.append(
-        (Method.ALLIES, methodAllies.analyze))
+    if Method.ALLIES in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.ALLIES, methodAllies.analyze))
+
     # X-Wing
-    analyze_method_list.append(
-        (Method.X_WING, methodXWing.analyze))
+    if Method.X_WING in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.X_WING, methodXWing.analyze))
 
     # 解析メインループ
     while True:
