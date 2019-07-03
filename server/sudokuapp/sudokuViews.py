@@ -5,9 +5,8 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from sudokuapp.data.Flame import Flame
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
-from sudokuapp.logic import jsonConverter, analyzeMain
+from sudokuapp.logic import analyzeMain, jsonConverter
 
 
 def index(req: HttpRequest) -> Any:
@@ -35,9 +34,8 @@ def analyze(req: HttpRequest) -> JsonResponse:
 
     # パラメータ取得
     json_dict: Dict[str, any] = json.loads(req.body.decode('utf-8'))
-    flame: Flame = jsonConverter.cnv_json_to_flame(json_dict)
+    wk: AnalyzeWk = jsonConverter.cnv_json_to_analyze_wk(json_dict)
 
-    wk: AnalyzeWk = AnalyzeWk(flame)
     # 数独解析
     result: bool = analyzeMain.analyze(wk)
 
