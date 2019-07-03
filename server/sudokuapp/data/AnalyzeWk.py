@@ -28,6 +28,16 @@ class AnalyzeWk():
     # 枠
     flame: Flame
 
+    # 利用メソッド
+    use_method_list: List[Method] = dataclasses.field(
+        default_factory=list, init=False)
+
+    # ネイキッドペア法のペア数の制限
+    naked_pair_limit: bool = dataclasses.field(default=None, init=False)
+
+    # N国同盟の同盟数の制限
+    allies_limit: bool = dataclasses.field(default=None, init=False)
+
     # 解析履歴
     histroy_list: List[History] = dataclasses.field(
         default_factory=list, init=False)

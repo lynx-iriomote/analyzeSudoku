@@ -1,4 +1,4 @@
-from typing import List
+from typing import List  # , Callable
 
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
@@ -29,6 +29,10 @@ def analyze(wk: AnalyzeWk) -> bool:
 
     # 解析前初期化
     initBeforeAnalyze(wk)
+
+    # analyze_method_list: List[
+    #     Callable[[AnalyzeWk, List[HowToAnalyze], bool]]
+    # ] = []
 
     # 解析メインループ
     while True:
@@ -136,4 +140,5 @@ def initBeforeAnalyze(wk: AnalyzeWk) -> None:
     # ヒントまたは値がない枡にメモ値を設定
     for squ in SudokuUtil.find_unfixed_squ_from_flame(wk.flame):
         if (squ.get_hint_val_or_val() is None):
-            squ.memo_val_list.extend([1, 2, 3, 4, 5, 6, 7, 8, 9])
+            if len(squ.memo_val_list) == 0:
+                squ.memo_val_list.extend([1, 2, 3, 4, 5, 6, 7, 8, 9])
