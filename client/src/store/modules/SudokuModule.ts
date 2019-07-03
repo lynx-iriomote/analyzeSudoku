@@ -5,6 +5,7 @@ import HowToAnalyze from "@/data/HowToAnalyze";
 import Msg from "@/data/Msg";
 import Square from "@/data/Square";
 import store from "@/store/store";
+import AnalyzeOptionUtil from "@/util/AnalyzeOptionUtil";
 import MsgFactory from "@/util/MsgFactory";
 import SudokuUtil from "@/util/SudokuUtil";
 import axios from "axios";
@@ -591,7 +592,10 @@ class SudokuModule extends VuexModule implements ISudokuState {
 
     axios
       .post("/sudoku/api/analyze", {
-        flame: this.flameForInput
+        flame: this.flameForInput,
+        analyzeOption: AnalyzeOptionUtil.loadAnalyzeOption().filter(option => {
+          return option.check;
+        })
       })
       .then(
         function(
