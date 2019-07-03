@@ -10,8 +10,8 @@ class Command(BaseCommand):
 
     # ヘルプ
     help =\
-        'server/sudokuapp/management/commands/res/src_msg.json' +\
-        'を元にTypeScriptとPython用のメッセージ関連コードを生成'
+        "server/sudokuapp/management/commands/res/src_msg.json" +\
+        "を元にTypeScriptとPython用のメッセージ関連コードを生成"
 
     def handle(self, *args, **options):
         """コマンド実行時のエントリーポイント
@@ -71,28 +71,28 @@ def main():
             if detail["py"]:
                 # MsgCode.py
                 msg_code_py_list.append("")
-                msg_code_py_list.append("    # {}".format(detail['name']))
-                msg_code_py_list.append("    # {}".format(detail['msg']))
+                msg_code_py_list.append("    # {}".format(detail["name"]))
+                msg_code_py_list.append("    # {}".format(detail["msg"]))
                 msg_code_py_list.append("    {} = auto()".format(code))
 
                 # msg.json(py)
                 msg_json_py_list.append(
-                    "  \"{}\": \"{}\",".format(code, detail['msg']))
+                    "  \"{}\": \"{}\",".format(code, detail["msg"]))
 
             if detail["ts"]:
                 # MsgCode.ts
                 if len(msg_code_ts_list) != 0:
                     msg_code_ts_list.append("")
                 msg_code_ts_list.append("  /**")
-                msg_code_ts_list.append("   * {}".format(detail['name']))
+                msg_code_ts_list.append("   * {}".format(detail["name"]))
                 msg_code_ts_list.append("   *")
-                msg_code_ts_list.append("   * {}".format(detail['msg']))
+                msg_code_ts_list.append("   * {}".format(detail["msg"]))
                 msg_code_ts_list.append("   */")
                 msg_code_ts_list.append("  {} = \"{}\",".format(code, code))
 
                 # msg.json(ts)
                 msg_json_ts_list.append(
-                    "  \"{}\": \"{}\",".format(code, detail['msg']))
+                    "  \"{}\": \"{}\",".format(code, detail["msg"]))
 
     last_ts = msg_code_ts_list.pop(-1)
     msg_code_ts_list.append(last_ts.replace(",", ""))

@@ -83,17 +83,17 @@ class Square():
             Dict: JSON用DICTに変換
         """
         squ_dict: Dict = dict()
-        squ_dict['areaId'] = self.area_id
-        squ_dict['squId'] = self.squ_id
+        squ_dict["areaId"] = self.area_id
+        squ_dict["squId"] = self.squ_id
         if self.hint_val is not None:
-            squ_dict['hintVal'] = self.hint_val
+            squ_dict["hintVal"] = self.hint_val
         if self.val is not None:
-            squ_dict['val'] = self.val
+            squ_dict["val"] = self.val
         if len(self.memo_val_list) > 0:
-            squ_dict['memoValList'] = self.memo_val_list
+            squ_dict["memoValList"] = self.memo_val_list
         error_dict_list: List[Dict] = list()
         if len(self.error_list) > 0:
-            squ_dict['errorList'] = error_dict_list
+            squ_dict["errorList"] = error_dict_list
             for error in self.error_list:
                 error_dict_list.append(error.cnv_to_json())
         return squ_dict

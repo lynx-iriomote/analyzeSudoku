@@ -1,7 +1,6 @@
 import dataclasses
 from typing import Dict
 
-from sudokuapp.const.MsgCode import MsgCode
 from sudokuapp.const.MsgType import MsgType
 
 
@@ -43,8 +42,8 @@ class Msg():
             Dict: JSON用DICTに変換
         """
         msg_dict: Dict = dict()
-        msg_dict['msgType'] = self.msg_type.name
-        msg_dict['msg'] = self.msg
+        msg_dict["msgType"] = self.msg_type.name
+        msg_dict["msg"] = self.msg
         return msg_dict
 
     def __str__(self) -> str:

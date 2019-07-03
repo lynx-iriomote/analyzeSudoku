@@ -28,6 +28,8 @@
     "python.linting.flake8Args": [
         "--ignore=E501"
     ],
+    "python.linting.lintOnSave": true,
+    "python.formatting.provider": "autopep8",
     "python.linting.enabled": true,
     "python.pythonPath": "${workspaceFolder}\\server\\sudokuenv\\Scripts\\python.exe",
 }

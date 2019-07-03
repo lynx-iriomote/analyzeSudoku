@@ -18,7 +18,7 @@ def index(req: HttpRequest) -> Any:
     Returns:
         any: 数独ページ
     """
-    return render(req, 'index.html')
+    return render(req, "index.html")
 
 
 @csrf_exempt
@@ -33,7 +33,7 @@ def analyze(req: HttpRequest) -> JsonResponse:
     """
 
     # パラメータ取得
-    json_dict: Dict[str, any] = json.loads(req.body.decode('utf-8'))
+    json_dict: Dict[str, any] = json.loads(req.body.decode("utf-8"))
     wk: AnalyzeWk = jsonConverter.cnv_json_to_analyze_wk(json_dict)
 
     # 数独解析
