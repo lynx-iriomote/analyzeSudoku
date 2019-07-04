@@ -26,6 +26,9 @@ class Method(Enum):
     # ネイキッドペア法
     NAKED_PAIR = auto()
 
+    # 隠れペア法
+    HIDDEN_PAIR = auto()
+
     # N国同盟法
     ALLIES = auto()
 
