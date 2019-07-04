@@ -9,21 +9,6 @@ export default class AnalyzeOptionUtil {
   /** 解析オプション：ストレージキー */
   private static readonly STORAGE_KEY_ANALYZE_OPTION = "analyzeOption";
 
-  /** 解析オプションテキスト 値を無視 */
-  private static readonly TEXT_ANALYZE_OPTION_IGNORE_VAL = "入力した値を無視して解析";
-
-  /** 解析オプションテキスト メモを無視 */
-  private static readonly TEXT_ANALYZE_OPTION_IGNORE_MEMO = "入力したメモを無視して解析";
-
-  /** 解析オプションテキスト メソッドを利用 */
-  private static readonly TEXT_ANALYZE_OPTION_USE_METHOD = "{method}を利用";
-
-  /** 解析オプションテキスト メソッドを制限 */
-  private static readonly TEXT_ANALYZE_OPTION_LIMIT = "{method}の{unit}を{limit}個に制限";
-
-  /** 制限数 */
-  private static readonly LIMIT_NUM = 3;
-
   /**
    * 解析オプションの保存
    * @param analyzeOptionList 解析オプションリスト
@@ -242,7 +227,7 @@ export default class AnalyzeOptionUtil {
     return new AnalyzeOption(
       method,
       SudokuUtil.replaceText(
-        AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_USE_METHOD,
+        AnalyzeOption.TEXT_ANALYZE_OPTION_USE_METHOD,
         "method",
         SudokuUtil.cnvMethodToText(method)
       ),
@@ -265,12 +250,12 @@ export default class AnalyzeOptionUtil {
     unit: string
   ): AnalyzeOption {
     let msg = SudokuUtil.replaceText(
-      AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_LIMIT,
+      AnalyzeOption.TEXT_ANALYZE_OPTION_LIMIT,
       "method",
       SudokuUtil.cnvMethodToText(method)
     );
     msg = SudokuUtil.replaceText(msg, "unit", unit);
-    msg = SudokuUtil.replaceText(msg, "limit", AnalyzeOptionUtil.LIMIT_NUM);
+    msg = SudokuUtil.replaceText(msg, "limit", AnalyzeOption.LIMIT_NUM);
     return new AnalyzeOption(id, msg, false, false);
   }
 
@@ -281,7 +266,7 @@ export default class AnalyzeOptionUtil {
   private static createDefaultOptionIgnoreVal(): AnalyzeOption {
     return new AnalyzeOption(
       AnalyzeOption.ID_IGNORE_VAL,
-      AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_IGNORE_VAL,
+      AnalyzeOption.TEXT_ANALYZE_OPTION_IGNORE_VAL,
       true,
       false
     );
@@ -294,7 +279,7 @@ export default class AnalyzeOptionUtil {
   private static createDefaultOptionIgnoreMemo(): AnalyzeOption {
     return new AnalyzeOption(
       AnalyzeOption.ID_IGNORE_MEMO,
-      AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_IGNORE_MEMO,
+      AnalyzeOption.TEXT_ANALYZE_OPTION_IGNORE_MEMO,
       true,
       false
     );
