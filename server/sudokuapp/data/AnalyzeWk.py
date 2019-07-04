@@ -17,6 +17,8 @@ class AnalyzeWk():
 
     Attributes:
         flame (int): 枠
+        use_method_list (List[Method]): 利用メソッド
+        limit_method_list (List[Method]): 制限メソッド
         histroy_list (List[History): 解析履歴
         all_squ_list (List[Square]): 全枡リスト
         row_dict (Dict[int, List]): 行辞書
@@ -32,11 +34,9 @@ class AnalyzeWk():
     use_method_list: List[Method] = dataclasses.field(
         default_factory=list, init=False)
 
-    # ネイキッドペア法のペア数の制限
-    naked_pair_limit: bool = dataclasses.field(default=None, init=False)
-
-    # N国同盟の同盟数の制限
-    allies_limit: bool = dataclasses.field(default=None, init=False)
+    # 制限メソッド
+    limit_method_list: List[Method] = dataclasses.field(
+        default_factory=list, init=False)
 
     # 解析履歴
     histroy_list: List[History] = dataclasses.field(
