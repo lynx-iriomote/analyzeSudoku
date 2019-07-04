@@ -37,6 +37,9 @@ export default class AnalyzeOptionModalCmp extends Vue {
       case Method.NAKED_PAIR:
         limitId = AnalyzeOption.ID_NAKED_PAIR_LIMIT;
         break;
+      case Method.HIDDEN_PAIR:
+        limitId = AnalyzeOption.ID_HIDDEN_PAIR_LIMIT;
+        break;
       case Method.ALLIES:
         limitId = AnalyzeOption.ID_ALLIES_LIMIT;
         break;

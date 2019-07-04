@@ -213,6 +213,9 @@ export default class SudokuUtil {
       case Method.NAKED_PAIR:
         return "ネイキッドペア法";
 
+      case Method.HIDDEN_PAIR:
+        return "隠れペア法";
+
       case Method.ALLIES:
         return "N国同盟法";
 
