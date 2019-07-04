@@ -159,7 +159,6 @@ def _find_x_wing(
             # 値
             if region_pair not in region_grouping_dict:
                 region_grouping_dict[region_pair] = list()
-            # TODO: wk_listを直感的な名前に変えろ
             region_list: List[List[Square]] = region_grouping_dict[region_pair]
             region_list.append(include_list)
 
