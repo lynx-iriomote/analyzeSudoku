@@ -23,6 +23,9 @@ enum Method {
   /** ネイキッドペア法 */
   NAKED_PAIR = "NAKED_PAIR",
 
+  /** 隠れペア法 */
+  HIDDEN_PAIR = "HIDDEN_PAIR",
+
   /** N国同盟法 */
   ALLIES = "ALLIES",
 

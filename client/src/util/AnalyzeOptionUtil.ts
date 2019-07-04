@@ -123,6 +123,15 @@ export default class AnalyzeOptionUtil {
           "ペア数"
         );
       }
+      // 隠れペア制限オプション
+      else if (method == Method.HIDDEN_PAIR) {
+        // 制限オプション生成
+        optionLimit = AnalyzeOptionUtil.createDefaultOptionMethodLimit(
+          AnalyzeOption.ID_HIDDEN_PAIR_LIMIT,
+          method,
+          "ペア数"
+        );
+      }
       // N国同盟制限オプション
       else if (method == Method.ALLIES) {
         // 制限オプション生成
@@ -194,6 +203,16 @@ export default class AnalyzeOptionUtil {
         analyzeOptionList.push(
           AnalyzeOptionUtil.createDefaultOptionMethodLimit(
             AnalyzeOption.ID_NAKED_PAIR_LIMIT,
+            method,
+            "ペア数"
+          )
+        );
+      }
+      // 隠れペア制限オプション
+      else if (method == Method.HIDDEN_PAIR) {
+        analyzeOptionList.push(
+          AnalyzeOptionUtil.createDefaultOptionMethodLimit(
+            AnalyzeOption.ID_HIDDEN_PAIR_LIMIT,
             method,
             "ペア数"
           )
