@@ -225,7 +225,7 @@ export default class AnalyzeOptionUtil {
       SudokuUtil.replaceText(
         AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_USE_METHOD,
         "method",
-        Method.toName(method)
+        SudokuUtil.cnvMethodToText(method)
       ),
       true,
       false
@@ -248,7 +248,7 @@ export default class AnalyzeOptionUtil {
     let msg = SudokuUtil.replaceText(
       AnalyzeOptionUtil.TEXT_ANALYZE_OPTION_LIMIT,
       "method",
-      Method.toName(method)
+      SudokuUtil.cnvMethodToText(method)
     );
     msg = SudokuUtil.replaceText(msg, "unit", unit);
     msg = SudokuUtil.replaceText(msg, "limit", AnalyzeOptionUtil.LIMIT_NUM);
