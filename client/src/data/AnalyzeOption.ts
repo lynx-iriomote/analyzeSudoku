@@ -17,6 +17,26 @@ export default class AnalyzeOption {
   /** 非活性かどうか */
   disabled: boolean;
 
+  // #region メッセージ定数
+  /** 解析オプションテキスト 値を無視 */
+  static readonly TEXT_ANALYZE_OPTION_IGNORE_VAL = "入力した値を無視して解析";
+
+  /** 解析オプションテキスト メモを無視 */
+  static readonly TEXT_ANALYZE_OPTION_IGNORE_MEMO = "入力したメモを無視して解析";
+
+  /** 解析オプションテキスト メソッドを利用 */
+  static readonly TEXT_ANALYZE_OPTION_USE_METHOD = "{method}を利用";
+
+  /** 解析オプションテキスト メソッドを制限 */
+  static readonly TEXT_ANALYZE_OPTION_LIMIT = "{method}の{unit}を{limit}個に制限";
+
+  // #endregion メッセージ定数
+
+  // #region メッセージ以外の定数
+
+  /** 制限数 */
+  static readonly LIMIT_NUM = 3;
+
   /** 値を無視して解析 */
   static readonly ID_IGNORE_VAL = "ID_IGNORE_VAL";
 
@@ -31,6 +51,8 @@ export default class AnalyzeOption {
 
   /** N国同盟法の同盟数の制限 */
   static readonly ID_ALLIES_LIMIT = "ID_ALLIES_LIMIT";
+
+  // #endregion  メッセージ以外の定数
 
   /**
    * コンストラクタ
