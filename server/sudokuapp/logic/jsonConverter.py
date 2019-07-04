@@ -28,14 +28,11 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
     # メモを無視して解析
     ignore_memo: bool = False
 
-    # ネイキッド・ペア法のペア数の制限
-    naked_pair_limit: bool = False
-
-    # N国同盟の同盟数のの制限
-    allies_limit: bool = False
-
     # 利用メソッド
     use_method_list: List[Method] = []
+
+    # 制限メソッド
+    limit_method_list: List[Method] = []
 
     #######################
     # 解析オプションを変換
@@ -55,12 +52,14 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
 
         # ネイキッドペア制限
         if id == "ID_NAKED_PAIR_LIMIT":
-            naked_pair_limit = check
+            if check:
+                limit_method_list.append(Method.NAKED_PAIR)
             continue
 
         # N国同盟制限
         if id == "ID_ALLIES_LIMIT":
-            allies_limit = check
+            if check:
+                limit_method_list.append(Method.ALLIES)
             continue
 
         # 利用メソッド
@@ -113,8 +112,7 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
 
     wk: AnalyzeWk = AnalyzeWk(flame)
     wk.use_method_list = use_method_list
-    wk.naked_pair_limit = naked_pair_limit
-    wk.allies_limit = allies_limit
+    wk.limit_method_list = limit_method_list
 
     return wk
 

@@ -69,7 +69,7 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     # 最大同盟国数(2～7)を大きくしながら解析
     # ※制限時は2~3
     find_allies_cnt: int = 7
-    if wk.allies_limit:
+    if Method.ALLIES in wk.limit_method_list:
         find_allies_cnt = 3
     for allies in range(2, find_allies_cnt + 1):
         # エリアを対象にN国同盟

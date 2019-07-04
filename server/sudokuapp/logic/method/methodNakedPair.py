@@ -105,7 +105,7 @@ def _analyze_naked_pair(
     # ペア数(2～8)を大きくしながら解析
     # ※制限時は2~3
     find_pair_cnt: int = 8
-    if wk.naked_pair_limit:
+    if Method.NAKED_PAIR in wk.limit_method_list:
         find_pair_cnt = 3
     for naked_num in range(2, find_pair_cnt + 1):
 
