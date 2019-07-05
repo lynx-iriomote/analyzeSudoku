@@ -146,8 +146,20 @@ class Square():
         Returns:
             bool: 同じ場合にTrue
         """
-        return self.row == compare.row\
-            and self.clm == compare.clm
+        if type(compare) != Square:
+            return False
+        return self.__hash__() == compare.__hash__()
+
+    def __ne__(self, compare) -> bool:
+        """違う枡かどうか比較
+
+        Args:
+            compare ([type]): 比較対象
+
+        Returns:
+            bool: 違う場合にTrue
+        """
+        return not self.__eq__(compare)
 
     def __hash__(self) -> int:
         """ハッシュ算出
@@ -156,3 +168,59 @@ class Square():
             int: ハッシュ値
         """
         return self.row * 100 + self.clm
+
+    def __lt__(self, compare) -> bool:
+        """＜
+
+        Args:
+            compare ([type]): 比較枡
+
+        Returns:
+            bool: ＜の場合にTrue
+        """
+        if self.row == compare.row:
+            return self.clm < compare.clm
+        else:
+            return self.row < compare.row
+
+    def __le__(self, compare) -> bool:
+        """＜＝
+
+        Args:
+            compare ([type]): 比較枡
+
+        Returns:
+            bool: ＜＝の場合にTrue
+        """
+        if self.row == compare.row:
+            return self.clm <= compare.clm
+        else:
+            return self.row <= compare.row
+
+    def __gt__(self, compare) -> bool:
+        """＞
+
+        Args:
+            compare ([type]): 比較枡
+
+        Returns:
+            bool: ＞の場合にTrue
+        """
+        if self.row == compare.row:
+            return self.clm > compare.clm
+        else:
+            return self.row > compare.row
+
+    def __ge__(self, compare) -> bool:
+        """＞＝
+
+        Args:
+            compare ([type]): 比較枡
+
+        Returns:
+            bool: ＞＝の場合にTrue
+        """
+        if self.row == compare.row:
+            return self.clm >= compare.clm
+        else:
+            return self.row >= compare.row
