@@ -89,6 +89,9 @@ class SudokuUtil(object):
         elif method == Method.NAKED_PAIR:
             return "ネイキッドペア法"
 
+        elif method == Method.HIDDEN_PAIR:
+            return "隠れペア法"
+
         raise ValueError("not support method {}".format(method))
 
     @classmethod

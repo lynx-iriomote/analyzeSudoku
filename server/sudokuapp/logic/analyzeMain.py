@@ -6,8 +6,9 @@ from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.logic.method import (methodAllies, methodElimionationOneMemo,
                                     methodElimionationOnlyMemo,
                                     methodElimionationRemoveMemo,
-                                    methodNakedPair, methodStealthLaser,
-                                    methodXWing, simpleErrorCheck)
+                                    methodHiddenPair, methodNakedPair,
+                                    methodStealthLaser, methodXWing,
+                                    simpleErrorCheck)
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
@@ -59,6 +60,11 @@ def analyze(wk: AnalyzeWk) -> bool:
     if Method.NAKED_PAIR in wk.use_method_list:
         analyze_method_list.append(
             (Method.NAKED_PAIR, methodNakedPair.analyze))
+
+    # 隠れペア法
+    if Method.HIDDEN_PAIR in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.NAKED_PAIR, methodHiddenPair.analyze))
 
     # N国同盟
     if Method.ALLIES in wk.use_method_list:
