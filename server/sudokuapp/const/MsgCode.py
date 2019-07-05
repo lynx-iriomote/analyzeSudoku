@@ -63,6 +63,10 @@ class MsgCode(Enum):
     # 【{changedSqu}】【ネイキッドペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_NAKED_PAIR = auto()
 
+    # 隠れペア法
+    # 【{changedSqu}】【隠れペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。
+    HOW_TO_HIDDEN_PAIR = auto()
+
     # N国同盟法
     # 【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_ALLIES = auto()
