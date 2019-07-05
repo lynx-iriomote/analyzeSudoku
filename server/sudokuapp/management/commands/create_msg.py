@@ -3,6 +3,8 @@ from typing import List
 
 from django.core.management.base import BaseCommand
 
+from sudoku.settings import BASE_DIR
+
 
 class Command(BaseCommand):
     """メッセージ生成コマンド
@@ -62,7 +64,7 @@ def main():
     msg_json_ts_list: List[str] = list()
 
     with open(
-            "./sudokuapp/management/commands/res/src_msg.json",
+            BASE_DIR + "/sudokuapp/management/commands/res/src_msg.json",
             mode="r",
             encoding="utf-8"
     ) as f:
@@ -134,28 +136,28 @@ def main():
     print("######################")
 
     with open(
-            "./sudokuapp/const/MsgCode.py",
+            BASE_DIR + "/sudokuapp/const/MsgCode.py",
             mode="w",
             encoding="utf-8"
     ) as f:
         f.writelines(msg_code_py)
 
     with open(
-            "../client/src/const/MsgCode.ts",
+            BASE_DIR + "/../client/src/const/MsgCode.ts",
             mode="w",
             encoding="utf-8"
     ) as f:
         f.writelines(msg_code_ts)
 
     with open(
-            "./sudokuapp/resources/msg.json",
+            BASE_DIR + "/sudokuapp/resources/msg.json",
             mode="w",
             encoding="utf-8"
     ) as f:
         f.writelines(msg_json_py)
 
     with open(
-            "../client/src/assets/msg.json",
+            BASE_DIR + "/../client/src/assets/msg.json",
             mode="w",
             encoding="utf-8"
     ) as f:
