@@ -136,3 +136,23 @@ class Square():
         if len(self.error_list) > 0:
             text += " error={}".format(self.error_list)
         return text
+
+    def __eq__(self, compare) -> bool:
+        """同じ枡かどうか比較
+
+        Args:
+            compare ([type]): 比較対象
+
+        Returns:
+            bool: 同じ場合にTrue
+        """
+        return self.row == compare.row\
+            and self.clm == compare.clm
+
+    def __hash__(self) -> int:
+        """ハッシュ算出
+
+        Returns:
+            int: ハッシュ値
+        """
+        return self.row * 100 + self.clm
