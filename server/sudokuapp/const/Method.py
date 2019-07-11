@@ -29,8 +29,5 @@ class Method(Enum):
     # 隠れペア法
     HIDDEN_PAIR = auto()
 
-    # N国同盟法
-    ALLIES = auto()
-
     # X-Wing法
     X_WING = auto()

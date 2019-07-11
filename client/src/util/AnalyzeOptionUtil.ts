@@ -116,15 +116,6 @@ export default class AnalyzeOptionUtil {
           method,
           "ペア数"
         );
-      }
-      // N国同盟制限オプション
-      else if (method == Method.ALLIES) {
-        // 制限オプション生成
-        optionLimit = AnalyzeOptionUtil.createDefaultOptionMethodLimit(
-          AnalyzeOption.ID_ALLIES_LIMIT,
-          method,
-          "同盟数"
-        );
       } else {
         return;
       }
@@ -200,16 +191,6 @@ export default class AnalyzeOptionUtil {
             AnalyzeOption.ID_HIDDEN_PAIR_LIMIT,
             method,
             "ペア数"
-          )
-        );
-      }
-      // N国同盟制限オプション
-      else if (method == Method.ALLIES) {
-        analyzeOptionList.push(
-          AnalyzeOptionUtil.createDefaultOptionMethodLimit(
-            AnalyzeOption.ID_ALLIES_LIMIT,
-            method,
-            "同盟数"
           )
         );
       }

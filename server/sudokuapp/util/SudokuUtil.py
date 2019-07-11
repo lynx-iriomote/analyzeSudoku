@@ -83,9 +83,6 @@ class SudokuUtil(object):
         elif method == Method.X_WING:
             return "X-Wing法"
 
-        elif method == Method.ALLIES:
-            return "N国同盟法"
-
         elif method == Method.NAKED_PAIR:
             return "ネイキッドペア法"
 

@@ -49,9 +49,6 @@ export default class AnalyzeOption {
   /** 隠れペア法のペア数の制限 */
   static readonly ID_HIDDEN_PAIR_LIMIT = "ID_HIDDEN_PAIR_LIMIT";
 
-  /** N国同盟法の同盟数の制限 */
-  static readonly ID_ALLIES_LIMIT = "ID_ALLIES_LIMIT";
-
   // #endregion  メッセージ以外の定数
 
   /**

@@ -397,34 +397,6 @@ class MsgFactory():
         )
 
     @classmethod
-    def how_to_allies(
-        cls,
-        how_anlz: HowToAnalyze,
-        allies: int,
-        memo_list: List[int]
-    ) -> Msg:
-        """N国同盟法メッセージ生成
-
-        Args:
-            how_anlz (HowToAnalyze): 解析方法
-            allies (int): 同盟数
-            memo_list (List[int]): 同盟メモリスト
-
-        Returns:
-            Msg: メッセージ
-        """
-        return Msg(
-            MsgType.INFO,
-            cls._get_msg(MsgCode.HOW_TO_ALLIES).format(
-                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
-                allies=allies,
-                region=SudokuUtil.cnv_region_to_text(how_anlz.region),
-                memosText=SudokuUtil.cnv_memo_list_to_text(memo_list),
-                removeMemo=how_anlz.remove_memo_list[0]
-            )
-        )
-
-    @classmethod
     def how_to_x_wing(
         cls,
         how_anlz: HowToAnalyze,

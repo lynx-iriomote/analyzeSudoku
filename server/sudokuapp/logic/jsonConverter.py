@@ -56,12 +56,6 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
                 limit_method_list.append(Method.NAKED_PAIR)
             continue
 
-        # N国同盟制限
-        if id == "ID_ALLIES_LIMIT":
-            if check:
-                limit_method_list.append(Method.ALLIES)
-            continue
-
         # 利用メソッド
         method: Method = None
         for loop_method in Method:

@@ -26,9 +26,6 @@ enum Method {
   /** 隠れペア法 */
   HIDDEN_PAIR = "HIDDEN_PAIR",
 
-  /** N国同盟法 */
-  ALLIES = "ALLIES",
-
   /** X-Wing法 */
   X_WING = "X_WING"
 }
