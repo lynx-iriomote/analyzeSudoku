@@ -207,8 +207,8 @@ export default class SudokuUtil {
       case Method.ELIMIONATION_ONLY_MEMO:
         return "消去法";
 
-      case Method.STEALTH_LASER:
-        return "ステルスレーザ発射法";
+      case Method.LOCKED_CANDIDATES:
+        return "ロックされた候補法";
 
       case Method.NAKED_PAIR:
         return "ネイキッドペア法";

@@ -1,4 +1,4 @@
-"""ステルスレーザ発射法
+"""ロックされた候補法
 """
 from typing import Dict, List
 
@@ -11,7 +11,7 @@ from sudokuapp.util.MsgFactory import MsgFactory
 
 
 def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
-    """ステルスレーザ発射法
+    """ロックされた候補法
 
     ある値がそのエリア内に同一行(列)にしか存在しない場合、
     別エリアの行には存在しえない
@@ -51,7 +51,7 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 memo_squ_dict[memo].append(squ)
 
         for memo, squ_list in memo_squ_dict.items():
-            # ステルスレーザ発射法の性質上、対象となる枡は2個または3個のみ
+            # ロックされた候補法の性質上、対象となる枡は2個または3個のみ
             if len(squ_list) == 2 or len(squ_list) == 3:
                 pass
             else:
@@ -67,20 +67,18 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 wk, memo, target_region, squ_list)
 
             for change_squ in change_squ_list:
-                # 下記のようなイメージで画面に出力
-                # 【1:4】【ステルスレーザ発射法】エリア内で2が1行目にしか存在しない
-                #        ため、(1:5)のメモから2を除外しました。
 
+                # メモ除外
                 change_squ.memo_val_list.remove(memo)
 
                 # 解析方法生成
                 how_anlz: HowToAnalyze = HowToAnalyze(
-                    Method.STEALTH_LASER)
+                    Method.LOCKED_CANDIDATES)
                 how_anlz.region = target_region
                 how_anlz.changed_squ = change_squ
                 how_anlz.remove_memo_list.append(memo)
                 how_anlz.trigger_squ_list.extend(squ_list)
-                how_anlz.msg = MsgFactory.how_to_stealth_laser(how_anlz)
+                how_anlz.msg = MsgFactory.how_to_locked_candidates(how_anlz)
 
                 how_anlz_list.append(how_anlz)
 
@@ -94,7 +92,7 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
 def _target_region(
     squ_list: List[Square]
 ) -> Region:
-    """与えられた枡リストがステルスレーザ発射法の対象となるか判定
+    """与えられた枡リストがロックされた候補法の対象となるか判定
 
     Args:
         squ_list (List[Square]): メモ(枡)リスト
@@ -117,7 +115,7 @@ def _is_target(
     region: Region,
     squ_list: List[Square]
 ) -> bool:
-    """与えられた枡リストがステルスレーザ発射法の対象となるか判定
+    """与えられた枡リストがロックされた候補法の対象となるか判定
 
     Args:
         region (Region): 領域(行または列)

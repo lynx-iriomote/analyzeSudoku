@@ -77,8 +77,8 @@ class SudokuUtil(object):
                 or method == Method.ELIMIONATION_ONLY_MEMO:
             return "消去法"
 
-        elif method == Method.STEALTH_LASER:
-            return "ステルスレーザ発射法"
+        elif method == Method.LOCKED_CANDIDATES:
+            return "ロックされた候補法"
 
         elif method == Method.X_WING:
             return "X-Wing法"

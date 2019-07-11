@@ -6,8 +6,8 @@ from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.logic.method import (methodElimionationOneMemo,
                                     methodElimionationOnlyMemo,
                                     methodElimionationRemoveMemo,
-                                    methodHiddenPair, methodNakedPair,
-                                    methodStealthLaser, methodXWing,
+                                    methodHiddenPair, methodLockedCandidates,
+                                    methodNakedPair, methodXWing,
                                     simpleErrorCheck)
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
@@ -51,10 +51,10 @@ def analyze(wk: AnalyzeWk) -> bool:
     analyze_method_list.append(
         (Method.ELIMIONATION_ONE_MEMO, methodElimionationOnlyMemo.analyze))
 
-    # ステルスレーザ発射法
-    if Method.STEALTH_LASER in wk.use_method_list:
+    # ロックされた候補法
+    if Method.LOCKED_CANDIDATES in wk.use_method_list:
         analyze_method_list.append(
-            (Method.STEALTH_LASER, methodStealthLaser.analyze))
+            (Method.LOCKED_CANDIDATES, methodLockedCandidates.analyze))
 
     # ネイキッドペア法
     if Method.NAKED_PAIR in wk.use_method_list:
