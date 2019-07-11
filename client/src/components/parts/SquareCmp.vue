@@ -69,14 +69,23 @@
   stroke: $color-line;
   stroke-width: 1;
 }
-.square-bg-hilight {
+.square-bg-odd-hilight {
   @extend .square-bg-default;
-  fill: $color-hilight;
+  fill: $color-odd-hilight;
 }
-.square-bg-selected {
+.square-bg-odd-selected {
   @extend .square-bg-default;
-  fill: $color-selected;
+  fill: $color-odd-selected;
 }
+.square-bg-even-hilight {
+  @extend .square-bg-default;
+  fill: $color-even-hilight;
+}
+.square-bg-even-selected {
+  @extend .square-bg-default;
+  fill: $color-even-selected;
+}
+
 .square-bg-how-to-changed {
   @extend .square-bg-default;
   fill: $color-how-to-changed;

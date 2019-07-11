@@ -1,81 +1,92 @@
 ///////////////
 // パレット
 ///////////////
-$palette-white: white;
-$palette-red: red;
-
-// https://www.canva.com/ja_jp/learn/100-color-combinations/#image-449
-$palette-mahogany: #42313a;
-$palette-chestnum: #6c2d2c;
-$palette-leather: #9f4636;
-$palette-parchment: #f1dcc9;
-
-// http://photoshopvip.net/86191
-// 24
-$palette-violet: #6e3667;
 $palette-electric-lime: #88d317;
-$palette-deep-plum: #1a0315;
 $palette-shadow: #535353;
+$palette-matte-black: #1e1e20;
+$palette-vivid-blue: #0080ff;
+$palette-vivid-green: #66ffcc;
+$palette-cool-gray: #e5e2ca;
+$palette-bark: #2e2300;
+$palette-golden: #efb509;
+$palette-ruby-red: #a01d26;
+$palette-paper: #fefeef;
+$palette-tangerine: #f0810f;
+$palette-daffodil: #e6df44;
 
+///////////////
+// opacity
+///////////////
+$main-opacity: 0.7;
+$hilight-opacity: 0.9;
+$selected-opacity: 0.7;
+$overlay-opacity: 0.8;
+$placeholder-opacity: 0.4;
 
 ///////////////
 // 定義
 ///////////////
 // 背景色
-$color-background: $palette-deep-plum;
+$color-background: $palette-matte-black;
 // 非活性
 $color-disabled: $palette-shadow;
 // 奇数色
-$color-odd: $palette-electric-lime;
+$color-odd: rgba($palette-vivid-blue, $main-opacity);
+// 奇数のハイライト背景色
+$color-odd-hilight: rgba($palette-vivid-blue, $hilight-opacity);
+// 奇数の選択背景色
+$color-odd-selected: rgba($palette-golden, $selected-opacity);
+
 // 偶数色
-$color-even: $palette-violet;
-// 選択背景色
-$color-selected: rgba($palette-deep-plum, 0.5);
-// ハイライト背景色
-$color-hilight: rgba($palette-deep-plum, 0.3);
+$color-even: rgba($palette-vivid-green, $main-opacity);
+// 偶数のハイライト背景色
+$color-even-hilight: rgba($palette-vivid-green, $hilight-opacity);
+// 偶数の選択背景色
+$color-even-selected: rgba($palette-golden, $selected-opacity);
+
 // モーダルoverlay背景色
-$color-modal-overlay-background: rgba($palette-shadow, 0.8);
+$color-modal-overlay-background: rgba($palette-shadow, $overlay-opacity);
+
 // 解析方法の変更枡の背景色
-$color-how-to-changed: darkorange;
+$color-how-to-changed: $palette-tangerine;
 // 解析方法のトリガー枡の背景色
-$color-how-to-trigger: rgba(lightsalmon, 0.8);
-;
+$color-how-to-trigger: $palette-daffodil;
+
 // 線の色
-$color-line: $palette-white;
+$color-line: $palette-golden;
 // デフォルト文字色
-$color-text-default: $palette-white;
+$color-text-default: $palette-paper;
 // 成功メッセージ色
 $color-msg-success: $palette-electric-lime;
 // エラーメッセージ色
-$color-msg-error: $palette-red;
+$color-msg-error: $palette-ruby-red;
 // お知らせメッセージ色
-$color-msg-info: $palette-white;
-
+$color-msg-info: $palette-paper;
 
 // 奇数文字色
-$color-text-odd: $palette-violet;
+$color-text-odd: $palette-bark;
 // 偶数文字色
-$color-text-even: $palette-electric-lime;
+$color-text-even: $palette-bark;
 // ハイライト文字色
-$color-text-hilight: $palette-white;
+$color-text-hilight: $palette-paper;
 // プレースホルダー文字色
-$color-text-placeholder: rgba($palette-violet, 0.4);
+$color-text-placeholder: rgba($palette-bark, $placeholder-opacity);
 // 通信モーダル文字色
 $color-text-connect: $palette-electric-lime;
 // デフォルトアイコン色
 $color-icon-default: $palette-electric-lime;
 // 奇数アイコン色
-$color-icon-odd: $palette-violet;
+$color-icon-odd: $palette-vivid-green;
 // 偶数アイコン色
-$color-icon-even: $palette-electric-lime;
+$color-icon-even: $palette-vivid-blue;
 // クリアアイコン色
-$color-icon-clear: $palette-red;
+$color-icon-clear: $palette-cool-gray;
 // エラー色
-$color-icon-error: $palette-red;
+$color-icon-error: $palette-ruby-red;
 
-//  チェックボックスチェック
+// チェックボックスチェック
 $color-checkbox-check: $palette-electric-lime;
-//  チェックボックス未チェック
-$color-checkbox-uncheck: $palette-white;
+// チェックボックス未チェック
+$color-checkbox-uncheck: $palette-paper;
 // チェックボックス非活性
 $color-checkbox-disabled: $color-disabled

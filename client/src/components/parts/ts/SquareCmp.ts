@@ -73,23 +73,37 @@ export default class SquareCmp extends Vue {
   get decoration(): string {
     let hilightHowTo: HowToAnalyze | null = null;
     if (sudokuModule.historyList.length > 0 && sudokuModule.hilightHowToIdx != null) {
-      hilightHowTo = sudokuModule.historyList[sudokuModule.historyIdx]!.howToAnalyzeList[sudokuModule.hilightHowToIdx!];
+      hilightHowTo = sudokuModule.historyList[sudokuModule.historyIdx]!.howToAnalyzeList[
+        sudokuModule.hilightHowToIdx!
+      ];
     }
     // 変更された枡(解析方法)
     if (hilightHowTo && this.squ == hilightHowTo.changeSqu) {
       return "square-bg-how-to-changed";
     }
     // トリガーとなった枡(解析方法)
-    else if (hilightHowTo && hilightHowTo.triggerSquList && hilightHowTo.triggerSquList.indexOf(this.squ) >= 0) {
+    else if (
+      hilightHowTo &&
+      hilightHowTo.triggerSquList &&
+      hilightHowTo.triggerSquList.indexOf(this.squ) >= 0
+    ) {
       return "square-bg-how-to-trigger";
     }
     // 選択されている枡
     else if (this.squ == sudokuModule.selectedSqu) {
-      return "square-bg-selected";
+      if (this.area.areaId % 2 == 0) {
+        return "square-bg-even-selected";
+      } else {
+        return "square-bg-odd-selected";
+      }
     }
     // ハイライトされている枡
     else if (sudokuModule.hilightSquList.indexOf(this.squ) >= 0) {
-      return "square-bg-hilight";
+      if (this.area.areaId % 2 == 0) {
+        return "square-bg-even-hilight";
+      } else {
+        return "square-bg-odd-hilight";
+      }
     } else {
       return "square-bg-default";
     }
