@@ -216,9 +216,6 @@ export default class SudokuUtil {
       case Method.HIDDEN_PAIR:
         return "隠れペア法";
 
-      case Method.ALLIES:
-        return "N国同盟法";
-
       case Method.X_WING:
         return "X-Wing法";
 

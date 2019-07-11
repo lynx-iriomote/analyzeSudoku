@@ -67,10 +67,6 @@ class MsgCode(Enum):
     # 【{changedSqu}】【隠れペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_HIDDEN_PAIR = auto()
 
-    # N国同盟法
-    # 【{changedSqu}】【{allies}国同盟法】{changedSqu}の同一{region}内にて{memosText}の{allies}国同盟を発見したため、{changedSqu}のメモから{removeMemo}を除外しました。
-    HOW_TO_ALLIES = auto()
-
     # X-Wing法
     # 【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_X_WING = auto()

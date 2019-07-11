@@ -3,7 +3,7 @@ from typing import Callable, List, Tuple
 from sudokuapp.const.Method import Method
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
-from sudokuapp.logic.method import (methodAllies, methodElimionationOneMemo,
+from sudokuapp.logic.method import (methodElimionationOneMemo,
                                     methodElimionationOnlyMemo,
                                     methodElimionationRemoveMemo,
                                     methodHiddenPair, methodNakedPair,
@@ -65,11 +65,6 @@ def analyze(wk: AnalyzeWk) -> bool:
     if Method.HIDDEN_PAIR in wk.use_method_list:
         analyze_method_list.append(
             (Method.NAKED_PAIR, methodHiddenPair.analyze))
-
-    # N国同盟
-    if Method.ALLIES in wk.use_method_list:
-        analyze_method_list.append(
-            (Method.ALLIES, methodAllies.analyze))
 
     # X-Wing
     if Method.X_WING in wk.use_method_list:
