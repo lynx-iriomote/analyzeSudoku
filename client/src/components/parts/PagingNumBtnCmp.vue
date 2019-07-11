@@ -20,7 +20,9 @@
       :y="startY + 2.5"
       rx="5"
       ry="5"
-      class="num-btn-selected"
+      :class="
+        pagingIdx % 2 == 0 ? 'num-btn-even-selected' : 'num-btn-odd-selected'
+      "
     ></rect>
 
     <!-- 数字ボタン -->
@@ -58,20 +60,24 @@
   @extend .num-btn-default;
   fill: $color-odd;
 }
+.num-btn-odd-selected {
+  @extend .num-btn-default;
+  stroke-width: 2;
+  fill: $color-odd-selected;
+}
 .num-btn-even {
   @extend .num-btn-default;
   fill: $color-even;
+}
+.num-btn-even-selected {
+  @extend .num-btn-default;
+  stroke-width: 2;
+  fill: $color-even-selected;
 }
 .num-btn-disabled {
   @extend .num-btn-default;
   fill: $color-disabled;
   fill-opacity: 0.4;
-}
-.num-btn-selected {
-  @extend .num-btn-default;
-  stroke-width: 2;
-  fill: $color-selected;
-  fill-opacity: 0.6;
 }
 .num-btn-text-default {
   -ms-user-select: none;
