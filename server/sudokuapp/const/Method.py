@@ -20,8 +20,8 @@ class Method(Enum):
     # 消去法(メモがその枡にしかない)
     ELIMIONATION_ONLY_MEMO = auto()
 
-    # ステルスレーザ発射法
-    STEALTH_LASER = auto()
+    # ロックされた候補法
+    LOCKED_CANDIDATES = auto()
 
     # ネイキッドペア法
     NAKED_PAIR = auto()

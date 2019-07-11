@@ -17,8 +17,8 @@ enum Method {
   /** 消去法(メモがその枡にしかない) */
   ELIMIONATION_ONLY_MEMO = "ELIMIONATION_ONLY_MEMO",
 
-  /** ステルスレーザ発射法 */
-  STEALTH_LASER = "STEALTH_LASER",
+  /** ロックされた候補 */
+  LOCKED_CANDIDATES = "LOCKED_CANDIDATES",
 
   /** ネイキッドペア法 */
   NAKED_PAIR = "NAKED_PAIR",

@@ -315,11 +315,11 @@ class MsgFactory():
         )
 
     @classmethod
-    def how_to_stealth_laser(
+    def how_to_locked_candidates(
         cls,
         how_anlz: HowToAnalyze
     ) -> Msg:
-        """ステルスレーザ発射法メッセージ生成
+        """ロックされた候補法メッセージ生成
 
         Args:
             how_anlz (HowToAnalyze): 解析方法
@@ -329,7 +329,7 @@ class MsgFactory():
         """
         return Msg(
             MsgType.INFO,
-            cls._get_msg(MsgCode.HOW_TO_STEALTH_LASER).format(
+            cls._get_msg(MsgCode.HOW_TO_LOCKED_CANDIDATES).format(
                 changedSqu=SudokuUtil.cnv_squ_to_text(
                     how_anlz.changed_squ),
                 triggerSqu=SudokuUtil.cnv_squ_to_text(

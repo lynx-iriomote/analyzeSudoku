@@ -55,9 +55,9 @@ class MsgCode(Enum):
     # 【{changedSqu}】【消去法】この枡に入りうる値が{commitVal}しかないため、値を{commitVal}で確定しました。
     HOW_TO_ELIMIONATION_ONE_MEMO = auto()
 
-    # ステルスレーザ発射法
-    # 【{changedSqu}】【ステルスレーザ発射法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
-    HOW_TO_STEALTH_LASER = auto()
+    # ロックされた候補法
+    # 【{changedSqu}】【ロックされた候補法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。
+    HOW_TO_LOCKED_CANDIDATES = auto()
 
     # ネイキッドペア法
     # 【{changedSqu}】【ネイキッドペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。
