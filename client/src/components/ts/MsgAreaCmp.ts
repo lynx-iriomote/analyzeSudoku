@@ -9,7 +9,7 @@ import $ from "jquery";
 const MSG_AREA_MSG_HEIGHT_DEFAULT: number = 60;
 
 /** メッセージエリアメッセージ表示領域の最大高さ */
-const MSG_AREA_MSG_HEIGHT_LIMIT: number = 200;
+const MSG_AREA_MSG_HEIGHT_LIMIT: number = 400;
 
 /**
  * メッセージエリアコンポーネント
@@ -38,7 +38,9 @@ export default class MsgAreaCmp extends Vue {
       return MSG_AREA_MSG_HEIGHT_DEFAULT + "px";
     }
     const wkHeight: number = this.svgHeight + 20;
-    return wkHeight > MSG_AREA_MSG_HEIGHT_LIMIT ? MSG_AREA_MSG_HEIGHT_LIMIT + "px" : wkHeight + "px";
+    return wkHeight > MSG_AREA_MSG_HEIGHT_LIMIT
+      ? MSG_AREA_MSG_HEIGHT_LIMIT + "px"
+      : wkHeight + "px";
   }
 
   /**
@@ -57,9 +59,7 @@ export default class MsgAreaCmp extends Vue {
     if (!this.isClearBtn) {
       return false;
     }
-    const lineCnt = this.cntAllMsgLine;
-    // 縮小表示かつ3行以上の場合は拡大ボタンを表示させる
-    return this.isSmall && lineCnt >= 3 ? true : false;
+    return this.isSmall;
   }
 
   /**
@@ -93,22 +93,6 @@ export default class MsgAreaCmp extends Vue {
   msgSplit(msg: Msg): string[] {
     return SudokuUtil.splitByCharPerLine(msg.msg, 47);
   }
-
-  // /**
-  //  * 最後のメッセージかどうか
-  //  * @param msg メッセージ
-  //  * @param splitIdx 分割IDX
-  //  * @param splitCnt 分割数
-  //  * @returns 最後のメッセージかどうか
-  //  */
-  // isLastMsg(msg: Msg, splitIdx: number, splitCnt: number): boolean {
-  //   if (sudokuModule.msgList.indexOf(msg) == sudokuModule.msgList.length - 1) {
-  //     if (splitIdx == splitCnt - 1) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 
   /**
    * 最後のメッセージかどうか
