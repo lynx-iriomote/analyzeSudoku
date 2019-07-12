@@ -27,7 +27,10 @@ enum Method {
   HIDDEN_PAIR = "HIDDEN_PAIR",
 
   /** X-Wing法 */
-  X_WING = "X_WING"
+  X_WING = "X_WING",
+
+  /** シンプルチェーン法 */
+  SIMPLE_CHAIN = "SIMPLE_CHAIN"
 }
 
 export default Method;
