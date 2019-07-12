@@ -31,3 +31,6 @@ class Method(Enum):
 
     # X-Wing法
     X_WING = auto()
+
+    # シンプルチェーン法
+    SIMPLE_CHAIN = auto()

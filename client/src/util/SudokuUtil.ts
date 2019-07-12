@@ -219,6 +219,9 @@ export default class SudokuUtil {
       case Method.X_WING:
         return "X-Wing法";
 
+      case Method.SIMPLE_CHAIN:
+        return "シンプルチェーン法";
+
       default:
         throw new TypeError(`not support method ${method}`);
     }
