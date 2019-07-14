@@ -70,3 +70,7 @@ class MsgCode(Enum):
     # X-Wing法
     # 【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_X_WING = auto()
+
+    # シンプルチェーン法
+    # 【{changedSqu}】【シンプルチェーン法】数字{removeMemo}に対して、{triggerSquList}でシンプルチェーンが成立するため、{changedSqu}のメモから{removeMemo}を除外しました。
+    HOW_TO_SIMPLE_CHAIN = auto()
