@@ -14,5 +14,6 @@
   "HOW_TO_LOCKED_CANDIDATES": "【{changedSqu}】【ロックされた候補法】{triggerSqu}のエリア内でメモ{removeMemo}が{regionPos}{region}目にしか存在しないため、{changedSqu}のメモから{removeMemo}を除外しました。",
   "HOW_TO_NAKED_PAIR": "【{changedSqu}】【ネイキッドペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。",
   "HOW_TO_HIDDEN_PAIR": "【{changedSqu}】【隠れペア法】同一{region}、{triggerSquList}で{pairList}の組み合わせが存在するため、{changedSqu}のメモから{removeMemo}を除外しました。",
-  "HOW_TO_X_WING": "【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。"
+  "HOW_TO_X_WING": "【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。",
+  "HOW_TO_SIMPLE_CHAIN": "【{changedSqu}】【シンプルチェーン法】数字{removeMemo}に対して、{triggerSquList}でシンプルチェーンが成立するため、{changedSqu}のメモから{removeMemo}を除外しました。"
 }

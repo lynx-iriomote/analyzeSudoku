@@ -441,3 +441,27 @@ class MsgFactory():
                     how_anlz.trigger_squ_list[3])
             )
         )
+
+    @classmethod
+    def how_to_simple_chain(
+        cls,
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """シンプルチェーン法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+
+        Returns:
+            Msg: メッセージ
+        """
+
+        return Msg(
+            MsgType.INFO,
+            cls._get_msg(MsgCode.HOW_TO_SIMPLE_CHAIN).format(
+                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                triggerSquList=SudokuUtil.cnv_squ_list_to_text(
+                    how_anlz.trigger_squ_list),
+                removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )
