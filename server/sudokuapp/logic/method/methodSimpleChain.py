@@ -7,8 +7,8 @@ from sudokuapp.const.LinkType import LinkType
 from sudokuapp.const.Method import Method
 from sudokuapp.const.Region import Region
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
+from sudokuapp.data.ChainNetwork import ChainNetwork
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
-from sudokuapp.data.Link import Link
 from sudokuapp.data.LinkTypeSqu import LinkTypeSqu
 from sudokuapp.data.Square import Square
 from sudokuapp.util.MsgFactory import MsgFactory
@@ -53,9 +53,6 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     """
 
     for loop_memo in range(1, 10):
-        # # TODO: debug
-        # if loop_memo != 7:
-        #     continue
         chain_list: List[List[Square]] =\
             _create_simple_chain(wk, loop_memo)
         for chain in chain_list:
@@ -152,18 +149,18 @@ def _create_simple_chain(
             clm_dict[squ.clm] = list()
         clm_dict[squ.clm].append(squ)
 
-    link_list: List[Link] = list()
-    link_dict: Dict[Square, Link] = dict()
+    chainnet_list: List[ChainNetwork] = list()
+    chainnet_dict: Dict[Square, ChainNetwork] = dict()
 
-    # リンクを作成
+    # チェーンネットワークを作成
     for squ in memo_include_list:
-        link: Link
-        if squ in link_dict:
-            link = link_dict[squ]
+        chainnet: ChainNetwork
+        if squ in chainnet_dict:
+            chainnet = chainnet_dict[squ]
         else:
-            link = Link(squ)
-            link_dict[squ] = link
-        link_list.append(link)
+            chainnet = ChainNetwork(squ)
+            chainnet_dict[squ] = chainnet
+        chainnet_list.append(chainnet)
         # コードが重複するのでエリア、行、列で処理をまとめる
         for region in [Region.AREA, Region.ROW, Region.CLM]:
             region_squ_list: List[Square]
@@ -187,108 +184,106 @@ def _create_simple_chain(
             for other_squ in region_squ_list:
                 if other_squ == squ:
                     continue
-                other_link: Link
-                if other_squ in link_dict:
-                    other_link = link_dict[other_squ]
+                other_chainnet: ChainNetwork
+                if other_squ in chainnet_dict:
+                    other_chainnet = chainnet_dict[other_squ]
                 else:
-                    other_link = Link(other_squ)
-                    link_dict[other_squ] = other_link
-                link.add_next_link(link_type, other_link)
+                    other_chainnet = ChainNetwork(other_squ)
+                    chainnet_dict[other_squ] = other_chainnet
+                chainnet.add_ref_chainnet(link_type, other_chainnet)
 
     # 開始枡をなめながらざっくりチェーンを作成
     chain_list: List[List[LinkTypeSqu]] = list()
-    for link in link_list:
+    for chainnet in chainnet_list:
         # 強リンクがあることが条件
         is_strong_link: bool = False
-        for next_link_type, next_link in link.next_link_list:
-            if next_link_type != LinkType.STRONG:
+        for ref_link_type, ref_chainnet in chainnet.ref_chainnet_list:
+            if ref_link_type != LinkType.STRONG:
                 continue
             is_strong_link = True
             break
 
-        if is_strong_link:
-            chain: List[LinkTypeSqu] = list()
-            chain_list.append(chain)
-            chain.append(LinkTypeSqu(None, link.squ))
-            # チェーンを(ざっくりと)作成
-            _create_chain(link_dict, chain_list, chain)
+        # 強リンクなし
+        if not is_strong_link:
+            continue
+
+        chain: List[LinkTypeSqu] = list()
+        chain_list.append(chain)
+        chain.append(LinkTypeSqu(None, chainnet.squ))
+        # チェーンを(ざっくりと)作成
+        _create_chain(chainnet_dict, chain_list, chain)
 
     # _create_chainだけだと対象外となるチェーンも含まれる。
     # ここから更に絞り込む
     _filter_chain(chain_list)
 
-    print("===== chain_list len={} =====".format(len(chain_list)))
-    for current_chain in chain_list:
-        print("  current_chain={}".format(current_chain))
-
     return chain_list
 
 
 def _create_chain(
-    link_dict: Dict[Square, Link],
+    chainnet_dict: Dict[Square, ChainNetwork],
     chain_list: List[List[LinkTypeSqu]],
     current_chain: List[LinkTypeSqu]
 ) -> None:
     """チェーン作成
 
     Args:
-        link_dict (Dict[Square, Link]): リンク辞書
+        chainnet_dict (Dict[Square, ChainNetwork]): チェーンネットワーク辞書
         chain_list (List[List[LinkTypeSqu]]): チェーンリスト
         current_chain (List[LinkTypeSqu]): カレントチェーン
     """
     # 最後のつながりと枡を抽出
-    last_link_type_squ: LinkTypeSqu = current_chain[len(current_chain) - 1]
-    last_link: Link = link_dict[last_link_type_squ.squ]
+    last_link_type: LinkTypeSqu = current_chain[len(current_chain) - 1]
+    last_chainnet: ChainNetwork = chainnet_dict[last_link_type.squ]
 
-    # 次のリンク先を検索
+    # 次のチェーンネットワークを検索
     # 枡 -強リンク-> 枡 -弱リンク-> 枡 -強リンク-> 枡 -弱リンク->
     # ... 枡 -強リンク-> 枡
     # でつながる
     # ※弱リンクは強リンクでも可能
     # chainが奇数個の場合は強リンクを探し
     # 偶数個の場合は弱リンク(または強リンク)を探す
-    next_link_list: List[Tuple[LinkType, Link]]
+    chainnet_list: List[Tuple[LinkType, ChainNetwork]]
     if len(current_chain) % 2 == 1:
-        next_link_list = list(filter(
+        chainnet_list = list(filter(
             lambda next_link: next_link[0] == LinkType.STRONG,
-            last_link.next_link_list
+            last_chainnet.ref_chainnet_list
         ))
     else:
-        next_link_list = last_link.next_link_list
+        chainnet_list = last_chainnet.ref_chainnet_list
 
     # リンク先なし
-    if len(next_link_list) == 0:
+    if len(chainnet_list) == 0:
         return
 
     # ブランチ作成用にカレントチェーンをコピー
     current_chain_copy: List[LinkTypeSqu] =\
         copy.copy(current_chain)
     link_cnt: int = 0
-    for link_type, next_link in next_link_list:
+    for link_type, chainnet in chainnet_list:
         # 無限にチェーンがつながってしまう可能性があるため、
         # カレントチェーンに重複があった場合は終了
         dup = False
         for link_type_squ in current_chain:
-            if link_type_squ.squ == next_link.squ:
+            if link_type_squ.squ == chainnet.squ:
                 dup = True
                 break
         if dup:
             continue
 
-        next_link: Link = link_dict[next_link.squ]
         if link_cnt == 0:
-            current_chain.append(LinkTypeSqu(link_type, next_link.squ))
+            current_chain.append(LinkTypeSqu(link_type, chainnet.squ))
             # 再起呼出
-            _create_chain(link_dict, chain_list, current_chain)
+            _create_chain(chainnet_dict, chain_list, current_chain)
 
         else:
             # ブランチチェーン作成
             branch_chain: List[LinkTypeSqu] =\
                 copy.copy(current_chain_copy)
             chain_list.append(branch_chain)
-            branch_chain.append(LinkTypeSqu(link_type, next_link.squ))
+            branch_chain.append(LinkTypeSqu(link_type, chainnet.squ))
             # 再起呼出
-            _create_chain(link_dict, chain_list, branch_chain)
+            _create_chain(chainnet_dict, chain_list, branch_chain)
         link_cnt += 1
 
 
