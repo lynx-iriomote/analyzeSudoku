@@ -92,16 +92,27 @@ def cnv_json_to_analyze_wk(json: Dict[str, any]) -> AnalyzeWk:
             squ_id: int = squ_dict["squId"]
             squ: Square = Square(area_id, squ_id)
             # ヒント
-            if "hintVal" in squ_dict:
+            if "hintVal" in squ_dict and squ_dict["hintVal"]:
                 squ.hint_val = squ_dict["hintVal"]
+                area.squ_list.append(squ)
+                continue
+
             # 値（オプションによっては無視する）
-            elif "val" in squ_dict and not ignore_val:
-                squ.val = squ_dict["val"]
+            if "val" in squ_dict and squ_dict["val"]:
+                if not ignore_val:
+                    squ.val = squ_dict["val"]
+                area.squ_list.append(squ)
+                continue
+
             # メモ（オプションによっては無視する）
-            elif "memoValList" in squ_dict and not ignore_memo:
-                memo_val_list: List[int] = squ_dict["memoValList"]
-                if len(memo_val_list) > 0:
-                    squ.memo_val_list.extend(memo_val_list)
+            if "memoValList" in squ_dict and squ_dict["memoValList"]:
+                if not ignore_memo:
+                    memo_val_list: List[int] = squ_dict["memoValList"]
+                    if len(memo_val_list) > 0:
+                        squ.memo_val_list.extend(memo_val_list)
+                area.squ_list.append(squ)
+                continue
+
             area.squ_list.append(squ)
 
     wk: AnalyzeWk = AnalyzeWk(flame)
