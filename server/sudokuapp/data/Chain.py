@@ -5,7 +5,7 @@ from sudokuapp.data.Square import Square
 
 
 @dataclasses.dataclass
-class LinkTypeSqu():
+class Chain():
     """リンク種類と枡の組み合わせ
 
     Attributes:
@@ -47,8 +47,6 @@ class LinkTypeSqu():
             link_type_text: str
             if self.link_type == LinkType.STRONG:
                 link_type_text = "STRG"
-            elif self.link_type == LinkType.WEEK:
-                link_type_text = "WEEK"
             else:
                 link_type_text = self.link_type.name
             text += "-{}->".format(link_type_text)
