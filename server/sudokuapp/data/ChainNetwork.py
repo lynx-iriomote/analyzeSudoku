@@ -44,25 +44,26 @@ class ChainNetwork():
         """
 
         # 同一参照枡の追加は行わない
-        for next_link_type, next_link in self.ref_chainnet_list:
-            if self.squ != next_link.squ:
+        for ref_link_type, ref_chainnet in self.ref_chainnet_list:
+            if self.squ != ref_chainnet.squ:
                 continue
 
-            # 弱リンクから強リンクに変更
+            # 強リンクから弱リンクに変更
             # [補足]
             # 下記のようなケースを想定
-            # @枡がself.squ、$枡が弱リンクでself.ref_chainnet_listに存在する場合
-            # $枡はエリアで見た場合には弱リンクになるが、行で見た場合には強リンクになる
+            # @枡がself.squ、$枡が強リンクでself.ref_chainnet_listに存在する場合
+            # $枡はエリアで見た場合には強リンクになるが、行で見た場合には弱リンクになる
+            # ⇒強リンクではなくなっているため、弱リンクに変更する
             # +[1]-----------------------+[2]-------------------------+[3]-------------------------+
             # | 1:1(@)  1:2($)  1:3      | 1:4      1:5      1:6      | 1:7      1:8      1:9      |
-            # | m=[N,?] m=[N,?] ?        | ?        ?        ?        | ?        ?        ?        |
+            # | m=[N,?] m=[N,?] ?        | m=[N,?]  ?        ?        | ?        ?        ?        |
             # | 2:1(#)  2:2     2:3      | 2:4      2:5      2:6      | 2:7      2:8      2:9      |
-            # | m=[N,?] ?       ?        | ?        ?        ?        | ?        ?        ?        |
+            # | ?       ?       ?        | ?        ?        ?        | ?        ?        ?        |
             # | 3:1     3:2     3:3      | 3:4      3:5      3:6      | 3:7      3:8      3:9      |
             # | ?       ?       ?        | ?        ?        ?        | ?        ?        ?        |
-            if next_link.link_type == LinkType.WEEK and\
-                    link_type == LinkType.STRONG:
-                next_link.link_type = LinkType.STRONG
+            if ref_chainnet.link_type == LinkType.STRONG and\
+                    link_type == LinkType.WEEK:
+                ref_chainnet.link_type = LinkType.WEEK
 
             # 同一参照枡の追加は行わない
             return
@@ -92,8 +93,16 @@ class ChainNetwork():
             str: squ LinkType@squ LinkType@squ ...
         """
         text: str = "{}".format(self.squ)
-        for link_type, link in self.ref_chainnet_list:
+        for link_type, chainnet in self.ref_chainnet_list:
+            link_type_text: str = ""
+            if link_type is not None:
+                if link_type == LinkType.STRONG:
+                    link_type_text = "強"
+                elif link_type == LinkType.WEEK:
+                    link_type_text = "弱"
+                else:
+                    link_type_text = link_type.name
             text += " {}:{}@{}".format(
-                link.squ.row, link.squ.clm, link_type.name)
+                chainnet.squ.row, chainnet.squ.clm, link_type_text)
 
         return text

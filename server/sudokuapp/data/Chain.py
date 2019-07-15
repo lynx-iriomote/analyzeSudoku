@@ -6,14 +6,18 @@ from sudokuapp.data.Square import Square
 
 @dataclasses.dataclass
 class Chain():
-    """リンク種類と枡の組み合わせ
+    """チェーンを表現
+
+    【イメージ】
+    枡 -STRONG-> 枡 -WEEK-> 枡 -STRONG-> ...
+       ^^^^^^^^^^^^ ←ここを表現
 
     Attributes:
-        link_type (link_type): リンク種類
+        link_type (link_type): 前の枡とどうリンクしているか
         squ (Square): 枡
     """
 
-    # リンク種類
+    # 前の枡とどうリンクしているか
     link_type: LinkType
 
     # 枡
@@ -39,16 +43,18 @@ class Chain():
         """文字列表現
 
         Returns:
-            str: -LinkType->squ
+            str: =LinkType=squ
         """
 
         text: str = ""
         if self.link_type is not None:
             link_type_text: str
             if self.link_type == LinkType.STRONG:
-                link_type_text = "STRG"
+                link_type_text = "強"
+            elif self.link_type == LinkType.WEEK:
+                link_type_text = "弱"
             else:
                 link_type_text = self.link_type.name
-            text += "-{}->".format(link_type_text)
+            text += "={}=".format(link_type_text)
         text += "{}:{}".format(self.squ.row, self.squ.clm)
         return text
