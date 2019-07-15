@@ -91,8 +91,7 @@ class ChainNetwork():
         Returns:
             str: squ LinkType@squ LinkType@squ ...
         """
-        text: str = "{}".format(
-            self.squ)
+        text: str = "{}".format(self.squ)
         for link_type, link in self.ref_chainnet_list:
             text += " {}:{}@{}".format(
                 link.squ.row, link.squ.clm, link_type.name)
