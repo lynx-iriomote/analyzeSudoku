@@ -21,6 +21,7 @@ class AnalyzeWk():
         limit_method_list (List[Method]): 制限メソッド
         histroy_list (List[History): 解析履歴
         all_squ_list (List[Square]): 全枡リスト
+        _all_squ_dict (Dict[str, Square]): 全枡辞書
         row_dict (Dict[int, List]): 行辞書
         clm_dict (Dict[int, List]): 列辞書
         msg_list (List[Msg]): 枡に紐付かないメッセージリスト
@@ -45,6 +46,11 @@ class AnalyzeWk():
     # 全枡リスト
     all_squ_list: List[Square] = dataclasses.field(
         default_factory=list, init=False)
+
+    # 全枡辞書
+    # 行:列 -> 枡
+    _all_squ_dict: Dict[str, Square] = dataclasses.field(
+        default_factory=dict, init=False)
 
     # 行辞書
     row_dict: Dict[int, List[Square]] = dataclasses.field(
@@ -75,6 +81,11 @@ class AnalyzeWk():
                 # 全枡リスト
                 self.all_squ_list.append(squ)
 
+                # 全枡辞書
+                self._all_squ_dict[
+                    self._create_key_for_squ_dict(squ.row, squ.clm)
+                ] = squ
+
                 # ヒント枡
                 if squ.hint_val is not None:
                     self.hint_list.append(squ)
@@ -88,6 +99,31 @@ class AnalyzeWk():
                 if squ.clm not in self.clm_dict:
                     self.clm_dict[squ.clm] = list()
                 self.clm_dict[squ.clm].append(squ)
+
+    def _create_key_for_squ_dict(self, row: int, clm: int) -> str:
+        """枡辞書のキーを生成
+
+        Args:
+            row (int): 行
+            clm (int): 列
+
+        Returns:
+            str: 枡辞書のキー
+        """
+        return "{}:{}".format(str(row), str(clm))
+
+    def get_squ(self, row: int, clm: int) -> Square:
+        """行と列から枡を取得
+
+        Args:
+            row (int): 行
+            clm (int): 列
+
+        Returns:
+            Square: 枡
+        """
+        return self._all_squ_dict[
+            self._create_key_for_squ_dict(row, clm)]
 
     def addHistry(self, how_anlz_list: List[HowToAnalyze]) -> None:
         """枠をヒストリーに追加
