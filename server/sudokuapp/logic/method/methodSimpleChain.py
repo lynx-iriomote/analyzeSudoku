@@ -1,7 +1,7 @@
 """シンプルチェーン
 """
 import copy
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List
 
 from sudokuapp.const.LinkType import LinkType
 from sudokuapp.const.Method import Method
@@ -9,6 +9,7 @@ from sudokuapp.const.Region import Region
 from sudokuapp.data.AnalyzeWk import AnalyzeWk
 from sudokuapp.data.Chain import Chain
 from sudokuapp.data.ChainNetwork import ChainNetwork
+from sudokuapp.data.ChainNetworkRef import ChainNetworkRef
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
 from sudokuapp.util.MsgFactory import MsgFactory
@@ -108,29 +109,20 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
             first_squ = chain_list[0].squ
             last_squ = chain_list[len(chain_list) - 1].squ
 
-            # 交差枡を抽出
-            change_squ_list: List[Square] = list()
-            for squ in wk.all_squ_list:
-                # 未確定かつメモが存在する枡が対象となる
-                if squ.get_fixed_val() is None and\
-                        loop_memo in squ.memo_val_list:
-                    pass
-                else:
-                    continue
+            # 交差枡取得
+            cross_squ_list: List[Square] = list()
+            cross_squ_list.append(
+                wk.get_squ(first_squ.row, last_squ.clm))
+            cross_squ_list.append(
+                wk.get_squ(last_squ.row, first_squ.clm))
 
-                # チェーンの最初と最後の枡の交差枡を抽出
-                if squ.row == first_squ.row and\
-                        squ.clm == last_squ.clm:
-                    pass
-                elif squ.row == last_squ.row and\
-                        squ.clm == first_squ.clm:
-                    pass
-                else:
-                    continue
-                change_squ_list.append(squ)
-                # 交差枡は2つ以上存在しない
-                if len(change_squ_list) == 2:
-                    break
+            # 交差枡が変更対象かどうか判定
+            change_squ_list: List[Square] = list()
+            for cross_squ in cross_squ_list:
+                # 未確定かつメモが存在する枡が対象となる
+                if cross_squ.get_fixed_val() is None and\
+                        loop_memo in cross_squ.memo_val_list:
+                    change_squ_list.append(cross_squ)
 
             # 対象なし
             # ⇒次のチェーンをチェック
@@ -258,6 +250,7 @@ def _create_simple_chain(
     #     ref_chainnet_list=[=強= 4:3, =強= 6:4(@), =弱= 8:5, =弱= 9:5(!)]
     # ...
     for squ in memo_include_list:
+
         chainnet: ChainNetwork
         if squ in chainnet_dict:
             chainnet = chainnet_dict[squ]
@@ -265,6 +258,7 @@ def _create_simple_chain(
             chainnet = ChainNetwork(squ)
             chainnet_dict[squ] = chainnet
         chainnet_list.append(chainnet)
+
         # コードが重複するのでエリア、行、列で処理をまとめる
         for region in [Region.AREA, Region.ROW, Region.CLM]:
             region_squ_list: List[Square]
@@ -340,8 +334,8 @@ def _create_simple_chain(
     for chainnet in chainnet_list:
         # チェーンネットワークに強リンクがあることが条件
         is_strong_link: bool = False
-        for ref_link_type, ref_chainnet in chainnet.ref_chainnet_list:
-            if ref_link_type != LinkType.STRONG:
+        for ref_chainnet in chainnet.ref_chainnet_list:
+            if ref_chainnet.link_type != LinkType.STRONG:
                 continue
             is_strong_link = True
             break
@@ -428,10 +422,10 @@ def _create_chain_rough(
     # ※弱リンクは強リンクでも可能
     # current_chain_listが奇数個の場合は強リンクを探し
     # 偶数個の場合は弱リンク(または強リンク)を探す
-    chainnet_list: List[Tuple[LinkType, ChainNetwork]]
+    chainnet_list: List[ChainNetworkRef]
     if len(current_chain_list) % 2 == 1:
         chainnet_list = list(filter(
-            lambda next_link: next_link[0] == LinkType.STRONG,
+            lambda ref_chainnet: ref_chainnet.link_type == LinkType.STRONG,
             last_chainnet.ref_chainnet_list
         ))
     else:
@@ -445,7 +439,10 @@ def _create_chain_rough(
     current_chain_copy: List[Chain] =\
         copy.copy(current_chain_list)
     link_cnt: int = 0
-    for link_type, chainnet in chainnet_list:
+    # for link_type, chainnet in chainnet_list:
+    for ref_chainnet in chainnet_list:
+        link_type: LinkType = ref_chainnet.link_type
+        chainnet: ChainNetwork = ref_chainnet.chainnet
         # 無限にチェーンがつながってしまう可能性があるため、
         # カレントチェーンに重複があった場合はスキップ
         dup = False
@@ -677,3 +674,10 @@ def _filter_chain(
             chain_dict_for_dup[chain_dict_for_dup_key] = chain_list
         else:
             all_chain_list.remove(chain_list)
+
+        # 例に当てはめるとall_chain_listは最終的に以下のようになる
+        # 4:3 =強= 4:5(#) =強= 6:4(@) =強= 8:4
+        # 4:3 =強= 4:5(#) =強= 6:4(@) =強= 8:4 =弱= 9:5(!) =強= 9:2(+)
+        # ...
+        # 6:4(@) =強= 4:5(#) =弱= 9:5(!) =強= 9:2(+)
+        # ...

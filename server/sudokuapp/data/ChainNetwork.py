@@ -1,8 +1,9 @@
 import dataclasses
-from typing import List, Tuple
+from typing import List
 
 from sudokuapp.const.LinkType import LinkType
 from sudokuapp.data.Square import Square
+from sudokuapp.data.ChainNetworkRef import ChainNetworkRef
 
 
 @dataclasses.dataclass
@@ -32,7 +33,7 @@ class ChainNetwork():
     squ: Square
 
     # 参照先ネットワークリスト
-    ref_chainnet_list: List[Tuple[LinkType, any]] = dataclasses.field(
+    ref_chainnet_list: List[ChainNetworkRef] = dataclasses.field(
         default_factory=list, init=False)
 
     def add_ref_chainnet(self, link_type: LinkType, chainnet: any) -> None:
@@ -43,10 +44,13 @@ class ChainNetwork():
             chainnet (ChainNetwork): チェーンネットワーク
         """
 
-        # 同一参照枡の追加は行わない
-        for ref_link_type, ref_chainnet in self.ref_chainnet_list:
-            if self.squ != ref_chainnet.squ:
+        # 重複したチェインネットは追加しない
+        for ref_chainnet in self.ref_chainnet_list:
+            # 重複なし
+            if chainnet.squ != ref_chainnet.chainnet.squ:
                 continue
+
+            # 重複あり
 
             # 強リンクから弱リンクに変更
             # [補足]
@@ -61,14 +65,27 @@ class ChainNetwork():
             # | ?       ?       ?        | ?        ?        ?        | ?        ?        ?        |
             # | 3:1     3:2     3:3      | 3:4      3:5      3:6      | 3:7      3:8      3:9      |
             # | ?       ?       ?        | ?        ?        ?        | ?        ?        ?        |
+            # エリアだけでチェーンネットワークを作成すると以下のようになる
+            # squ=1:1(@)
+            # ref_chainnet_list=[=強=1:2($)]
+            # 上記状態から行を元にチェーンネットワークを更新する場合、呼び出し元からは以下のパラメータが想定
+            # =弱=1:2($)
+            # =弱=1:4
+            # 重複チェックだけだと以下のようになり
+            # squ=1:1(@)
+            # ref_chainnet_list=[=強=1:2($), =弱=1:4]
+            # 1:2($)が強リンクのままとなってしまう。
+            # ⇒強リンクから弱リンクにしようとした場合は弱リンクに変更する
+            # [補足2]
+            # 弱リンクから強リンクもNG。強リンクから強リンクはOK。
             if ref_chainnet.link_type == LinkType.STRONG and\
                     link_type == LinkType.WEEK:
                 ref_chainnet.link_type = LinkType.WEEK
 
-            # 同一参照枡の追加は行わない
+            # 重複したチェインネットは追加しない
             return
 
-        self.ref_chainnet_list.append((link_type, chainnet))
+        self.ref_chainnet_list.append(ChainNetworkRef(link_type, chainnet))
 
     def __str__(self) -> str:
         """文字列表現
@@ -90,19 +107,10 @@ class ChainNetwork():
         """文字列表現
 
         Returns:
-            str: squ LinkType@squ LinkType@squ ...
+            str: squ =LinkType=squ =LinkType=squ ...
         """
         text: str = "{}".format(self.squ)
-        for link_type, chainnet in self.ref_chainnet_list:
-            link_type_text: str = ""
-            if link_type is not None:
-                if link_type == LinkType.STRONG:
-                    link_type_text = "強"
-                elif link_type == LinkType.WEEK:
-                    link_type_text = "弱"
-                else:
-                    link_type_text = link_type.name
-            text += " {}:{}@{}".format(
-                chainnet.squ.row, chainnet.squ.clm, link_type_text)
+        for ref_chainnet in self.ref_chainnet_list:
+            text += " {}".format(ref_chainnet)
 
         return text
