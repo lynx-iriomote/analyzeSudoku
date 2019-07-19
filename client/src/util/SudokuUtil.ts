@@ -238,4 +238,106 @@ export default class SudokuUtil {
     text = text.replace(regexp, val);
     return text;
   }
+
+  /**
+   * エリアのX座標
+   * @returns エリアのX座標
+   */
+  static areaPosX(areaId: number): number {
+    switch (areaId) {
+      case 1:
+      // FALL THROUTH
+      case 4:
+      // FALL THROUTH
+      case 7:
+        return 0;
+
+      case 2:
+      // FALL THROUTH
+      case 5:
+      // FALL THROUTH
+      case 8:
+        return 150;
+
+      default:
+        return 300;
+    }
+  }
+
+  /**
+   * エリアのY座標
+   * @returns エリアのY座標
+   */
+  static areaPosY(areaId: number): number {
+    switch (areaId) {
+      case 1:
+      // FALL THROUTH
+      case 2:
+      // FALL THROUTH
+      case 3:
+        return 0;
+
+      case 4:
+      // FALL THROUTH
+      case 5:
+      // FALL THROUTH
+      case 6:
+        return 150;
+
+      default:
+        return 300;
+    }
+  }
+
+  /**
+   * 枡のX座標
+   * @param squ 枡
+   * @returns 枡のX座標
+   */
+  static squarePosX(squ: Square): number {
+    switch (squ.squId) {
+      case 1:
+      // FALL THROUTH
+      case 4:
+      // FALL THROUTH
+      case 7:
+        return SudokuUtil.areaPosX(squ.areaId) + 0;
+
+      case 2:
+      // FALL THROUTH
+      case 5:
+      // FALL THROUTH
+      case 8:
+        return SudokuUtil.areaPosX(squ.areaId) + 50;
+
+      default:
+        return SudokuUtil.areaPosX(squ.areaId) + 100;
+    }
+  }
+
+  /**
+   * 枡のY座標
+   * @param squ 枡
+   * @returns 枡のY座標
+   */
+  static squarePosY(squ: Square): number {
+    switch (squ.squId) {
+      case 1:
+      // FALL THROUTH
+      case 2:
+      // FALL THROUTH
+      case 3:
+        return SudokuUtil.areaPosY(squ.areaId) + 0;
+
+      case 4:
+      // FALL THROUTH
+      case 5:
+      // FALL THROUTH
+      case 6:
+        return SudokuUtil.areaPosY(squ.areaId) + 50;
+
+      default:
+        return SudokuUtil.areaPosY(squ.areaId) + 100;
+    }
+  }
 }

@@ -4,9 +4,6 @@
     <SquareCmp
       v-for="squ in area.squList"
       :key="squ.squId"
-      :area="area"
-      :startX="x"
-      :startY="y"
       :squ="squ"
     ></SquareCmp>
   </g>
