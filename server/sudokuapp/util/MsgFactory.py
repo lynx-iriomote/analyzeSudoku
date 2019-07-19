@@ -460,8 +460,8 @@ class MsgFactory():
             MsgType.INFO,
             cls._get_msg(MsgCode.HOW_TO_SIMPLE_CHAIN).format(
                 changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
-                triggerSquList=SudokuUtil.cnv_squ_list_to_text(
-                    how_anlz.trigger_squ_list),
+                chainSquList=SudokuUtil.cnv_squ_list_to_text(
+                    how_anlz.chain_squ_list),
                 removeMemo=how_anlz.remove_memo_list[0]
             )
         )

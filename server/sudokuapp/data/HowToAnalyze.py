@@ -16,9 +16,10 @@ class HowToAnalyze():
         msg (Msg): メッセージ
         region (Region): 領域
         commit_val (int): 確定された値
-        remove_memo_list (int): 除外されたメモ
+        remove_memo_list (List[int]): 除外されたメモ
         changed_squ (Square): 変更された枡
-        trigger_squ_list (Square): 変更された枡のトリガーとなる枡
+        trigger_squ_list (List[Square]): 変更された枡のトリガーとなる枡
+        chain_squ_list (List[Square]): Chain枡リスト
 
     """
 
@@ -44,6 +45,10 @@ class HowToAnalyze():
 
     # 変更された枡のトリガーとなる枡
     trigger_squ_list: List[Square] = dataclasses.field(
+        default_factory=list, init=False)
+
+    # Chain枡リスト
+    chain_squ_list: List[Square] = dataclasses.field(
         default_factory=list, init=False)
 
     def cnv_to_json(self) -> Dict[str, any]:
@@ -74,6 +79,13 @@ class HowToAnalyze():
             for tirigger_squ in self.trigger_squ_list:
                 trigger_squ_json_list.append(
                     [tirigger_squ.row, tirigger_squ.clm])
+
+        if (len(self.chain_squ_list) > 0):
+            chain_squ_json_list = []
+            change_dict["chainSquList"] = chain_squ_json_list
+            for chain_squ in self.chain_squ_list:
+                chain_squ_json_list.append(
+                    [chain_squ.row, chain_squ.clm])
 
         return change_dict
 
