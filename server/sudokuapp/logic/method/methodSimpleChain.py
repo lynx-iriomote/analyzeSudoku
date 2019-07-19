@@ -130,9 +130,9 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 continue
 
             # 対象あり
-            trigger_squ_list: List[Square] = list()
+            chain_squ_list: List[Square] = list()
             for chain in chain_list:
-                trigger_squ_list.append(chain.squ)
+                chain_squ_list.append(chain.squ)
 
             for change_squ in change_squ_list:
 
@@ -143,7 +143,8 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 how_anlz: HowToAnalyze = HowToAnalyze(Method.SIMPLE_CHAIN)
                 how_anlz.changed_squ = change_squ
                 how_anlz.remove_memo_list.append(loop_memo)
-                how_anlz.trigger_squ_list.extend(trigger_squ_list)
+                how_anlz.trigger_squ_list.extend(chain_squ_list)
+                how_anlz.chain_squ_list.extend(chain_squ_list)
                 how_anlz.msg = MsgFactory.how_to_simple_chain(how_anlz)
 
                 how_anlz_list.append(how_anlz)
