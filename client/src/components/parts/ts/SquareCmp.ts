@@ -3,24 +3,13 @@ import Area from "@/data/Area";
 import Square from "@/data/Square";
 import { sudokuModule } from "@/store/modules/SudokuModule";
 import HowToAnalyze from "@/data/HowToAnalyze";
+import SudokuUtil from "@/util/SudokuUtil";
 
 /**
  * 枡コンポーネント
  */
 @Component
 export default class SquareCmp extends Vue {
-  /** エリア */
-  @Prop({ required: true })
-  area!: Area;
-
-  /** 開始X座標 */
-  @Prop({ required: true })
-  startX!: number;
-
-  /** 開始Y座標 */
-  @Prop({ required: true })
-  startY!: number;
-
   /** 枡 */
   @Prop({ required: true })
   squ!: Square;
@@ -91,7 +80,7 @@ export default class SquareCmp extends Vue {
     }
     // 選択されている枡
     else if (this.squ == sudokuModule.selectedSqu) {
-      if (this.area.areaId % 2 == 0) {
+      if (this.squ.areaId % 2 == 0) {
         return "square-bg-even-selected";
       } else {
         return "square-bg-odd-selected";
@@ -99,7 +88,7 @@ export default class SquareCmp extends Vue {
     }
     // ハイライトされている枡
     else if (sudokuModule.hilightSquList.indexOf(this.squ) >= 0) {
-      if (this.area.areaId % 2 == 0) {
+      if (this.squ.areaId % 2 == 0) {
         return "square-bg-even-hilight";
       } else {
         return "square-bg-odd-hilight";
@@ -156,24 +145,7 @@ export default class SquareCmp extends Vue {
    * X座標
    */
   get x(): number {
-    switch (this.squ.squId) {
-      case 1:
-      // FALL THROUTH
-      case 4:
-      // FALL THROUTH
-      case 7:
-        return this.startX + 0;
-
-      case 2:
-      // FALL THROUTH
-      case 5:
-      // FALL THROUTH
-      case 8:
-        return this.startX + 50;
-
-      default:
-        return this.startX + 100;
-    }
+    return SudokuUtil.squarePosX(this.squ);
   }
 
   /**
@@ -205,25 +177,7 @@ export default class SquareCmp extends Vue {
    * Y座標
    */
   get y(): number {
-    // return this.x;
-    switch (this.squ.squId) {
-      case 1:
-      // FALL THROUTH
-      case 2:
-      // FALL THROUTH
-      case 3:
-        return this.startY + 0;
-
-      case 4:
-      // FALL THROUTH
-      case 5:
-      // FALL THROUTH
-      case 6:
-        return this.startY + 50;
-
-      default:
-        return this.startY + 100;
-    }
+    return SudokuUtil.squarePosY(this.squ);
   }
 
   /**
