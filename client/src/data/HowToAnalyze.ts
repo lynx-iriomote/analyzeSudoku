@@ -32,6 +32,9 @@ export default class HowToAnalyze {
   /** トリガー枡リスト */
   triggerSquList!: Square[] | null;
 
+  /** Chain枡リスト */
+  chainSquList!: Square[] | null;
+
   /**
    * コンストラクタ
    * @param method 解法
@@ -61,6 +64,7 @@ export default class HowToAnalyze {
       removeMemoList: number[] | null;
       changedSqu: number[] | null;
       triggerSquList: number[][] | null;
+      chainSquList: number[][] | null;
     }
   ): HowToAnalyze {
     const changeHistory: HowToAnalyze = new HowToAnalyze(
@@ -103,9 +107,29 @@ export default class HowToAnalyze {
         changeHistory.triggerSquList.push(triggerSqu);
       });
     }
+    if (json.chainSquList) {
+      json.chainSquList.forEach(chainSquJson => {
+        const row: number = chainSquJson[0];
+        const clm: number = chainSquJson[1];
+        const chainSqu: Square | undefined = allSquList.find(loopSqu => {
+          return loopSqu.row == row && loopSqu.clm == clm;
+        });
+        if (!chainSqu) {
+          throw new TypeError(`chainSqu not found row=${row} clm=${clm}`);
+        }
+        if (!changeHistory.chainSquList) {
+          changeHistory.chainSquList = [];
+        }
+        changeHistory.chainSquList.push(chainSqu);
+      });
+    }
     return changeHistory;
   }
 
+  /**
+   * 文字列表現
+   * @returns メソッド:メッセージ
+   */
   toString(): string {
     return `${this.method}:${this.msg}`;
   }
