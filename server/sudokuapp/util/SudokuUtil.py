@@ -89,6 +89,9 @@ class SudokuUtil(object):
         elif method == Method.HIDDEN_PAIR:
             return "隠れペア法"
 
+        elif method == Method.X_Y_CHAIN:
+            return "XYチェーン法"
+
         elif method == Method.SIMPLE_CHAIN:
             return "シンプルチェーン法"
 
