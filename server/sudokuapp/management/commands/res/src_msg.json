@@ -133,7 +133,7 @@
   },
   "HOW_TO_SIMPLE_CHAIN": {
     "name": "シンプルチェーン法",
-    "msg": "【{changedSqu}】【シンプルチェーン法】数字{removeMemo}に対して、{chainSquList}でシンプルチェーンが成立するため、{changedSqu}のメモから{removeMemo}を除外しました。",
+    "msg": "【{changedSqu}】【シンプルチェーン法】{chainSquList}で数字{removeMemo}のシンプルチェーンが成立するため、始端と終端の交差枡の{changedSqu}のメモから{removeMemo}を除外しました。",
     "ts": false,
     "py": true
   }
