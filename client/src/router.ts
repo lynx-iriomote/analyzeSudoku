@@ -1,9 +1,9 @@
 import SudokuRouterConst from "@/const/SudokuRouterConst";
 import router from "@/router";
+import { sudokuModule } from "@/store/modules/SudokuModule";
 import InputPage from "@/views/InputPage.vue";
 import Vue from "vue";
 import Router, { Route } from "vue-router";
-import { sudokuModule } from "@/store/modules/SudokuModule";
 import { Position } from "vue-router/types/router";
 
 Vue.use(Router);
