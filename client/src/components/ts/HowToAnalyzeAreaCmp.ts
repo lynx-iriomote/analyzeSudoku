@@ -83,12 +83,12 @@ export default class HowToAnalyzeAreaCmp extends Vue {
   }
 
   /**
-   * メッセージを全角24文字で分割
+   * メッセージを全角23文字で分割
    * @param howTo 解読方法
    * @returs 分割した文字列配列
    */
   private msgSplit(howTo: HowToAnalyze): string[] {
-    return SudokuUtil.splitByCharPerLine(howTo.msg.msg, 48);
+    return SudokuUtil.splitByCharPerLine(howTo.msg.msg, 46);
   }
 
   /**
