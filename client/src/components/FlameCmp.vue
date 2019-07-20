@@ -7,15 +7,19 @@
       width="450"
       height="450"
     >
+      <!-- エリアを9個描写 -->
       <AreaCmp v-for="area in flame.areaList" :key="area.areaId" :area="area" />
 
+      <!-- Chain描写 -->
+      <ChainCmp v-if="isChainCmp" />
+
+      <!-- 枠の線 -->
       <rect
         x="0"
         y="0"
         width="450"
         height="450"
         fill="none"
-        stroke="black"
         stroke-width="2"
         class="sudoku-flame-flamerect"
       />
