@@ -13,6 +13,7 @@ from sudokuapp.data.ChainNetworkRef import ChainNetworkRef
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Square import Square
 from sudokuapp.util.MsgFactory import MsgFactory
+from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
 def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
@@ -110,11 +111,8 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
             last_squ = chain_list[len(chain_list) - 1].squ
 
             # 交差枡取得
-            cross_squ_list: List[Square] = list()
-            cross_squ_list.append(
-                wk.get_squ(first_squ.row, last_squ.clm))
-            cross_squ_list.append(
-                wk.get_squ(last_squ.row, first_squ.clm))
+            cross_squ_list: List[Square] = SudokuUtil.find_cross_squ(
+                wk, first_squ, last_squ)
 
             # 交差枡が変更対象かどうか判定
             change_squ_list: List[Square] = list()

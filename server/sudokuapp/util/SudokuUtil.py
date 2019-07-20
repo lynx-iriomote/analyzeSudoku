@@ -4,6 +4,7 @@ from sudokuapp.const.Method import Method
 from sudokuapp.const.Region import Region
 from sudokuapp.data.Flame import Flame
 from sudokuapp.data.Square import Square
+from sudokuapp.data.AnalyzeWk import AnalyzeWk
 
 
 class SudokuUtil(object):
@@ -180,7 +181,28 @@ class SudokuUtil(object):
         return list(filter(
             lambda squ: squ.get_fixed_val() is None and memo in squ.memo_val_list,
             squ_list))
-        pass
+
+    @classmethod
+    def find_cross_squ(
+        cls, wk: AnalyzeWk, squ1: Square, squ2: Square
+        # cls, wk: any, squ1: Square, squ2: Square
+    ) -> List[Square]:
+        """2個の枡の交差枡を検索する
+
+        Args:
+            wk (AnalyzeWk): 解析WK
+            squ1 (Square): 枡1
+            squ2 (Square): 枡2
+
+        Returns:
+            List[Square]: 交差枡
+        """
+        cross_squ_list: List[Square] = list()
+        cross_squ_list.append(
+            wk.get_squ(squ1.row, squ2.clm))
+        cross_squ_list.append(
+            wk.get_squ(squ2.row, squ1.clm))
+        return cross_squ_list
 
     @classmethod
     def cnv_memo_list_to_text(
