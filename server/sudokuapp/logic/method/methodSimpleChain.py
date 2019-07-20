@@ -537,10 +537,10 @@ def _filter_chain(
         # 9:2(+) =強= 9:5(!) =弱= 4:5(#) =強= 6:4(@) =強= 8:4 =弱= 8:5
         #                                                     ^^^^^^^^ <-除去
         # ...
-        for link_type_squ in reversed(chain_list):
-            if link_type_squ.link_type == LinkType.STRONG:
+        for chain in reversed(chain_list):
+            if chain.link_type == LinkType.STRONG:
                 break
-            chain_list.remove(link_type_squ)
+            chain_list.remove(chain)
 
         # ・交差枡算出のため、枡数は最低でも3つ必要
         # ・枡数は偶数である必要がある
