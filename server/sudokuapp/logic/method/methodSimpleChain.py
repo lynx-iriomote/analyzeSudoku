@@ -414,8 +414,8 @@ def _create_chain_rough(
     """
 
     # 最後のつながりと枡を抽出
-    last_link_type: Chain = current_chain_list[len(current_chain_list) - 1]
-    last_chainnet: ChainNetwork = chainnet_dict[last_link_type.squ]
+    last_chain: Chain = current_chain_list[len(current_chain_list) - 1]
+    last_chainnet: ChainNetwork = chainnet_dict[last_chain.squ]
 
     # 次のチェーンネットワークを検索
     # 枡 =強= 枡 =弱= 枡 =強= 枡 =弱= 枡 =強= 枡 ...
