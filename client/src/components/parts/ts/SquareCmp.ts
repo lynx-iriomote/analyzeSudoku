@@ -37,6 +37,7 @@ export default class SquareCmp extends Vue {
       this.y
     );
   }
+
   /**
    * 枡選択
    */
