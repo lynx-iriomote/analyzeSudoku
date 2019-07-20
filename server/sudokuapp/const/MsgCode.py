@@ -72,5 +72,5 @@ class MsgCode(Enum):
     HOW_TO_X_WING = auto()
 
     # シンプルチェーン法
-    # 【{changedSqu}】【シンプルチェーン法】数字{removeMemo}に対して、{chainSquList}でシンプルチェーンが成立するため、{changedSqu}のメモから{removeMemo}を除外しました。
+    # 【{changedSqu}】【シンプルチェーン法】{chainSquList}で数字{removeMemo}のシンプルチェーンが成立するため、初端と終端の交差枡の{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_SIMPLE_CHAIN = auto()
