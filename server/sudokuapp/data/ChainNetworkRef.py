@@ -52,15 +52,17 @@ class ChainNetworkRef():
         Returns:
             str: =LinkType=squ
         """
-        link_type_text: str = ""
-        if self.link_type == LinkType.STRONG:
-            link_type_text = "強"
+        link_type_text: str
+        if self.link_type is None:
+            link_type_text = "=無="
+        elif self.link_type == LinkType.STRONG:
+            link_type_text = "=強="
         elif self.link_type == LinkType.WEEK:
-            link_type_text = "弱"
+            link_type_text = "=弱="
         else:
-            link_type_text = self.link_type.name
+            link_type_text = "={}=".format(self.link_type.name)
 
-        text: str = "={}={}:{}".format(
+        text: str = "{}{}:{}".format(
             link_type_text,
             self.chainnet.squ.row,
             self.chainnet.squ.clm)
