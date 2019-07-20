@@ -440,7 +440,6 @@ def _create_chain_rough(
     current_chain_copy: List[Chain] =\
         copy.copy(current_chain_list)
     link_cnt: int = 0
-    # for link_type, chainnet in chainnet_list:
     for ref_chainnet in chainnet_list:
         link_type: LinkType = ref_chainnet.link_type
         chainnet: ChainNetwork = ref_chainnet.chainnet
