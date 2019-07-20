@@ -8,7 +8,6 @@ from sudokuapp.data.History import History
 from sudokuapp.data.HowToAnalyze import HowToAnalyze
 from sudokuapp.data.Msg import Msg
 from sudokuapp.data.Square import Square
-from sudokuapp.util.MsgFactory import MsgFactory
 
 
 @dataclasses.dataclass
@@ -71,6 +70,9 @@ class AnalyzeWk():
     def __post_init__(self) -> None:
         """コンストラクタの後に呼ばれるメソッド
         """
+
+        from sudokuapp.util.MsgFactory import MsgFactory
+
         # 画面から来た状態を保持するため、解析履歴に投入
         start_howto: HowToAnalyze = HowToAnalyze(Method.START)
         start_howto.msg = MsgFactory.start_analyze()
@@ -143,6 +145,9 @@ class AnalyzeWk():
             how_anlz_list (List[HowToAnalyze]): 解析方法
 
         """
+
+        from sudokuapp.util.MsgFactory import MsgFactory
+
         how_to_list: List[HowToAnalyze] = list()
         how_to_title: HowToAnalyze = HowToAnalyze(Method.ERROR_CHECK)
         how_to_title.msg = MsgFactory.error_info(len(how_anlz_list_err))
