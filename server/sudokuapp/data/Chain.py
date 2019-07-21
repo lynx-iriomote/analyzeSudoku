@@ -46,15 +46,15 @@ class Chain():
             str: =LinkType=squ
         """
 
-        text: str = ""
-        if self.link_type is not None:
-            link_type_text: str
-            if self.link_type == LinkType.STRONG:
-                link_type_text = "強"
-            elif self.link_type == LinkType.WEEK:
-                link_type_text = "弱"
-            else:
-                link_type_text = self.link_type.name
-            text += "={}=".format(link_type_text)
-        text += "{}:{}".format(self.squ.row, self.squ.clm)
+        link_type_text: str
+        if self.link_type is None:
+            link_type_text = "=無="
+        elif self.link_type == LinkType.STRONG:
+            link_type_text = "=強="
+        elif self.link_type == LinkType.WEEK:
+            link_type_text = "=弱="
+        else:
+            link_type_text = "={}=".format(self.link_type.name)
+        text: str = "{}{}:{}".format(
+            link_type_text, self.squ.row, self.squ.clm)
         return text
