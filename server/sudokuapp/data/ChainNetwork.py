@@ -56,7 +56,8 @@ class ChainNetwork():
             raise TypeError(
                 "not support type(link_type)={}".format(type(link_type)))
 
-        # 重複したチェインネットは追加しない
+        # 重複したチェインネットワークは追加しない
+        # TODO: これってシンプルチェーンだけに必要なのでは？XYチェーンでは少なくとも不要
         for ref_chainnet in self.ref_chainnet_list:
             # 重複なし
             if chainnet.squ != ref_chainnet.chainnet.squ:
