@@ -23,6 +23,24 @@
     "ts": true,
     "py": true
   },
+  "NOT_EXIST_NUM_AREA": {
+    "name": "エリアに数字がない",
+    "msg": "【数字{num}】{squ}のエリアに{num}が入る枡が存在しません。",
+    "ts": false,
+    "py": true
+  },
+  "NOT_EXIST_NUM_ROW": {
+    "name": "行に数字がない",
+    "msg": "【数字{num}】{regionPos}行目に{num}が入る枡が存在しません。",
+    "ts": false,
+    "py": true
+  },
+  "NOT_EXIST_NUM_CLM": {
+    "name": "列に数字がない",
+    "msg": "【数字{num}】{regionPos}列目に{num}が入る枡が存在しません。",
+    "ts": false,
+    "py": true
+  },
   "FUNC_START": {
     "name": "開始",
     "msg": "{funcName}を開始します。",

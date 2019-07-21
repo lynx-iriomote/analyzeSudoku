@@ -161,6 +161,75 @@ class MsgFactory():
         )
 
     @classmethod
+    def not_exist_num_area(
+            cls,
+            num: int,
+            squ: Square
+    ) -> Msg:
+        """エリアに数字がないメッセージ生成
+
+        Args:
+            num (int): 数字
+            squ (Square): 枡
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.ERROR,
+            cls._get_msg(MsgCode.NOT_EXIST_NUM_AREA).format(
+                num=num,
+                squ=SudokuUtil.cnv_squ_to_text(squ)
+            )
+        )
+
+    @classmethod
+    def not_exist_num_row(
+            cls,
+            num: int,
+            region_pos: int
+    ) -> Msg:
+        """行に数字がないメッセージ生成
+
+        Args:
+            num (int): 数字
+            region_pos (int): ポジション
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.ERROR,
+            cls._get_msg(MsgCode.NOT_EXIST_NUM_ROW).format(
+                num=num,
+                regionPos=region_pos
+            )
+        )
+
+    @classmethod
+    def not_exist_num_clm(
+            cls,
+            num: int,
+            region_pos: int
+    ) -> Msg:
+        """列に数字がないメッセージ生成
+
+        Args:
+            num (int): 数字
+            region_pos (int): ポジション
+
+        Returns:
+            Msg: メッセージ
+        """
+        return Msg(
+            MsgType.ERROR,
+            cls._get_msg(MsgCode.NOT_EXIST_NUM_CLM).format(
+                num=num,
+                regionPos=region_pos
+            )
+        )
+
+    @classmethod
     def not_enough_hints(
             cls,
             min

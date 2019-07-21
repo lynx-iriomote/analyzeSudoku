@@ -23,6 +23,18 @@ class MsgCode(Enum):
     # 【{pivotSqu}】同一列({compareSqu})に{val}が重複しています。
     DUP_CLM = auto()
 
+    # エリアに数字がない
+    # 【数字{num}】{squ}のエリアに{num}が入る枡が存在しません。
+    NOT_EXIST_NUM_AREA = auto()
+
+    # 行に数字がない
+    # 【数字{num}】{regionPos}行目に{num}が入る枡が存在しません。
+    NOT_EXIST_NUM_ROW = auto()
+
+    # 列に数字がない
+    # 【数字{num}】{regionPos}列目に{num}が入る枡が存在しません。
+    NOT_EXIST_NUM_CLM = auto()
+
     # 開始
     # {funcName}を開始します。
     FUNC_START = auto()
