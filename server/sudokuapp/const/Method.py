@@ -33,7 +33,7 @@ class Method(Enum):
     X_WING = auto()
 
     # XYチェーン法
-    X_Y_CHAIN = auto()
+    XY_CHAIN = auto()
 
     # シンプルチェーン法
     SIMPLE_CHAIN = auto()

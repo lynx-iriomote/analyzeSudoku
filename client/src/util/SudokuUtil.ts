@@ -219,7 +219,7 @@ export default class SudokuUtil {
       case Method.X_WING:
         return "X-Wing法";
 
-      case Method.X_Y_CHAIN:
+      case Method.XY_CHAIN:
         return "XYチェーン法";
 
       case Method.SIMPLE_CHAIN:
