@@ -30,7 +30,7 @@ enum Method {
   X_WING = "X_WING",
 
   /** XYチェーン法 */
-  X_Y_CHAIN = "X_Y_CHAIN",
+  XY_CHAIN = "XY_CHAIN",
 
   /** シンプルチェーン法 */
   SIMPLE_CHAIN = "SIMPLE_CHAIN"
