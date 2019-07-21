@@ -1,5 +1,6 @@
+from typing import Any, Union
+
 from sudokuapp.const.LinkType import LinkType
-from typing import Any
 
 
 class ChainNetworkRef():
@@ -24,8 +25,16 @@ class ChainNetworkRef():
         """
         from sudokuapp.data.ChainNetwork import ChainNetwork
 
+        if link_type is None or\
+                type(link_type) is LinkType or\
+                type(link_type) is int:
+            pass
+        else:
+            raise TypeError(
+                "not support type(link_type)={}".format(type(link_type)))
+
         # リンク種類
-        self.link_type: LinkType = link_type
+        self.link_type: Union[LinkType, int, None] = link_type
 
         # チェーンネットワーク
         self.chainnet: ChainNetwork = chainnet
@@ -54,15 +63,22 @@ class ChainNetworkRef():
         """
         link_type_text: str
         if self.link_type is None:
-            link_type_text = "=無="
-        elif self.link_type == LinkType.STRONG:
-            link_type_text = "=強="
-        elif self.link_type == LinkType.WEEK:
-            link_type_text = "=弱="
-        else:
-            link_type_text = "={}=".format(self.link_type.name)
+            link_type_text = "無"
+        elif type(self.link_type) is LinkType:
+            if self.link_type == LinkType.STRONG:
+                link_type_text = "強"
+            elif self.link_type == LinkType.WEEK:
+                link_type_text = "弱"
+            else:
+                link_type_text = "{}".format(self.link_type.name)
 
-        text: str = "{}{}:{}".format(
+        elif type(self.link_type) is int:
+            link_type_text = "{}".format(self.link_type.name)
+        else:
+            raise TypeError(
+                "not support type(link_type)={}".format(type(self.link_type)))
+
+        text: str = "={}={}:{}".format(
             link_type_text,
             self.chainnet.squ.row,
             self.chainnet.squ.clm)
