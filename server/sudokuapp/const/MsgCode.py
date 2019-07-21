@@ -71,6 +71,10 @@ class MsgCode(Enum):
     # 【{changedSqu}】【X-Wing法】数字{removeMemo}、{regionPos1}{region}目と{regionPos2}{region}目で{triggerSqu1}、{triggerSqu2}、{triggerSqu3}、{triggerSqu4}の組み合わせでX-Wing法が成立するため、{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_X_WING = auto()
 
+    # XYチェーン法
+    # 【{changedSqu}】【XYチェーン法】{chainSquList}でXYチェーンが成立するため、共通枡の{changedSqu}のメモから{removeMemo}を除外しました。
+    HOW_TO_XY_CHAIN = auto()
+
     # シンプルチェーン法
-    # 【{changedSqu}】【シンプルチェーン法】{chainSquList}で数字{removeMemo}のシンプルチェーンが成立するため、初端と終端の交差枡の{changedSqu}のメモから{removeMemo}を除外しました。
+    # 【{changedSqu}】【シンプルチェーン法】{chainSquList}で数字{removeMemo}のシンプルチェーンが成立するため、始端と終端の交差枡の{changedSqu}のメモから{removeMemo}を除外しました。
     HOW_TO_SIMPLE_CHAIN = auto()
