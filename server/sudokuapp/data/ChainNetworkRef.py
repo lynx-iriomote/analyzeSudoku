@@ -12,15 +12,15 @@ class ChainNetworkRef():
 
 
     Attributes:
-        link_type (link_type): 枡とどうリンクしているか
+        link_type (Union[LinkType, int, None]): 枡とどうリンクしているか
         chainnet (ChainNetwork): チェーンネットワーク
     """
 
-    def __init__(self, link_type: LinkType, chainnet: Any) -> None:
+    def __init__(self, link_type: Union[LinkType, int, None], chainnet: Any) -> None:
         """コンストラクタ
 
         Args:
-            link_type (LinkType): リンク種類
+            link_type (Union[LinkType, int, None]): リンク種類
             chainnet (Any): チェーンネットワーク
         """
         from sudokuapp.data.ChainNetwork import ChainNetwork
