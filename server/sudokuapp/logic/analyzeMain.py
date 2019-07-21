@@ -8,7 +8,8 @@ from sudokuapp.logic.method import (methodElimionationOneMemo,
                                     methodElimionationRemoveMemo,
                                     methodHiddenPair, methodLockedCandidates,
                                     methodNakedPair, methodSimpleChain,
-                                    methodXWing, simpleErrorCheck)
+                                    methodXWing, methodXYChain,
+                                    simpleErrorCheck)
 from sudokuapp.util.SudokuUtil import SudokuUtil
 
 
@@ -70,6 +71,11 @@ def analyze(wk: AnalyzeWk) -> bool:
     if Method.X_WING in wk.use_method_list:
         analyze_method_list.append(
             (Method.X_WING, methodXWing.analyze))
+
+    # XYチェーン法
+    if Method.XY_CHAIN in wk.use_method_list:
+        analyze_method_list.append(
+            (Method.XY_CHAIN, methodXYChain.analyze))
 
     # シンプルチェーン法
     if Method.SIMPLE_CHAIN in wk.use_method_list:
