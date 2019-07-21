@@ -1,9 +1,9 @@
 import dataclasses
-from typing import List
+from typing import List, Union
 
 from sudokuapp.const.LinkType import LinkType
-from sudokuapp.data.Square import Square
 from sudokuapp.data.ChainNetworkRef import ChainNetworkRef
+from sudokuapp.data.Square import Square
 
 
 @dataclasses.dataclass
@@ -36,13 +36,25 @@ class ChainNetwork():
     ref_chainnet_list: List[ChainNetworkRef] = dataclasses.field(
         default_factory=list, init=False)
 
-    def add_ref_chainnet(self, link_type: LinkType, chainnet: any) -> None:
+    def add_ref_chainnet(
+        self,
+        link_type: Union[LinkType, int, None],
+        chainnet: any
+    ) -> None:
         """参照先チェーンネットワークを追加
 
         Args:
-            link_type (LinkType): リンク種類
+            link_type (Union[LinkType, int, None]): リンク種類
             chainnet (ChainNetwork): チェーンネットワーク
         """
+
+        if link_type is None or\
+                type(link_type) is LinkType or\
+                type(link_type) is int:
+            pass
+        else:
+            raise TypeError(
+                "not support type(link_type)={}".format(type(link_type)))
 
         # 重複したチェインネットは追加しない
         for ref_chainnet in self.ref_chainnet_list:

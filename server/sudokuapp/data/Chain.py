@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Union
 
 from sudokuapp.const.LinkType import LinkType
 from sudokuapp.data.Square import Square
@@ -18,7 +19,7 @@ class Chain():
     """
 
     # 前の枡とどうリンクしているか
-    link_type: LinkType
+    link_type: Union[LinkType, int, None]
 
     # 枡
     squ: Square
@@ -48,13 +49,21 @@ class Chain():
 
         link_type_text: str
         if self.link_type is None:
-            link_type_text = "=無="
-        elif self.link_type == LinkType.STRONG:
-            link_type_text = "=強="
-        elif self.link_type == LinkType.WEEK:
-            link_type_text = "=弱="
+            link_type_text = "無"
+        elif type(self.link_type) is LinkType:
+            if self.link_type == LinkType.STRONG:
+                link_type_text = "強"
+            elif self.link_type == LinkType.WEEK:
+                link_type_text = "弱"
+            else:
+                link_type_text = "{}".format(self.link_type.name)
+        elif type(self.link_type) is int:
+            link_type_text = "{}".format(self.link_type)
+
         else:
-            link_type_text = "={}=".format(self.link_type.name)
-        text: str = "{}{}:{}".format(
+            raise TypeError(
+                "not support type(link_type)={}".format(type(self.link_type)))
+
+        text: str = "={}={}:{}".format(
             link_type_text, self.squ.row, self.squ.clm)
         return text
