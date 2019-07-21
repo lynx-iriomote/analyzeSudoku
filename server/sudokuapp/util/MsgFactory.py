@@ -443,6 +443,30 @@ class MsgFactory():
         )
 
     @classmethod
+    def how_to_xy_chain(
+        cls,
+        how_anlz: HowToAnalyze
+    ) -> Msg:
+        """XYチェーン法メッセージ生成
+
+        Args:
+            how_anlz (HowToAnalyze): 解析方法
+
+        Returns:
+            Msg: メッセージ
+        """
+
+        return Msg(
+            MsgType.INFO,
+            cls._get_msg(MsgCode.HOW_TO_XY_CHAIN).format(
+                changedSqu=SudokuUtil.cnv_squ_to_text(how_anlz.changed_squ),
+                chainSquList=SudokuUtil.cnv_squ_list_to_text(
+                    how_anlz.chain_squ_list),
+                removeMemo=how_anlz.remove_memo_list[0]
+            )
+        )
+
+    @classmethod
     def how_to_simple_chain(
         cls,
         how_anlz: HowToAnalyze
