@@ -131,4 +131,11 @@ export default class Square {
     }
     return this.val;
   }
+
+  /**
+   * @override
+   */
+  toString(): string {
+    return `(${this.row}:${this.clm})`;
+  }
 }
