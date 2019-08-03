@@ -47,6 +47,22 @@ export default class ChainCmp extends Vue {
    * Lifecycle hook beforeUpdate
    */
   beforeUpdate(): void {
+    // チェーン間の相対距離の算出
+    this.calcChainDistance();
+  }
+
+  /**
+   * Lifecycle hook beforeMount
+   */
+  beforeMount(): void {
+    // [補足]
+    // beforeMountで算出処理をを行わないと
+    // 解析方法画面→入力画面→解析方法
+    // のような画面遷移を行った場合に
+    // chainDistanceTotal、chainDistanceListの初期化が動かない。
+    // ⇒dur=0sになってしまい、なぞるアイコンが動かない
+
+    // チェーン間の相対距離の算出
     this.calcChainDistance();
   }
 
