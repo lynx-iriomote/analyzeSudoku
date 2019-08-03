@@ -11,9 +11,11 @@
       class="icon-chain-follow"
     >
       <animateMotion
-        :path="chainLineFollow"
+        :path="chainLineFollowPath"
         begin="0s"
-        dur="5s"
+        :dur="chainLineFollowDur"
+        :keyPoints="chainLineFollowKeyPoints"
+        :keyTimes="chainLineFollowKeyTimes"
         calcMode="linear"
         repeatCount="indefinite"
       />
