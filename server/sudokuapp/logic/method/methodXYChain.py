@@ -1,7 +1,7 @@
 """XYチェーン
 """
 import copy
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 from sudokuapp.const.Method import Method
 from sudokuapp.const.Region import Region
@@ -18,7 +18,16 @@ from sudokuapp.util.SudokuUtil import SudokuUtil
 def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     """XYチェーン
 
-    TODO: かけ
+    TODO: もっとちゃんとかけ
+
+    @(m=[N,M]) =M= #(m=[M,O]) =O= $(m=[O,N])
+    始端がNでないとすると
+    @(v=M) =M= #(v=O) =O= $(v=N)
+    終端がNでないとすると
+    @(v=N) =M= #(v=M) =O= $(v=O)
+    ⇒これらのことから終点と始端のどちらかは必ずNになる
+    この法則を利用すると
+    始端と終端の共有枡にはNは入らない事がわかる
 
     Args:
         wk (AnalyzeWk): ワーク
@@ -30,6 +39,11 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
 
     # シンプルチェーン作成
     all_chain_list: List[List[Chain]] = _create_xy_chain(wk)
+
+    # TODO: debug
+    print("##### all_chain_list len={} #####".format(len(all_chain_list)))
+    # for chain_list in all_chain_list:
+    #     print(chain_list)
 
     for chain_list in all_chain_list:
         first_squ = chain_list[0].squ
@@ -47,6 +61,9 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
                 continue
 
             # 共通枡がチェーンリストに含まれる場合は対象外
+            # TODO: こんなパターンないはず？
+            #       共通するメモはチェーンの中に入ってこないはずだから下記のパターンは存在しない？
+            #       後日考える
             chain_include = False
             for chain in chain_list:
                 if share_squ == chain.squ:
@@ -72,14 +89,23 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
             # 次のチェーンリストを検索
             continue
 
+        # TODO: debug
+        print("ヒットで")
+        print("  chain_list={}".format(chain_list))
+        print("  share_list={}".format(share_list))
+
         # 対象あり
         for loop_memo, change_squ_list in change_squ_memo_dict.items():
+            print("  ゲスよ loop_memo={} change_squ_list={}".format(
+                loop_memo, change_squ_list))
 
             chain_squ_list: List[Square] = list()
             for chain in chain_list:
                 chain_squ_list.append(chain.squ)
 
             for change_squ in change_squ_list:
+
+                print("    change_squ={}".format(change_squ))
 
                 # メモを除外
                 change_squ.memo_val_list.remove(loop_memo)
@@ -226,7 +252,6 @@ def _create_xy_chain(
 
     Args:
         wk (AnalyzeWk): ワーク
-        how_anlz_list (List[HowToAnalyze]): 解析方法
 
     Returns:
         List[List[Chain]]: 全てのチェーンリスト
@@ -304,8 +329,9 @@ def _create_xy_chain(
                         loop_memo, other_chainnet)
                     chainnet.ref_chainnet_list.append(chainnet_ref)
 
-    # 開始枡をなめながらざっくりとチェーンを作成
+    # 開始枡をなめながらチェーンを作成
     all_chain_list: List[List[Chain]] = list()
+    dup_check_set: Set[str] = set()
     for chainnet in chainnet_list:
         if len(chainnet.ref_chainnet_list) == 0:
             continue
@@ -317,22 +343,21 @@ def _create_xy_chain(
         ]
         for current_memo in memo_pair_list:
             current_chain_list: List[Chain] = list()
-            all_chain_list.append(current_chain_list)
             current_chain_list.append(Chain(None, chainnet.squ))
 
-            # チェーンを(ざっくりと)作成
-            _create_chain_rough(
-                chainnet_dict, all_chain_list, current_chain_list, current_memo)
+            # チェーンを作成
+            _create_chain(
+                chainnet_dict, dup_check_set, all_chain_list, current_chain_list, current_memo)
 
-    # _create_chain_roughだけだと対象外となるチェーンも含まれる。
-    # ここから更に絞り込む
-    _filter_chain(all_chain_list)
+    # チェーン数でソート
+    all_chain_list.sort(key=lambda chain_list: len(chain_list))
 
     return all_chain_list
 
 
-def _create_chain_rough(
+def _create_chain(
     chainnet_dict: Dict[Square, ChainNetwork],
+    dup_check_set: Set[str],
     all_chain_list: List[List[Chain]],
     current_chain_list: List[Chain],
     current_memo: int
@@ -343,6 +368,7 @@ def _create_chain_rough(
 
     Args:
         chainnet_dict (Dict[Square, ChainNetwork]): チェーンネットワーク辞書
+        dup_check_set (Set[str]): チェーンリスト重複チェック用SET
         all_chain_list (List[List[Chain]]): 全てのチェーンリスト
         current_chain_list (List[Chain]): カレントチェーンリスト
         current_memo (int): カレントメモ
@@ -376,123 +402,131 @@ def _create_chain_rough(
         else:
             next_memo = next_chainnet.squ.memo_val_list[0]
 
+        # カレントチェーンリストがXYチェーンを満たす場合は
+        # チェーンを追加する前に全てのチェーンリストに追加
+        # [補足]
+        # 下記のようなチェーンリストが形成される場合
+        # @(m=1,2) =2= #(m=2:3) =3= $(m=3:4) =4= %(m=1,4) =4= *(m=4:5) =5= ?(m=1,5) ...
+        #                                        ^^^^^^^^                  ^^^^^^^^
+        # @(m=1,2)～%(m=1,4)と
+        # @(m=1,2)～%(m=1,4)～?(m=1,5)
+        # でXYチェーンが成立する。
+        # ⇒
+        # @(m=1,2)～%(m=1,4)を追加してから
+        # @(m=1,2)～%(m=1,4)～?(m=1,5)を算出＆追加する
+        if _is_xy_chain(current_chain_list):
+            # 重複していない場合にチェーンリストを追加
+            # [補足]
+            # 重複するパターン
+            # ・チェーンを追加する前にチェーンリストを追加しているため再起先で重複
+            # ・@ =N= # =M= $ =O= &
+            #   & =O= $ =M= # =N= @
+            #   上記のチェーンリストを同一とみなすため重複
+            dup_key_tuple: Tuple[str, str] = _create_dup_key(
+                current_chain_list)
+            dup_key: str = dup_key_tuple[0]
+            dup_key_rev: str = dup_key_tuple[1]
+            if dup_key not in dup_check_set and\
+                    dup_key_rev not in dup_check_set:
+                all_chain_list.append(copy.copy(current_chain_list))
+                dup_check_set.add(dup_key)
+                dup_check_set.add(dup_key_rev)
+
         chain: Chain = Chain(current_memo, next_chainnet.squ)
         if link_cnt == 0:
             current_chain_list.append(chain)
             # 再起呼出
-            _create_chain_rough(
-                chainnet_dict, all_chain_list, current_chain_list, next_memo)
+            _create_chain(
+                chainnet_dict, dup_check_set, all_chain_list, current_chain_list, next_memo)
 
         else:
             # ブランチチェーン作成
             branch_chain_list: List[Chain] = copy.copy(current_chain_copy)
-            all_chain_list.append(branch_chain_list)
+            # all_chain_list.append(branch_chain_list)
             branch_chain_list.append(chain)
             # 再起呼出
-            _create_chain_rough(
-                chainnet_dict, all_chain_list, branch_chain_list, next_memo)
+            _create_chain(
+                chainnet_dict, dup_check_set, all_chain_list, branch_chain_list, next_memo)
         link_cnt += 1
 
 
-def _filter_chain(
-    all_chain_list: List[List[Chain]]
-) -> None:
-    """XYチェーンの成立条件に一致しないチェーンを除去
-
-    ・最初と最後の枡に同じメモが含まれている
-    ・最低3個以上の枡がある
+def _is_xy_chain(chain_list: List[Chain]) -> bool:
+    """XYチェーンが成立するかどうか
 
     Args:
-        all_chain_list (List[List[Chain]]): 全てのチェーンリスト
-    """
-    chain_list_dupcheck_set: Set[str] = set()
-    for idx, chain_list in enumerate(all_chain_list[:]):
-        # ・最低3個以上の枡がある
-        if len(chain_list) < 3:
-            all_chain_list.remove(chain_list)
-            continue
-
-        # ・最初と最後の枡に同じメモが含まれている
-        first_squ = chain_list[0].squ
-        last_squ = chain_list[len(chain_list) - 1].squ
-        dup_memo_list = _get_dup_memo_list(first_squ, last_squ)
-        if len(dup_memo_list) == 0 or len(dup_memo_list) == 2:
-            all_chain_list.remove(chain_list)
-            continue
-
-        # =無= m=N,O =O= m=O,P =P= m=P,Q =Q= m=Q,N
-        #            ^^^                 ^^^
-        # 最初のリンクと最後のリンクが同一メモでないこと
-        dup_memo = dup_memo_list[0]
-        first_link = chain_list[1].link_type
-        last_link = chain_list[len(chain_list) - 1].link_type
-        if dup_memo == first_link or dup_memo == last_link:
-            all_chain_list.remove(chain_list)
-            continue
-
-        # チェーンリスト重複チェック
-        _check_dup_chain_list(
-            all_chain_list, chain_list, chain_list_dupcheck_set)
-
-
-def _check_dup_chain_list(
-    all_chain_list: List[List[Chain]],
-    chain_list: List[Chain],
-    chain_list_dupcheck_set: Set[str]
-) -> None:
-    """チェーンリスト重複チェック
-
-    Args:
-        all_chain_list (List[List[Chain]]): 全てのチェーンリスト
         chain_list (List[Chain]): チェーンリスト
-        chain_list_dupcheck_set (Set[str]): チェーン重複チェック用SET
-    """
-
-    chain_dict_for_dup_key: str = ""
-    # チェーン重複チェック用SETのキー作成
-    for chain in chain_list:
-        chain_dict_for_dup_key += str(chain.squ)
-
-    # 重複あり
-    if chain_dict_for_dup_key in chain_list_dupcheck_set:
-        all_chain_list.remove(chain_list)
-        return
-
-    chain_list_dupcheck_set.add(chain_dict_for_dup_key)
-
-    # @枡 -> #枡 -> $枡
-    # と
-    # $枡 -> #枡 -> @枡
-    # は同じチェーンとみなせる
-    chain_dict_for_dup_key_rev: str = ""
-    # チェーン重複チェック用SETのキー作成(チェーンリストの逆順逆順)
-    for chain in reversed(chain_list):
-        chain_dict_for_dup_key_rev += str(chain.squ)
-
-    # 重複あり
-    if chain_dict_for_dup_key_rev in chain_list_dupcheck_set:
-        all_chain_list.remove(chain_list)
-        return
-
-    chain_list_dupcheck_set.add(chain_dict_for_dup_key_rev)
-
-
-def _is_include_same_memo(squ1: Square, squ2: Square) -> bool:
-    """同じメモを含んでいるかどうか
-
-    TODO: これ使う？？
-
-    Args:
-        squ1 (Square): 枡1
-        squ2 (Square): 枡2
 
     Returns:
-        bool: 同じメモを含んでいるかどうか
+        bool: XYチェーンが成立する場合にTrue
     """
-    if len(_get_dup_memo_list(squ1, squ2)) == 0:
+
+    # チェーン数が3未満は不成立
+    if len(chain_list) < 3:
         return False
-    else:
-        return True
+
+    first_chain: Chain = chain_list[0]
+    last_chain: Chain = chain_list[len(chain_list) - 1]
+    dup_memo_list = _get_dup_memo_list(first_chain.squ, last_chain.squ)
+    # 同一メモが存在しない場合は不成立
+    if not len(dup_memo_list) == 1:
+        return False
+
+    # <=無= m=N,O> <=O= m=O,P> <=P= m=P,Q> <=Q= m=Q,N>
+    #               ^^^                     ^^^
+    # 最初のリンクと最後のリンクが同一メモでないこと
+    # [補足]
+    # 上記例に当てはめると最初と最後のリンクがどちらかがNの場合はXYチェーン不成立
+    dup_memo = dup_memo_list[0]
+    first_link = chain_list[1].link_type
+    last_link = chain_list[len(chain_list) - 1].link_type
+    if dup_memo == first_link or dup_memo == last_link:
+        return False
+
+    # TODO: 以下のような場合はありえないはず？
+    # N=dup_memoとして
+    # m=NM =M= m=MO =O= m=ON =N= m=NP =P= m=PN
+    #                   ^^^^^^^^^^^^^ ←チェーンの途中にNが出てきた
+    # この場合はFalseで返してもいいんだけれど、そもそものループ自体を中止してもいいよね。
+    # それともfilterする？？filterの方がシンプルではある。ただしチェーン数が多くなりがち
+    # なので_create_chainでやれればそれがベストだと思われ。
+    # _create_chainの処理の先頭で最初のチェーンからスタートメモ※を取得。
+    # ※上記例に当てはめるとスタートメモはN
+    # チェーンを生成する際にリンクがスタートメモと一致する場合はreturnするすればいいんじゃないかな？
+    # ⇒
+    # _is_xy_chainではチェックしない
+    # 難しいのは実装ではなくてケースを探すことだよなぁ
+
+    return True
+
+
+def _create_dup_key(
+    chain_list: List[Chain]
+) -> Tuple[str, str]:
+    """重複チェック用キーの生成
+
+    @ =N= # =M= $ =O= &
+    と
+    & =O= $ =M= # =N= @
+    は同一チェーンとみなすため、チェーンリストから正順と逆順でキーを生成
+
+    Args:
+        chain_list (List[Chain]): チェーンリスト
+
+    Returns:
+        Tuple[str, str]: チェーンリスト文字列,チェーンリスト文字列(逆順)
+    """
+
+    dup_key: str = ""
+    dup_key_rev: str = ""
+    for chain in chain_list:
+        if chain.link_type is not None:
+            link_type_txt: str = "={}=".format(chain.link_type)
+            dup_key = dup_key + link_type_txt
+            dup_key_rev = link_type_txt + dup_key_rev
+        squ_txt: str = "{}:{}".format(chain.squ.row, chain.squ.clm)
+        dup_key = dup_key + squ_txt
+        dup_key_rev = squ_txt + dup_key_rev
+    return (dup_key, dup_key_rev)
 
 
 def _get_dup_memo_list(squ1: Square, squ2: Square) -> List[int]:
