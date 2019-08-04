@@ -343,4 +343,14 @@ export default class SudokuUtil {
         return SudokuUtil.areaPosY(squ.areaId) + 100;
     }
   }
+
+  /**
+   * 小数点第N位で四捨五入
+   * @param num 四捨五入する数字
+   * @param shosuKeta 小数点第N位
+   */
+  static roundDecimalPlaces(num: number, shosuKeta: number): number {
+    const ketaWk = 10 * shosuKeta;
+    return Math.round(num * ketaWk) / ketaWk;
+  }
 }
