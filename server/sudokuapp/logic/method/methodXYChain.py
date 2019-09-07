@@ -18,16 +18,53 @@ from sudokuapp.util.SudokuUtil import SudokuUtil
 def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
     """XYチェーン
 
-    TODO: もっとちゃんとかけ
+    メモが2つしかない枡が共通の数字を介してチェーンを形成する場合、共通枡からメモを除外する解法
 
-    @(m=[N,M]) =M= #(m=[M,O]) =O= $(m=[O,N])
-    始端がNでないとすると
-    @(v=M) =M= #(v=O) =O= $(v=N)
-    終端がNでないとすると
-    @(v=N) =M= #(v=M) =O= $(v=O)
-    ⇒これらのことから終点と始端のどちらかは必ずNになる
-    この法則を利用すると
-    始端と終端の共有枡にはNは入らない事がわかる
+    例>
+    +[1]-------------------------+[2]-------------------------+ ...
+    | 1:1(@)   1:2      1:3      | 1:4      1:5(?)   1:6      | ...
+    | m=[N,M]  ?        ?        | ?        m=[?,N]  ?        | ...
+    | 2:1      2:2      2:3      | 2:4      2:5      2:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    | 3:1      3:2      3:3      | 3:4      3:5      3:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    +[4]-------------------------+[5]-------------------------+ ...
+    | 4:1      4:2      4:3      | 4:4      4:5      4:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    | 5:1      5:2      5:3      | 5:4      5:5      5:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    | 6:1      6:2      6:3      | 6:4      6:5      6:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    +[7]-------------------------+[8]-------------------------+ ...
+    | 7:1      7:2      7:3($)   | 7:4      7:5(+)   7:6      | ...
+    | ?        ?        m=[O,P]  | ?        m=[N,P]  ?        | ...
+    | 8:1      8:2      8:3      | 8:4      8:5      8:6      | ...
+    | ?        ?        ?        | ?        ?        ?        | ...
+    | 9:1(#)   9:2      9:3      | 9:4      9:5      9:6      | ...
+    | m=[M,O]  ?        ?        | ?        ?        ?        | ...
+    +----------------------------+----------------------------+ ...
+
+    上記例に当てはめて考えると以下のようなチェーンが形成される場合
+    @(m=[N,M]) =M= #(m=[M,O]) =O= $(m=[O,P]) =P= +(m=[N,P])
+    チェーンの始端と終端の交差枡?のメモからNを除外することができる。
+
+    検証>
+    交差枡(+)がNだと仮定しすると
+    @=M
+    #=O
+    $=P
+    +=N
+    となり5列目にNが２つ出現し矛盾が発生する。
+    上記は@枡から検証したが、+枡がPから始まると仮定した場合でも矛盾が発生する。
+    ⇒
+    この事からXYチェーンの始端と終端の交差枡には共通のメモNがあると矛盾が存在するため
+    メモNを除外できる
+
+    XYチェーンの条件
+    ・3つ以上の枡でチェーンが形成されていること
+    ・始端と終端に同じメモ(以降共通メモと称す)が存在すること
+    ・始端の次の枡が共通メモでリンクされていないこと
+    ・終端の前の枡が共通メモでリンクされていないこと
 
     Args:
         wk (AnalyzeWk): ワーク
@@ -37,13 +74,8 @@ def analyze(wk: AnalyzeWk, how_anlz_list: List[HowToAnalyze]) -> bool:
         bool: エラーの場合にFalse
     """
 
-    # シンプルチェーン作成
+    # XYチェーン作成
     all_chain_list: List[List[Chain]] = _create_xy_chain(wk)
-
-    # TODO: debug
-    print("##### all_chain_list len={} #####".format(len(all_chain_list)))
-    # for chain_list in all_chain_list:
-    #     print(chain_list)
 
     for chain_list in all_chain_list:
         first_squ = chain_list[0].squ
@@ -247,9 +279,6 @@ def _create_xy_chain(
 ) -> List[List[Chain]]:
     """XYチェーン作成
 
-    TODO: かけ
-    m=N,O =O= m=O,P =P= m=P,Q =Q= m=Q,N
-
     Args:
         wk (AnalyzeWk): ワーク
 
@@ -442,7 +471,6 @@ def _create_chain(
         else:
             # ブランチチェーン作成
             branch_chain_list: List[Chain] = copy.copy(current_chain_copy)
-            # all_chain_list.append(branch_chain_list)
             branch_chain_list.append(chain)
             # 再起呼出
             _create_chain(
@@ -475,7 +503,7 @@ def _is_xy_chain(chain_list: List[Chain]) -> bool:
     #               ^^^                     ^^^
     # 最初のリンクと最後のリンクが同一メモでないこと
     # [補足]
-    # 上記例に当てはめると最初と最後のリンクがどちらかがNの場合はXYチェーン不成立
+    # 上記例に当てはめると最初と最後のリンクのどちらかがNの場合はXYチェーン不成立
     dup_memo = dup_memo_list[0]
     first_link = chain_list[1].link_type
     last_link = chain_list[len(chain_list) - 1].link_type
